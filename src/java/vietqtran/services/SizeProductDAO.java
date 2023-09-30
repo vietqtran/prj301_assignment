@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import vietqtran.db.DBContext;
+import vietqtran.global.Global;
 import vietqtran.model.SizeProduct;
 import vietqtran.serviceInterface.IDAO;
 
@@ -21,10 +22,8 @@ public class SizeProductDAO extends DBContext implements IDAO<SizeProduct> {
 
     @Override
     public void add(SizeProduct t) throws SQLException {
-        String sql = "INSERT INTO sizesProduct (inventory, [name], productId)\n"
-                + "VALUES (?, ?, ?);";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.INSERT_SIZE);
             ps.setDouble(1, t.getInventory());
             ps.setString(2, t.getName());
             ps.setLong(3, t.getProductId());
@@ -37,9 +36,8 @@ public class SizeProductDAO extends DBContext implements IDAO<SizeProduct> {
     @Override
     public List<SizeProduct> getAll() throws SQLException {
         List<SizeProduct> result = new ArrayList<>();
-        String sql = "SELECT * FROM sizesProduct";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.GET_ALL_SIZES);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 SizeProduct size = new SizeProduct(rs.getLong(1),
@@ -57,9 +55,8 @@ public class SizeProductDAO extends DBContext implements IDAO<SizeProduct> {
 
     @Override
     public SizeProduct get(long id) throws SQLException {
-        String sql = "SELECT * FROM sizesProduct WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.GET_SIZE_BY_ID);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -76,13 +73,8 @@ public class SizeProductDAO extends DBContext implements IDAO<SizeProduct> {
 
     @Override
     public void update(SizeProduct t) throws SQLException {
-        String sql = "UPDATE sizesProduct\n"
-                + "SET inventory = ?,\n"
-                + "    [name] = ?,\n"
-                + "    productId = ?\n"
-                + "WHERE id = ?;";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.UPDATE_SIZE);
             ps.setDouble(1, t.getInventory());
             ps.setString(2, t.getName());
             ps.setLong(3, t.getProductId());
@@ -95,9 +87,8 @@ public class SizeProductDAO extends DBContext implements IDAO<SizeProduct> {
 
     @Override
     public void delete(long id) throws SQLException {
-        String sql = "DELETE FROM sizesProduct WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.DELETE_SIZE);
             ps.setLong(1, id);
             ps.executeUpdate();
         } catch (SQLException err) {
@@ -105,5 +96,10 @@ public class SizeProductDAO extends DBContext implements IDAO<SizeProduct> {
         }
     }
 
+    public void closeConnection() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
+    }
 
 }

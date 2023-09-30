@@ -16,7 +16,7 @@ public class Shipper {
     private String firstName;
     private String lastName;
     private String email;
-    private String name;
+    private String phone;
     private long role;
     private String avatar;
     private String shipCompany;
@@ -24,26 +24,26 @@ public class Shipper {
     public Shipper() {
     }
 
-    public Shipper(long id, String username, String password, String firstName, String lastName, String email, String name, long role, String avatar, String shipCompany) {
+    public Shipper(long id, String username, String password, String firstName, String lastName, String email, String phone, long role, String avatar, String shipCompany) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.name = name;
+        this.phone = phone;
         this.role = role;
         this.avatar = avatar;
         this.shipCompany = shipCompany;
     }
 
-    public Shipper(String username, String password, String firstName, String lastName, String email, String name, long role, String avatar, String shipCompany) {
+    public Shipper(String username, String password, String firstName, String lastName, String email, String phone, long role, String avatar, String shipCompany) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.name = name;
+        this.phone = phone;
         this.role = role;
         this.avatar = avatar;
         this.shipCompany = shipCompany;
@@ -97,12 +97,12 @@ public class Shipper {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String phone) {
+        this.phone = phone;
     }
 
     public long getRole() {
@@ -131,7 +131,7 @@ public class Shipper {
 
     @Override
     public String toString() {
-        return "Shipper{" + "id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", name=" + name + ", role=" + role + ", avatar=" + avatar + ", shipCompany=" + shipCompany + '}';
+        return "Shipper{" + "id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", role=" + role + ", avatar=" + avatar + ", shipCompany=" + shipCompany + '}';
     }
 
 }

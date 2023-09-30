@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import vietqtran.db.DBContext;
+import vietqtran.global.Global;
 import vietqtran.model.Category;
 import vietqtran.serviceInterface.IDAO;
 
@@ -21,10 +22,8 @@ public class CategoryDAO extends DBContext implements IDAO<Category> {
 
     @Override
     public void add(Category t) throws SQLException {
-        String sql = "INSERT INTO categories ([name], [image])\n"
-                + "VALUES (?, ?)";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.INSERT_CATEGORY);
             ps.setString(1, t.getName());
             ps.setString(2, t.getImage());
             ps.executeUpdate();
@@ -36,9 +35,8 @@ public class CategoryDAO extends DBContext implements IDAO<Category> {
     @Override
     public List<Category> getAll() throws SQLException {
         List<Category> result = new ArrayList<>();
-        String sql = "SELECT * FROM categories";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.GET_ALL_CATEGORIES);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Category category = new Category(rs.getInt(1),
@@ -55,9 +53,8 @@ public class CategoryDAO extends DBContext implements IDAO<Category> {
 
     @Override
     public Category get(long id) throws SQLException {
-        String sql = "SELECT * FROM categories WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.GET_CATEGORY_BY_ID);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -73,12 +70,8 @@ public class CategoryDAO extends DBContext implements IDAO<Category> {
 
     @Override
     public void update(Category t) throws SQLException {
-        String sql = "UPDATE categories "
-                + "SET [name] = ?,"
-                + "[image] = ? "
-                + "where id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.UPDATE_CATEGORY);
             ps.setString(1, t.getName());
             ps.setString(2, t.getImage());
             ps.setLong(3, t.getId());
@@ -90,9 +83,8 @@ public class CategoryDAO extends DBContext implements IDAO<Category> {
 
     @Override
     public void delete(long id) throws SQLException {
-        String sql = "DELETE FROM categories WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.DELETE_CATEGORY);
             ps.setLong(1, id);
             ps.executeUpdate();
         } catch (SQLException err) {
@@ -100,4 +92,9 @@ public class CategoryDAO extends DBContext implements IDAO<Category> {
         }
     }
 
+    public void closeConnection() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
+    }
 }

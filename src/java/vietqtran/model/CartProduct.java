@@ -10,6 +10,7 @@ package vietqtran.model;
  */
 public class CartProduct {
 
+    private long id;
     private long productId;
     private long cartId;
     private long shopId;
@@ -19,6 +20,17 @@ public class CartProduct {
     private double totalPrice;
 
     public CartProduct() {
+    }
+
+    public CartProduct(long id, long productId, long cartId, long shopId, int quantity, double price, double salePrice, double totalPrice) {
+        this.id = id;
+        this.productId = productId;
+        this.cartId = cartId;
+        this.shopId = shopId;
+        this.quantity = quantity;
+        this.price = price;
+        this.salePrice = salePrice;
+        this.totalPrice = totalPrice;
     }
 
     public CartProduct(long productId, long cartId, long shopId, int quantity, double price, double salePrice, double totalPrice) {
@@ -31,15 +43,14 @@ public class CartProduct {
         this.totalPrice = totalPrice;
     }
 
-    public CartProduct(long cartId, long shopId, int quantity, double price, double salePrice, double totalPrice) {
-        this.cartId = cartId;
-        this.shopId = shopId;
-        this.quantity = quantity;
-        this.price = price;
-        this.salePrice = salePrice;
-        this.totalPrice = totalPrice;
+    public long getId() {
+        return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+    
     public long getProductId() {
         return productId;
     }

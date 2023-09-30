@@ -20,6 +20,10 @@ public class Cart {
         this.id = id;
         this.userId = userId;
     }
+    
+    public Cart(long userId) {
+        this.userId = userId;
+    }
 
     public long getId() {
         return id;

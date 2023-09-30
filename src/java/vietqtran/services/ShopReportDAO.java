@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import vietqtran.db.DBContext;
+import vietqtran.global.Global;
 import vietqtran.model.ShopReport;
 import vietqtran.serviceInterface.IDAO;
 
@@ -20,10 +21,8 @@ public class ShopReportDAO extends DBContext implements IDAO<ShopReport> {
 
     @Override
     public void add(ShopReport t) throws SQLException {
-        String sql = "INSERT INTO shopReports (shopId, profit, revenue, expense, amountOrders, amountProducts)\n"
-                + "VALUES(?, ?, ?, ?, ?, ?);";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.INSERT_SHOP_REPORT);
             ps.setLong(1, t.getShopId());
             ps.setDouble(2, t.getProfit());
             ps.setDouble(3, t.getRevenue());
@@ -38,9 +37,8 @@ public class ShopReportDAO extends DBContext implements IDAO<ShopReport> {
 
     @Override
     public ShopReport get(long id) throws SQLException {
-        String sql = "SELECT * FROM shopReports WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.GET_SHOP_REPORT_BY_ID);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -61,16 +59,8 @@ public class ShopReportDAO extends DBContext implements IDAO<ShopReport> {
 
     @Override
     public void update(ShopReport t) throws SQLException {
-        String sql = "UPDATE shopReports\n"
-                + "SET\n"
-                + "    profit = ?,\n"
-                + "    revenue = ?,\n"
-                + "    expense = ?,\n"
-                + "    amountOrders = ?,\n"
-                + "    amountProducts = ?\n"
-                + "WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.UPDATE_SHOP_REPORT);
             ps.setDouble(1, t.getProfit());
             ps.setDouble(2, t.getRevenue());
             ps.setDouble(3, t.getExpense());
@@ -85,9 +75,8 @@ public class ShopReportDAO extends DBContext implements IDAO<ShopReport> {
 
     @Override
     public void delete(long id) throws SQLException {
-        String sql = "DELETE FROM shopReports WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.DELETE_SHOP_REPORT);
             ps.setLong(1, id);
             ps.executeUpdate();
         } catch (SQLException err) {
@@ -95,12 +84,14 @@ public class ShopReportDAO extends DBContext implements IDAO<ShopReport> {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        ShopReportDAO dao = new ShopReportDAO();
-    }
-
     @Override
     public List<ShopReport> getAll() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void closeConnection() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
     }
 }

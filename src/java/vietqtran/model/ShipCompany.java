@@ -22,6 +22,11 @@ public class ShipCompany {
         this.image = image;
     }
 
+    public ShipCompany(String name, String image) {
+        this.name = name;
+        this.image = image;
+    }
+    
     public long getId() {
         return id;
     }

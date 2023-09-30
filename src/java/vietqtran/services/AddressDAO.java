@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import vietqtran.db.DBContext;
+import vietqtran.global.Global;
 import vietqtran.model.Address;
 import vietqtran.serviceInterface.IDAO;
 
@@ -21,14 +22,13 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 
     @Override
     public void add(Address t) throws SQLException {
-        String sql = "INSERT INTO address ([detail], [town], [district], [city])\n"
-                + "VALUES (?, ?, ?, ?)";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.INSERT_ADDRESS);
             ps.setString(1, t.getDetail());
             ps.setString(2, t.getTown());
             ps.setString(3, t.getDistrict());
             ps.setString(4, t.getCity());
+            ps.executeUpdate();
         } catch (SQLException err) {
             System.out.println(err);
         }
@@ -37,9 +37,8 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
     @Override
     public List<Address> getAll() throws SQLException {
         List<Address> result = new ArrayList<>();
-        String sql = "SELECT * FROM address";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.GET_ALL_ADDRESS);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Address address = new Address(rs.getLong(1),
@@ -58,9 +57,8 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 
     @Override
     public Address get(long id) throws SQLException {
-        String sql = "SELECT * FROM address WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.GET_ADDRESS_BY_ID);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -78,14 +76,8 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 
     @Override
     public void update(Address t) throws SQLException {
-        String sql = "UPDATE address "
-                + "SET [detail] = ?,"
-                + "town = ?,"
-                + "district = ?,"
-                + "[city] = ? "
-                + "where id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.UPDATE_ADDRESS);
             ps.setString(1, t.getDetail());
             ps.setString(2, t.getTown());
             ps.setString(3, t.getDistrict());
@@ -99,13 +91,18 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 
     @Override
     public void delete(long id) throws SQLException {
-        String sql = "DELETE FROM address WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.DELETE_ADDRESS);
             ps.setLong(1, id);
             ps.executeUpdate();
         } catch (SQLException err) {
             System.out.println(err);
+        }
+    }
+
+    public void closeConnection() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
         }
     }
 

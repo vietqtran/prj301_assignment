@@ -10,6 +10,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import vietqtran.services.CategoryDAO;
 
 /**
  *
@@ -30,7 +34,7 @@ public class HomeServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	    throws ServletException, IOException {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -44,9 +48,15 @@ public class HomeServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("customer/home.jsp").forward(request, response);
+	    throws ServletException, IOException {
+	CategoryDAO categoryDao = new CategoryDAO();
+	try {
+	    request.setAttribute("categories", categoryDao.getAll());
+	    categoryDao.closeConnection();
+	    request.getRequestDispatcher("home.jsp").forward(request, response);
+	} catch (SQLException ex) {
+	    Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
 
     /**
@@ -59,8 +69,8 @@ public class HomeServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+	    throws ServletException, IOException {
+	processRequest(request, response);
     }
 
     /**
@@ -70,7 +80,7 @@ public class HomeServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+	return "Short description";
     }// </editor-fold>
 
 }

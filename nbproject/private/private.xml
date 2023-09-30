@@ -3,7 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/model/Order.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/servlet/CheckAction.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/servlet/AdminServlet.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/model/User.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/admin.jsp</file>
         </group>
     </open-files>
 </project-private>

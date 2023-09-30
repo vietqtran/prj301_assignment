@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import vietqtran.db.DBContext;
+import vietqtran.global.Global;
 import vietqtran.model.Shop;
 import vietqtran.serviceInterface.IDAO;
 
@@ -21,10 +22,8 @@ public class ShopDAO extends DBContext implements IDAO<Shop> {
 
     @Override
     public void add(Shop t) throws SQLException {
-        String sql = "INSERT INTO shops (userId, [name], [address], active, rate, avatar, cover)\n"
-                + "VALUES(?, ?, ?, ?, ?, ?, ?);";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.INSERT_SHOP);
             ps.setLong(1, t.getUserId());
             ps.setString(2, t.getName());
             ps.setString(3, t.getAddress());
@@ -41,9 +40,8 @@ public class ShopDAO extends DBContext implements IDAO<Shop> {
     @Override
     public List<Shop> getAll() throws SQLException {
         List<Shop> result = new ArrayList<>();
-        String sql = "SELECT * FROM shops";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.GET_ALL_SHOPS);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Shop shop = new Shop(
@@ -67,9 +65,8 @@ public class ShopDAO extends DBContext implements IDAO<Shop> {
 
     @Override
     public Shop get(long id) throws SQLException {
-        String sql = "SELECT * FROM shops WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.GET_SHOP_BY_ID);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -93,17 +90,8 @@ public class ShopDAO extends DBContext implements IDAO<Shop> {
 
     @Override
     public void update(Shop t) throws SQLException {
-        String sql = "UPDATE shops\n"
-                + "SET\n"
-                + "    [name] = ?,\n"
-                + "    [address] = ?,\n"
-                + "    active = ?,\n"
-                + "    rate = ?,\n"
-                + "    avatar = ?,\n"
-                + "    cover = ?\n"
-                + "WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.UPDATE_SHOP);
             ps.setString(1, t.getName());
             ps.setString(2, t.getAddress());
             ps.setBoolean(3, t.isActive());
@@ -119,9 +107,8 @@ public class ShopDAO extends DBContext implements IDAO<Shop> {
 
     @Override
     public void delete(long id) throws SQLException {
-        String sql = "DELETE FROM shops WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.DELETE_SHOP);
             ps.setLong(1, id);
             ps.executeUpdate();
         } catch (SQLException err) {
@@ -132,5 +119,11 @@ public class ShopDAO extends DBContext implements IDAO<Shop> {
     public static void main(String[] args) throws SQLException {
         ShopDAO dao = new ShopDAO();
         dao.add(new Shop(1, "shopname", "address", true, 1, "avatar", "cover"));
+    }
+
+    public void closeConnection() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
     }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import vietqtran.model.Voucher;
 import vietqtran.db.DBContext;
+import vietqtran.global.Global;
 import vietqtran.serviceInterface.IDAO;
 
 /**
@@ -21,10 +22,8 @@ public class VoucherDAO extends DBContext implements IDAO<Voucher> {
 
     @Override
     public void add(Voucher t) throws SQLException {
-        String sql = "INSERT INTO vouchers (priceCondition, price, [percent], createBy, deleteBy)\n"
-                + "VALUES (?, ?, ?, ?, ?);";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.INSERT_VOUCHER);
             ps.setDouble(1, t.getPriceCondition());
             ps.setDouble(2, t.getPrice());
             ps.setInt(3, t.getPercent());
@@ -40,9 +39,8 @@ public class VoucherDAO extends DBContext implements IDAO<Voucher> {
     @Override
     public List<Voucher> getAll() throws SQLException {
         List<Voucher> result = new ArrayList<>();
-        String sql = "SELECT * FROM vouchers";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.GET_ALL_VOUCHERS);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Voucher voucher = new Voucher(rs.getLong(1),
@@ -63,9 +61,8 @@ public class VoucherDAO extends DBContext implements IDAO<Voucher> {
 
     @Override
     public Voucher get(long id) throws SQLException {
-        String sql = "SELECT * FROM vouchers WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.GET_VOUCHER_BY_ID);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -85,15 +82,8 @@ public class VoucherDAO extends DBContext implements IDAO<Voucher> {
 
     @Override
     public void update(Voucher t) throws SQLException {
-        String sql = "UPDATE vouchers\n"
-                + "SET priceCondition = ?,\n"
-                + "    price = ?,\n"
-                + "    [percent] = ?,\n"
-                + "    createBy = ?,\n"
-                + "    deleteBy = ?\n"
-                + "WHERE id = ?;";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.UPDATE_VOUCHER);
             ps.setDouble(1, t.getPriceCondition());
             ps.setDouble(2, t.getPrice());
             ps.setInt(3, t.getPercent());
@@ -109,9 +99,8 @@ public class VoucherDAO extends DBContext implements IDAO<Voucher> {
 
     @Override
     public void delete(long id) throws SQLException {
-        String sql = "DELETE FROM vouchers WHERE id = ?";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(Global.DELETE_VOUCHER);
             ps.setLong(1, id);
             ps.executeUpdate();
             closeConnection();
@@ -120,7 +109,7 @@ public class VoucherDAO extends DBContext implements IDAO<Voucher> {
         }
     }
 
-    private void closeConnection() throws SQLException {
+    public void closeConnection() throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
