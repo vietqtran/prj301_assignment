@@ -14,7 +14,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import vietqtran.services.ShipperDAO;
+import vietqtran.services.CategoryDAO;
+import vietqtran.services.ColorDAO;
+import vietqtran.services.ProductDAO;
+import vietqtran.services.ShopDAO;
 import vietqtran.services.UserDAO;
 
 /**
@@ -68,18 +71,30 @@ public class AdminServlet extends HttpServlet {
 	    switch (tab) {
 		case "accounts":
 		    UserDAO userDao = new UserDAO();
-		    ShipperDAO shipperDao = new ShipperDAO();
 		    request.setAttribute("users", userDao.getAll());
-		    request.setAttribute("shippers", shipperDao.getAll());
 		    check = true;
 		    userDao.closeConnection();
-		    shipperDao.closeConnection();
 		    break;
 		case "shops":
+		    ShopDAO shopDao = new ShopDAO();
+		    request.setAttribute("shops", shopDao.getAll());
 		    check = true;
+		    shopDao.closeConnection();
 		    break;
 		case "products":
+		    ProductDAO productDao = new ProductDAO();
+		    ColorDAO colorDao = new ColorDAO();
+		    CategoryDAO categoryDao = new CategoryDAO();
+		    ShopDAO shopDao2 = new ShopDAO();
+		    request.setAttribute("products", productDao.getAll());
+		    request.setAttribute("colors", colorDao.getAll());
+		    request.setAttribute("categories", categoryDao.getAll());
+		    request.setAttribute("shops", shopDao2.getAll());
 		    check = true;
+		    productDao.closeConnection();
+		    colorDao.closeConnection();
+		    categoryDao.closeConnection();
+		    shopDao2.closeConnection();
 		    break;
 		default:
 		    break;
@@ -106,7 +121,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
-	processRequest(request, response);
+
     }
 
     /**

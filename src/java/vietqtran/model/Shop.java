@@ -13,120 +13,90 @@ import java.sql.Date;
 public class Shop {
 
     private long id;
-    private long userId;
+    private String email;
+    private String password;
     private String name;
     private String address;
     private Date createDate;
     private boolean active;
-    private double rate;
     private String avatar;
-    private String cover;
 
     public Shop() {
     }
 
-    public Shop(long id, long userId, String name, String address, Date createDate, boolean active, double rate, String avatar, String cover) {
-        this.id = id;
-        this.userId = userId;
-        this.name = name;
-        this.address = address;
-        this.createDate = createDate;
-        this.active = active;
-        this.rate = rate;
-        this.avatar = avatar;
-        this.cover = cover;
+    public Shop(long id, String email, String password, String name, String address, Date createDate, boolean active, String avatar) {
+	this.id = id;
+	this.email = email;
+	this.password = password;
+	this.name = name;
+	this.address = address;
+	this.createDate = createDate;
+	this.active = active;
+	this.avatar = avatar;
     }
 
-    //For add
-    public Shop(long userId, String name, String address, boolean active, double rate, String avatar, String cover) {
-        this.name = name;
-        this.userId = userId;
-        this.address = address;
-        this.active = active;
-        this.rate = rate;
-        this.avatar = avatar;
-        this.cover = cover;
-    }
-
-    //For update
-    public Shop(long id, long userId, String name, String address, boolean active, double rate, String avatar, String cover) {
-        this.id = id;
-        this.name = name;
-        this.userId = userId;
-        this.address = address;
-        this.active = active;
-        this.rate = rate;
-        this.avatar = avatar;
-        this.cover = cover;
+    public Shop(String email, String password, String name, String address, boolean active, String avatar) {
+	this.email = email;
+	this.password = password;
+	this.name = name;
+	this.address = address;
+	this.active = active;
+	this.avatar = avatar;
     }
 
     public long getId() {
-        return id;
+	return id;
     }
 
-    public long getUserId() {
-        return userId;
+    public String getEmail() {
+	return email;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setEmail(String email) {
+	this.email = email;
+    }
+
+    public String getPassword() {
+	return password;
+    }
+
+    public void setPassword(String password) {
+	this.password = password;
     }
 
     public String getName() {
-        return name;
+	return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+	this.name = name;
     }
 
     public String getAddress() {
-        return address;
+	return address;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+	this.address = address;
     }
 
     public Date getCreateDate() {
-        return createDate;
+	return createDate;
     }
 
     public boolean isActive() {
-        return active;
+	return active;
     }
 
     public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
+	this.active = active;
     }
 
     public String getAvatar() {
-        return avatar;
+	return avatar;
     }
 
     public void setAvatar(String avatar) {
-        this.avatar = avatar;
+	this.avatar = avatar;
     }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
-    }
-
-    @Override
-    public String toString() {
-        return "Shop{" + "id=" + id + ", userId=" + userId + ", name=" + name + ", address=" + address + ", createDate=" + createDate + ", active=" + active + ", rate=" + rate + ", avatar=" + avatar + ", cover=" + cover + '}';
-    }
-
 }

@@ -12,40 +12,72 @@ CREATE TABLE [roles] (
     [userType] NVARCHAR(50) NOT NULL
 );
 INSERT INTO [roles] ([userType])
-VALUES ('Admin'), ('Manager'), ('Shipper'), ('Seller'), ('Customer');
+VALUES ('Admin'), ('Manager'), ('Seller'), ('Customer');
 
 -- Bảng User
 CREATE TABLE [users] (
     [id] BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     [username] NVARCHAR(255) NOT NULL UNIQUE,
     [password] NVARCHAR(255) NOT NULL,
-    [name] NVARCHAR(255) default '',
+    [name] NVARCHAR(255) DEFAULT '',
     [email] NVARCHAR(255) NOT NULL UNIQUE,
-    [phone] NVARCHAR(255) default '',
-    [role] BIGINT NOT NULL ,
-    [avatar] NVARCHAR(255) default '',
-	[address] NVARCHAR(255) default ''
+    [phone] NVARCHAR(255) DEFAULT '',
+    [role] BIGINT NOT NULL,
+    [avatar] NVARCHAR(255) DEFAULT '',
+    [address] NVARCHAR(255) DEFAULT ''
 );
-INSERT INTO [users] (
-    [username],
-    [password],
-    [name],
-    [email],
-    [phone],
-    [role],
-    [avatar],
-	[address]
-) VALUES
-    ('user1', 'password1', 'John Doe', 'user1@example.com', '1234567890', 1, 'avatar1.jpg', ''),
-    ('user2', 'password2', 'Jane Smith', 'user2@example.com', '9876543210', 2, 'avatar2.jpg', ''),
-    ('user3', 'password3', 'Mike Johnson', 'user3@example.com', '5555555555', 1, 'avatar3.jpg', ''),
-    ('user4', 'password4', 'Alice Williams', 'user4@example.com', '6666666666', 2, 'avatar4.jpg', ''),
-    ('user5', 'password5', 'David Brown', 'user5@example.com', '7777777777', 1, 'avatar5.jpg', ''),
-    ('user6', 'password6', 'Emma Davis', 'user6@example.com', '8888888888', 2, 'avatar6.jpg', ''),
-    ('user7', 'password7', 'Robert Miller', 'user7@example.com', '9999999999', 1, 'avatar7.jpg', ''),
-    ('user8', 'password8', 'Sophia Wilson', 'user8@example.com', '1111111111', 2, 'avatar8.jpg', ''),
-    ('user9', 'password9', 'Daniel Lee', 'user9@example.com', '2222222222', 1, 'avatar9.jpg', ''),
-    ('user10', 'password10', 'Olivia Taylor', 'user10@example.com', '3333333333', 2, 'avatar10.jpg', '');
+
+INSERT INTO [users] (username, password, name, email, phone, role, avatar, address) VALUES
+    ('user1', 'password1', 'User One', 'user1@example.com', '123-456-7890', 1, 'avatar1.jpg', '123 Main St'),
+    ('user2', 'password2', 'User Two', 'user2@example.com', '234-567-8901', 2, 'avatar2.jpg', '456 Elm St'),
+    ('user3', 'password3', 'User Three', 'user3@example.com', '345-678-9012', 1, 'avatar3.jpg', '789 Oak St'),
+    ('user4', 'password4', 'User Four', 'user4@example.com', '456-789-0123', 3, 'avatar4.jpg', '101 Pine St'),
+    ('user5', 'password5', 'User Five', 'user5@example.com', '567-890-1234', 2, 'avatar5.jpg', '222 Birch St'),
+    ('user6', 'password6', 'User Six', 'user6@example.com', '678-901-2345', 1, 'avatar6.jpg', '333 Cedar St'),
+    ('user7', 'password7', 'User Seven', 'user7@example.com', '789-012-3456', 3, 'avatar7.jpg', '444 Maple St'),
+    ('user8', 'password8', 'User Eight', 'user8@example.com', '890-123-4567', 2, 'avatar8.jpg', '555 Redwood St'),
+    ('user9', 'password9', 'User Nine', 'user9@example.com', '901-234-5678', 1, 'avatar9.jpg', '666 Walnut St'),
+    ('user10', 'password10', 'User Ten', 'user10@example.com', '012-345-6789', 3, 'avatar10.jpg', '777 Pine St'),
+    ('user11', 'password11', 'User Eleven', 'user11@example.com', '123-456-7890', 2, 'avatar11.jpg', '888 Oak St'),
+    ('user12', 'password12', 'User Twelve', 'user12@example.com', '234-567-8901', 1, 'avatar12.jpg', '999 Elm St'),
+    ('user13', 'password13', 'User Thirteen', 'user13@example.com', '345-678-9012', 3, 'avatar13.jpg', '111 Birch St'),
+    ('user14', 'password14', 'User Fourteen', 'user14@example.com', '456-789-0123', 2, 'avatar14.jpg', '222 Maple St'),
+    ('user15', 'password15', 'User Fifteen', 'user15@example.com', '567-890-1234', 1, 'avatar15.jpg', '333 Cedar St'),
+    ('user16', 'password16', 'User Sixteen', 'user16@example.com', '678-901-2345', 3, 'avatar16.jpg', '444 Pine St'),
+    ('user17', 'password17', 'User Seventeen', 'user17@example.com', '789-012-3456', 2, 'avatar17.jpg', '555 Oak St'),
+    ('user18', 'password18', 'User Eighteen', 'user18@example.com', '890-123-4567', 1, 'avatar18.jpg', '666 Elm St'),
+    ('user19', 'password19', 'User Nineteen', 'user19@example.com', '901-234-5678', 3, 'avatar19.jpg', '777 Birch St'),
+    ('user20', 'password20', 'User Twenty', 'user20@example.com', '012-345-6789', 2, 'avatar20.jpg', '888 Maple St'),
+    ('user21', 'password21', 'User Twenty-One', 'user21@example.com', '123-456-7890', 1, 'avatar21.jpg', '999 Cedar St'),
+    ('user22', 'password22', 'User Twenty-Two', 'user22@example.com', '234-567-8901', 3, 'avatar22.jpg', '111 Pine St'),
+    ('user23', 'password23', 'User Twenty-Three', 'user23@example.com', '345-678-9012', 2, 'avatar23.jpg', '222 Oak St'),
+    ('user24', 'password24', 'User Twenty-Four', 'user24@example.com', '456-789-0123', 1, 'avatar24.jpg', '333 Elm St'),
+    ('user25', 'password25', 'User Twenty-Five', 'user25@example.com', '567-890-1234', 3, 'avatar25.jpg', '444 Birch St'),
+    ('user26', 'password26', 'User Twenty-Six', 'user26@example.com', '678-901-2345', 2, 'avatar26.jpg', '555 Maple St'),
+    ('user27', 'password27', 'User Twenty-Seven', 'user27@example.com', '789-012-3456', 1, 'avatar27.jpg', '666 Cedar St'),
+    ('user28', 'password28', 'User Twenty-Eight', 'user28@example.com', '890-123-4567', 3, 'avatar28.jpg', '777 Pine St'),
+    ('user29', 'password29', 'User Twenty-Nine', 'user29@example.com', '901-234-5678', 2, 'avatar29.jpg', '888 Oak St'),
+    ('user30', 'password30', 'User Thirty', 'user30@example.com', '012-345-6789', 1, 'avatar30.jpg', '999 Elm St'),
+    ('user31', 'password31', 'User Thirty-One', 'user31@example.com', '123-456-7890', 3, 'avatar31.jpg', '111 Birch St'),
+    ('user32', 'password32', 'User Thirty-Two', 'user32@example.com', '234-567-8901', 2, 'avatar32.jpg', '222 Maple St'),
+    ('user33', 'password33', 'User Thirty-Three', 'user33@example.com', '345-678-9012', 1, 'avatar33.jpg', '333 Cedar St'),
+    ('user34', 'password34', 'User Thirty-Four', 'user34@example.com', '456-789-0123', 3, 'avatar34.jpg', '444 Pine St'),
+    ('user35', 'password35', 'User Thirty-Five', 'user35@example.com', '567-890-1234', 2, 'avatar35.jpg', '555 Oak St'),
+    ('user36', 'password36', 'User Thirty-Six', 'user36@example.com', '678-901-2345', 1, 'avatar36.jpg', '666 Elm St'),
+    ('user37', 'password37', 'User Thirty-Seven', 'user37@example.com', '789-012-3456', 3, 'avatar37.jpg', '777 Birch St'),
+    ('user38', 'password38', 'User Thirty-Eight', 'user38@example.com', '890-123-4567', 2, 'avatar38.jpg', '888 Maple St'),
+    ('user39', 'password39', 'User Thirty-Nine', 'user39@example.com', '901-234-5678', 1, 'avatar39.jpg', '999 Cedar St'),
+    ('user40', 'password40', 'User Forty', 'user40@example.com', '012-345-6789', 3, 'avatar40.jpg', '111 Pine St'),
+    ('user41', 'password41', 'User Forty-One', 'user41@example.com', '123-456-7890', 2, 'avatar41.jpg', '222 Oak St'),
+    ('user42', 'password42', 'User Forty-Two', 'user42@example.com', '234-567-8901', 1, 'avatar42.jpg', '333 Elm St'),
+    ('user43', 'password43', 'User Forty-Three', 'user43@example.com', '345-678-9012', 3, 'avatar43.jpg', '444 Birch St'),
+    ('user44', 'password44', 'User Forty-Four', 'user44@example.com', '456-789-0123', 2, 'avatar44.jpg', '555 Maple St'),
+    ('user45', 'password45', 'User Forty-Five', 'user45@example.com', '567-890-1234', 1, 'avatar45.jpg', '666 Cedar St'),
+    ('user46', 'password46', 'User Forty-Six', 'user46@example.com', '678-901-2345', 3, 'avatar46.jpg', '777 Pine St'),
+    ('user47', 'password47', 'User Forty-Seven', 'user47@example.com', '789-012-3456', 2, 'avatar47.jpg', '888 Oak St'),
+    ('user48', 'password48', 'User Forty-Eight', 'user48@example.com', '890-123-4567', 1, 'avatar48.jpg', '999 Elm St'),
+    ('user49', 'password49', 'User Forty-Nine', 'user49@example.com', '901-234-5678', 3, 'avatar49.jpg', '111 Birch St'),
+    ('user50', 'password50', 'User Fifty', 'user50@example.com', '012-345-6789', 2, 'avatar50.jpg', '222 Maple St');
 
 -- Bảng Address
 CREATE TABLE [address] (
@@ -137,29 +169,29 @@ INSERT INTO [shopCategories] (
 -- Bảng Shop
 CREATE TABLE shops (
     id BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    email NVARCHAR(255) NOT NULL,
+    email NVARCHAR(255) NOT NULL unique,
     password NVARCHAR(255) NOT NULL,
     name NVARCHAR(255) NOT NULL,
     address NVARCHAR(255) NOT NULL,
     createDate DATE DEFAULT CAST(GETDATE() AS DATE) NOT NULL,
     active BIT DEFAULT 'TRUE' NOT NULL,
-    avatar NVARCHAR(255) NOT NULL,
-    cover NVARCHAR(255) NOT NULL
+    avatar NVARCHAR(255) NOT NULL
 );
 
+
 -- Insert 10 rows into the "shops" table
-INSERT INTO shops (email, password, name, address, active, avatar, cover)
+INSERT INTO shops (email, password, name, address, active, avatar)
 VALUES
-    ('shop1@example.com', 'password1', 'Shop 1', '123 Main St', 'TRUE', 'avatar1.jpg', 'cover1.jpg'),
-    ('shop2@example.com', 'password2', 'Shop 2', '456 Elm St', 'TRUE', 'avatar2.jpg', 'cover2.jpg'),
-    ('shop3@example.com', 'password3', 'Shop 3', '789 Oak St', 'TRUE', 'avatar3.jpg', 'cover3.jpg'),
-    ('shop4@example.com', 'password4', 'Shop 4', '101 Pine St', 'TRUE', 'avatar4.jpg', 'cover4.jpg'),
-    ('shop5@example.com', 'password5', 'Shop 5', '222 Birch St', 'TRUE', 'avatar5.jpg', 'cover5.jpg'),
-    ('shop6@example.com', 'password6', 'Shop 6', '333 Cedar St', 'TRUE', 'avatar6.jpg', 'cover6.jpg'),
-    ('shop7@example.com', 'password7', 'Shop 7', '444 Maple St', 'TRUE', 'avatar7.jpg', 'cover7.jpg'),
-    ('shop8@example.com', 'password8', 'Shop 8', '555 Redwood St', 'TRUE', 'avatar8.jpg', 'cover8.jpg'),
-    ('shop9@example.com', 'password9', 'Shop 9', '666 Walnut St', 'TRUE', 'avatar9.jpg', 'cover9.jpg'),
-    ('shop10@example.com', 'password10', 'Shop 10', '777 Pine St', 'TRUE', 'avatar10.jpg', 'cover10.jpg');
+    ('shop1@example.com', 'password1', 'Shop 1', '123 Main St', 'TRUE', 'avatar1.jpg'),
+    ('shop2@example.com', 'password2', 'Shop 2', '456 Elm St', 'TRUE', 'avatar2.jpg'),
+    ('shop3@example.com', 'password3', 'Shop 3', '789 Oak St', 'TRUE', 'avatar3.jpg'),
+    ('shop4@example.com', 'password4', 'Shop 4', '101 Pine St', 'TRUE', 'avatar4.jpg'),
+    ('shop5@example.com', 'password5', 'Shop 5', '222 Birch St', 'TRUE', 'avatar5.jpg'),
+    ('shop6@example.com', 'password6', 'Shop 6', '333 Cedar St', 'TRUE', 'avatar6.jpg'),
+    ('shop7@example.com', 'password7', 'Shop 7', '444 Maple St', 'TRUE', 'avatar7.jpg'),
+    ('shop8@example.com', 'password8', 'Shop 8', '555 Redwood St', 'TRUE', 'avatar8.jpg'),
+    ('shop9@example.com', 'password9', 'Shop 9', '666 Walnut St', 'TRUE', 'avatar9.jpg'),
+    ('shop10@example.com', 'password10', 'Shop 10', '777 Pine St', 'TRUE', 'avatar10.jpg');
 
 -- Bảng Shop Report
 CREATE TABLE [shopReports] (
@@ -225,10 +257,10 @@ BEGIN
         ROUND(RAND() * 5, 2),                        -- Rounded rate (random between 0 and 5)
         GETDATE(),                                   -- Create date (current date)
         0,                                           -- Bought quantity (set to 0)
-        1,                                           -- Color ID (assuming it's 1)
-        1,                                           -- Category ID (assuming it's 1)
-        1,                                           -- Shop Category ID (assuming it's 1)
-        1,                                           -- Shop ID (assuming it's 1)
+        CAST(ROUND(RAND() * 10, 0) AS BIGINT),                                           -- Color ID (assuming it's 1)
+        CAST(ROUND(RAND() * 10, 0) AS BIGINT),                                           -- Category ID (assuming it's 1)
+        CAST(ROUND(RAND() * 10, 0) AS BIGINT),                                           -- Shop Category ID (assuming it's 1)
+        CAST(ROUND(RAND() * 10, 0) AS BIGINT),                                           -- Shop ID (assuming it's 1)
         'Admin',                                     -- Created by
         NULL,                                        -- Deleted by (set to NULL)
         'https://placeholder.com/product' + CAST(@counter AS NVARCHAR(10)) + '.jpg' -- Image URL (placeholder)
@@ -309,41 +341,6 @@ INSERT INTO [vouchers] (
     (120.0, 30.0, 0, 'User8', NULL),
     (55.0, 11.0, 0, 'User9', NULL),
     (95.0, 0.0, 25, 'User10', NULL);
-
---
-create table [shippers](
-	[id] BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-    [username] NVARCHAR(255) NOT NULL UNIQUE,
-    [password] NVARCHAR(255) NOT NULL,
-    [firstName] NVARCHAR(255),
-    [lastName] NVARCHAR(255),
-    [email] NVARCHAR(255) NOT NULL UNIQUE,
-    [phone] NVARCHAR(255),
-    [role] BIGINT NOT NULL default 3,
-    [avatar] NVARCHAR(255),
-	[shipCompany] NVARCHAR(255) not null
-);
-INSERT INTO [shippers] (
-    [username],
-    [password],
-    [firstName],
-    [lastName],
-    [email],
-    [phone],
-    [role],
-    [avatar],
-    [shipCompany]
-) VALUES
-    ('shipper1', 'password1', 'John', 'Doe', 'shipper1@example.com', '1234567890', 3, 'avatar1.jpg', 'Company A'),
-    ('shipper2', 'password2', 'Jane', 'Smith', 'shipper2@example.com', '9876543210', 3, 'avatar2.jpg', 'Company B'),
-    ('shipper3', 'password3', 'Mike', 'Johnson', 'shipper3@example.com', '5555555555', 3, 'avatar3.jpg', 'Company C'),
-    ('shipper4', 'password4', 'Alice', 'Williams', 'shipper4@example.com', '6666666666', 3, 'avatar4.jpg', 'Company D'),
-    ('shipper5', 'password5', 'David', 'Brown', 'shipper5@example.com', '7777777777', 3, 'avatar5.jpg', 'Company E'),
-    ('shipper6', 'password6', 'Emma', 'Davis', 'shipper6@example.com', '8888888888', 3, 'avatar6.jpg', 'Company F'),
-    ('shipper7', 'password7', 'Robert', 'Miller', 'shipper7@example.com', '9999999999', 3, 'avatar7.jpg', 'Company G'),
-    ('shipper8', 'password8', 'Sophia', 'Wilson', 'shipper8@example.com', '1111111111', 3, 'avatar8.jpg', 'Company H'),
-    ('shipper9', 'password9', 'Daniel', 'Lee', 'shipper9@example.com', '2222222222', 3, 'avatar9.jpg', 'Company I'),
-    ('shipper10', 'password10', 'Olivia', 'Taylor', 'shipper10@example.com', '3333333333', 3, 'avatar10.jpg', 'Company J');
 
 --
 create table [shipCompany](
@@ -526,17 +523,6 @@ INSERT INTO [rates] (
     (10, 9, 5, 'Excellent product!', '2023-09-23'),
     (10, 10, 3, 'Could improve.', '2023-09-23');
 
-
-
-CREATE TRIGGER trg_delete_user 
-ON users
-AFTER DELETE
-AS
-BEGIN
-  DELETE FROM shops 
-  WHERE userId IN (SELECT id FROM deleted)
-END
-
 select * from users
 select * from categories
 select * from vouchers
@@ -546,14 +532,10 @@ select * from address
 select * from colors
 select * from shops
 SELECT * FROM shopReports
-select * from products where rate = 5
 select * from productImages
-select * from shippers
 select * from orders
 select * from orderProducts
 select * from shipCompany
 select * from cartProducts
 select * from carts
 select * from rates
-
-delete from users where id = 10

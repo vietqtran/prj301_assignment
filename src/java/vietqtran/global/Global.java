@@ -104,11 +104,13 @@ public class Global {
     public static String DELETE_SHOP_CATEGORY = "DELETE FROM shopCategories WHERE id = ?";
 
     // Shop
-    public static String INSERT_SHOP = "INSERT INTO shops (userId, [name], [address], active, rate, avatar, cover) VALUES(?, ?, ?, ?, ?, ?, ?);";
+    public static String INSERT_SHOP = "INSERT INTO shops (email, password, [name], [address], active, avatar) VALUES(?, ?, ?, ?, ?, ?);";
     public static String GET_ALL_SHOPS = "SELECT * FROM shops";
     public static String GET_SHOP_BY_ID = "SELECT * FROM shops WHERE id = ?";
-    public static String UPDATE_SHOP = "UPDATE shops SET [name] = ?, [address] = ?, active = ?, rate = ?, avatar = ?, cover = ? WHERE id = ?";
+    public static String UPDATE_SHOP = "UPDATE shops SET email = ?, password = ?,  [name] = ?, [address] = ?, active = ?, avatar = ? WHERE id = ?";
     public static String DELETE_SHOP = "DELETE FROM shops WHERE id = ?";
+    public static String DISABLE_SHOP = "UPDATE shops SET active = 0 WHERE id = ?;";
+    public static String ENABLE_SHOP = "UPDATE shops SET active = 1 WHERE id = ?;";
 
     // Shop Report
     public static String INSERT_SHOP_REPORT = "INSERT INTO shopReports (shopId, profit, revenue, expense, amountOrders, amountProducts) VALUES(?, ?, ?, ?, ?, ?);";

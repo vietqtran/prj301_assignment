@@ -142,6 +142,32 @@ public class UserDAO extends DBContext implements IDAO<User> {
 	return null;
     }
 
+    public List<User> getSearchUsers(String query) {
+	List<User> result = new ArrayList<>();
+	try {
+	    PreparedStatement ps = connection.prepareStatement(query);
+	    ResultSet rs = ps.executeQuery();
+	    while (rs.next()) {
+		User user = new User(
+			rs.getLong(1),
+			rs.getString(2),
+			rs.getString(3),
+			rs.getString(4),
+			rs.getString(5),
+			rs.getString(6),
+			rs.getInt(7),
+			rs.getString(8),
+			rs.getString(9)
+		);
+		result.add(user);
+	    }
+	    return result;
+	} catch (SQLException e) {
+	    System.out.println(e);
+	}
+	return null;
+    }
+
     public boolean isExisted(String email) {
 	try {
 	    PreparedStatement ps = connection.prepareStatement(Global.CHECK_USER_EXISTED);
@@ -160,10 +186,5 @@ public class UserDAO extends DBContext implements IDAO<User> {
 	if (connection != null && !connection.isClosed()) {
 	    connection.close();
 	}
-    }
-
-    public static void main(String[] args) {
-	UserDAO dao = new UserDAO();
-	System.out.println(dao.getLoginUser("user1@example.com", "password1"));
     }
 }

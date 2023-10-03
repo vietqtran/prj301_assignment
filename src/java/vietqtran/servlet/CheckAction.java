@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vietqtran.services.ShopDAO;
 import vietqtran.services.UserDAO;
 
 /**
@@ -77,6 +78,38 @@ public class CheckAction extends HttpServlet {
 		Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
 	    }
 	    response.sendRedirect("admin");
+	} else if (action.equals("deleteShop")) {
+	    long id = Long.parseLong(request.getParameter("id"));
+	    try {
+		ShopDAO shopDao = new ShopDAO();
+		shopDao.delete(id);
+		shopDao.closeConnection();
+	    } catch (SQLException ex) {
+		Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	    response.sendRedirect("admin?tab=shops");
+	} else if (action.equals("disableShop")) {
+	    long id = Long.parseLong(request.getParameter("id"));
+	    try {
+		ShopDAO shopDao = new ShopDAO();
+		shopDao.disbleShop(id);
+		shopDao.closeConnection();
+	    } catch (SQLException ex) {
+		Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	    response.sendRedirect("admin?tab=shops");
+	} else if (action.equals("enableShop")) {
+	    long id = Long.parseLong(request.getParameter("id"));
+	    try {
+		ShopDAO shopDao = new ShopDAO();
+		shopDao.enableShop(id);
+		shopDao.closeConnection();
+	    } catch (SQLException ex) {
+		Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	    response.sendRedirect("admin?tab=shops");
+	} else {
+	    response.sendRedirect("nor-found");
 	}
     }
 

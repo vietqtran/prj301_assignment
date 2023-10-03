@@ -176,6 +176,39 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	}
     }
 
+    public List<Product> getSearchProducts(String query) {
+	List<Product> result = new ArrayList<>();
+	try {
+	    PreparedStatement ps = connection.prepareStatement(query);
+	    ResultSet rs = ps.executeQuery();
+	    while (rs.next()) {
+		Product product = new Product(
+			rs.getLong(1),
+			rs.getString(2),
+			rs.getDouble(3),
+			rs.getDouble(4),
+			rs.getString(5),
+			rs.getString(6),
+			rs.getDouble(7),
+			rs.getDate(8),
+			rs.getInt(9),
+			rs.getLong(10),
+			rs.getLong(11),
+			rs.getLong(12),
+			rs.getLong(13),
+			rs.getString(14),
+			rs.getString(15),
+			rs.getString(16)
+		);
+		result.add(product);
+	    }
+	    return result;
+	} catch (SQLException e) {
+	    System.out.println(e);
+	}
+	return null;
+    }
+
     public List<Product> getByPagination(int start, int end, List<Product> filterProducts) throws SQLException {
 	List<Product> products = new ArrayList<>();
 	for (int i = start; i < end; i++) {
