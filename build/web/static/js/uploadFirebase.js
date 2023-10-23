@@ -4,6 +4,8 @@
  */
 
 
+/* global firebase */
+
 const firebaseConfig = {
     apiKey: "AIzaSyBt_kwTB4M8GpVGwMHqn8F95_62OnVPlsE",
     authDomain: "mooru-eee6d.firebaseapp.com",
@@ -36,7 +38,11 @@ fileInput.addEventListener("change", (e) => {
 		    document.getElementById("avatarUrl").value = downloadURL
 		    document.getElementById("avatarPreview").src = downloadURL
 		    document.getElementById("avatarPreviewContainer").style.display = "block"
+		    document.getElementById("avatarPreview").src = downloadURL
+		    document.getElementById("buttonOpenFile").style.display = 'none'
+		    document.getElementById("changeAvatarForm").submit()
 		})
     }
     )
 })
+

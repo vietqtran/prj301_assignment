@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <footer class="bg-white">
+        <footer class="bg-white v-dropshadow">
 	    <div class="container mx-auto max-w-[1250px] px-2 pt-10">
 		<div class="container mx-auto flex flex-wrap items-start justify-between border-b-[1px] border-slate-300 pb-5">
 		    <div class="text-xs ">

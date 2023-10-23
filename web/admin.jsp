@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="vietqtran.services.UserDAO" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,7 +21,6 @@
     </head>
     <body>
     <body class=" flex">
-
 	<aside id="sidebar" class="hide md:sticky fixed top-0 left-0 h-screen w-[300px] bg-[#0261d6] z-40">
 	    <div id="navHeader" class="p-6">
 		<a href="admin" class="text-white font-semibold flex items-center justify-center uppercase hover:text-gray-300">
@@ -35,7 +35,12 @@
 		<c:if test="${!sessionScope.user.avatar.equals('')}">
 		    <img src="${sessionScope.user.avatar}" class="aspect-square w-[50%] object-cover rounded-full border-white border-[1px]" alt="alt"/>   
 		</c:if>
-		<span class="mt-3 text-white font-medium">${sessionScope.user.username}</span>
+		<c:if test="${sessionScope.user.name!=null}">
+		    <span class="mt-3 text-white font-medium">${sessionScope.user.name}</span>
+		</c:if>
+		<c:if test="${sessionScope.user.name==null}">
+		    <span class="mt-3 text-white font-medium">${sessionScope.user.username}</span>
+		</c:if>
 	    </div>
 	    <nav id="nav" class="text-white text-base font-semibold pt-3 overflow-hidden">
 		<a href="admin?tab=accounts" class="${requestScope.tab.equals('accounts')?'text-[#0261d6] bg-white':''} flex items-center justify-start p-3 cursor-pointer hover:bg-white hover:text-[#0261d6]">
@@ -66,6 +71,32 @@
 		    </div>
 		    <div>
 			<span>Products</span>
+		    </div>
+		</a>
+		<a href="admin?tab=profile"
+		   class="${requestScope.tab.equals('profile')?'text-[#0261d6] bg-white':''} flex items-center justify-start p-3 cursor-pointer hover:bg-white hover:text-[#0261d6]">
+		    <div class="mr-3">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+			     stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+			</svg>
+		    </div>
+		    <div>
+			<span>Profile</span>
+		    </div>
+		</a>
+		<a href="admin?tab=changePassword"
+		   class="${requestScope.tab.equals('changePassword')?'text-[#0261d6] bg-white':''} flex items-center justify-start p-3 cursor-pointer hover:bg-white hover:text-[#0261d6]">
+		    <div class="mr-3">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+			     stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+			</svg>
+		    </div>
+		    <div>
+			<span>Change Password</span>
 		    </div>
 		</a>
 		<a href="check?action=logout" class="flex items-center justify-start p-3 cursor-pointer hover:bg-white hover:text-[#0261d6]">
@@ -132,7 +163,7 @@
 		    </div>
 		</div>
 		<div class="w-full relative overflow-x-auto mt-10">
-		    <table class="table-auto w-full divide-y divide-x divide-gray-200 border-collapse">
+		    <table class="table-auto text-sm w-full divide-y divide-x divide-gray-200 border-collapse">
 			<thead class="sticky top-0 bg-white">
 			    <tr class="border border-gray-200">
 				<th scope="col" class="border border-gray-200 p-2 truncate">ID</th>
@@ -241,7 +272,7 @@
 		    </div>
 		</div>
 		<div class="w-full relative overflow-x-auto mt-10">
-		    <table class="table-auto w-full divide-y divide-x divide-gray-200 border-collapse">
+		    <table class="table-auto text-sm w-full divide-y divide-x divide-gray-200 border-collapse">
 			<thead class="sticky top-0 bg-white">
 			    <tr class="border border-gray-200">
 				<th scope="col" class="border border-gray-200 p-2 truncate">ID</th>
@@ -297,6 +328,14 @@
 						<span class="hidden md:block ml-2">Enable</span>
 					    </a>
 					</c:if>
+					<a href="check?action=deleteShop&id=${shop.id}" class="mt-2 truncate text-xs flex items-center py-2 text-white hover:bg-red-600 px-3 bg-red-500 w-fit rounded-md mx-1">
+					    <span>
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+						</svg>
+					    </span>
+					    <span class="hidden md:block ml-2">Delete</span>
+					</a>
 					<button 
 					    onclick="handleViewShop(this)"
 					    class=" truncate text-xs flex items-center mt-2 py-2 text-white hover:bg-blue-600 px-3 bg-blue-500 w-fit rounded-md mx-1">
@@ -365,14 +404,6 @@
 			    <span class="ml-2">Search</span>
 			</button>
 		    </form>
-		    <div>
-			<button onclick="toggleAdduserModal()" type="button" class="py-2 px-3 bg-blue-500 hover:bg-blue-600 text-white rounded-md flex items-center justify-center">
-			    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-			    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-			    </svg>
-			    <span class="ml-2">Add new</span>
-			</button>
-		    </div>
 		</div>
 		<div class="w-full relative overflow-x-auto mt-10">
 		    <table class="table-auto w-full divide-y divide-x divide-gray-200 border-collapse text-sm whitespace-normal">
@@ -400,10 +431,10 @@
 				    data-product-rate="${product.rate}"
 				    data-product-createDate="${product.createDate}"
 				    data-product-color="${product.color}"
-				    data-product-description="${product.description}"
 				    data-product-salePrice="${product.salePrice}"
 				    data-product-categoryId="${product.categoryId}"
 				    data-product-url="${product.url}"
+				    data-product-shop="${product.shopId}"
 				    > 
 				    <td class="border border-gray-200 p-2 w-auto truncate">${product.id}</td>
 				    <td class="border border-gray-200 p-2 w-auto truncate">${product.name} </td>
@@ -446,8 +477,8 @@
 					    </span>
 					    <span class="hidden md:block ml-2">Delete</span>					    
 					</a>
-					<button 
-					    onclick="handleViewShop(this)"
+					<button
+					    onclick="handleViewProduct(this)"
 					    class=" truncate text-xs flex items-center py-2 text-white hover:bg-blue-600 px-3 bg-blue-500 w-fit rounded-md mx-1 mt-2">
 					    <span>
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -465,8 +496,201 @@
 		</div>
 	    </div>
 	</c:if>
+	<c:if test="${requestScope.tab.equals('profile')}">
+	    <div class="container mx-auto px-10">
+		<div class="container mx-auto">
+		    <div class="border-b border-b-gray-200 py-6">
+			<h1 class="text-lg font-medium capitalize text-gray-900">My Profile</h1>
+		    </div>
+		    <div class="mt-8 flex flex-col-reverse md:flex-row md:items-start">
+			<form method="POST" action="updateUser" class="mt-6 flex-grow md:mt-0 md:pr-12 pb-10">
+			    <div class="flex flex-col flex-wrap sm:flex-row">
+				<div class="truncate pt-3 capitalize sm:w-[20%] sm:text-right">Email</div>
+				<div class="sm:w-[80%] sm:pl-5">
+				    <div class="pt-3 text-gray-700">${sessionScope.user.email}</div>
+				</div>
+			    </div>
+			    <div class="mt-6 flex flex-col flex-wrap sm:flex-row">
+				<div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Name</div>
+				<div class="sm:w-[80%] sm:pl-5">
+				    <div class="">
+					<input type="text" value="${sessionScope.user.name}" placeholder="Name"
+					       class="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm"
+					       name="name">
+					<div class="mt-1 text-red-600 min-h-[1.25rem] text-sm"></div>
+				    </div>
+				</div>
+			    </div>
+			    <div class="mt-2 flex flex-col flex-wrap sm:flex-row">
+				<div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Username</div>
+				<div class="sm:w-[80%] sm:pl-5">
+				    <div class="">
+					<input type="text" value="${sessionScope.user.username}" placeholder="Username"
+					       class="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm"
+					       name="username">
+					<div class="mt-1 text-red-600 min-h-[1.25rem] text-sm"></div>
+				    </div>
+				</div>
+			    </div>
+			    <div class="mt-2 flex flex-col flex-wrap sm:flex-row">
+				<div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Phone Number</div>
+				<div class="sm:w-[80%] sm:pl-5">
+				    <div class="">
+					<input type="text" placeholder="Phone Number"
+					       class="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm"
+					       name="phone" value="${sessionScope.user.phone}">
+					<div class="mt-1 text-red-600 min-h-[1.25rem] text-sm">
+					</div>
+				    </div>
+				</div>
+			    </div>
+			    <c:if test="${!sessionScope.user.address.equals('')}">
+				<div class="mt-2 flex items-center sm:flex-row">
+				    <div class="truncate capitalize sm:w-[20%] sm:text-right sm:pr-0 pr-3">Current Address
+				    </div>
+				    <div class="sm:w-[80%] sm:pl-5">
+                                        ${sessionScope.user.address}
+				    </div>
+				</div>
+			    </c:if>
+			    <div class="mt-5 flex flex-col flex-wrap sm:flex-row">
+				<div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Update Address</div>
+				<div class="sm:w-[80%] sm:pl-5">
+				    <div class=" flex items-center justify-between">
+					<select id="city" name="city"
+						class="w-[32%] rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm">
+					</select>
+					<select id="district" name="district"
+						class="w-[32%] rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm">
+					</select>
+					<select id="ward" name="ward"
+						class="w-[32%] rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm">
+					</select>
+				    </div>
+				    <input type="text" placeholder="Detail Address"
+					   class="w-full mt-2 rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm"
+					   name="detail">
+				</div>
+			    </div>
+			    <c:if test="${sessionScope.error!=null}">
+				<div class="mt-5 flex flex-col flex-wrap sm:flex-row">
+				    <div class="sm:w-[20%]"></div>
+				    <div class="sm:w-[80%] sm:pl-5 text-red-500">
+                                        ${sessionScope.error}
+				    </div>
+				</div>
+			    </c:if>
+			    <div class="mt-5 flex flex-col flex-wrap sm:flex-row">
+				<div class="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
+				</div>
+				<div class="sm:w-[80%] sm:pl-5">
+				    <div>
+					<button type="submit"
+						class="w-full bg-blue-500 py-3 px-2 text-center text-sm uppercase text-white hover:bg-blue-600 rounded-sm">
+					    Update
+					</button>
+				    </div>
+				</div>
+			    </div>
+			</form>
+			<div class="flex justify-center md:w-72 md:border-l md:border-l-gray-200">
+			    <div class="flex flex-col items-center">
+				<div class="my-5 flex h-24 w-24 items-center justify-center overflow-hidden">
+				    <c:if test="${sessionScope.user.avatar.equals('')}">
+					<img id="avatarPreview" src="./static/images/smug-pepe.jpg" alt=""
+					     class="h-full w-full rounded-full object-cover">
+				    </c:if>
+				    <c:if test="${!sessionScope.user.avatar.equals('')}">
+					<img id="avatarPreview" src="${sessionScope.user.avatar}" alt=""
+					     class="h-full w-full rounded-full object-cover">
+				    </c:if>
+				</div>
+				<div>
+				    <form id="changeAvatarForm" action="avatar" method="GET"
+					  class="flex items-center justify-center">
+					<input onchange="submitChangeAvatar()" type="text" class="hidden" id="avatarUrl"
+					       name="avatarUrl">
+					<input id="fileInput" type="file" class="hidden" accept=".jpg,.jpeg,.png">
+					<button type="submit" id="buttonSubmitForm"
+						class="hidden h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm">
+					    Change
+					</button>
+				    </form>
+				    <button id="buttonOpenFile" onclick="changeAvatarButton()"
+					    class="flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm">
+					Select Avatar
+				    </button>
+				</div>
+			    </div>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</c:if>
+	<c:if test="${requestScope.tab.equals('changePassword')}">
+	    <div class="container mx-auto p-10">
+		<div class="rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20 container mx-auto">
+		    <div class="border-b border-b-gray-200 py-6">
+			<h1 class="text-lg font-medium capitalize text-gray-900">Change Password</h1>
+		    </div>
+		    <div class="mr-auto mt-8 max-w-[800px]">
+			<form action="password" method="POST" class="mt-6 flex-grow md:mt-0 md:pr-12">
+			    <div class="mt-2 flex flex-col flex-wrap sm:flex-row">
+				<div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Old Password</div>
+				<div class="sm:w-[80%] sm:pl-5">
+				    <div class="undefined relative">
+					<input required type="password" placeholder="Old Password"
+					       class="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm"
+					       name="password"/>
+				    </div>
+				    <div class="mt-1 min-h-[1.25rem] text-sm text-red-600"></div>
+				</div>
+			    </div>
+			    <div class="mt-2 flex flex-col flex-wrap sm:flex-row">
+				<div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">New Password</div>
+				<div class="sm:w-[80%] sm:pl-5">
+				    <div class="undefined relative">
+					<input required type="password" placeholder="New Password"
+					       class="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm"
+					       name="new_password"/>
+				    </div>
+				    <div class="mt-1 min-h-[1.25rem] text-sm text-red-600"></div>
+				</div>
+			    </div>
+			    <div class="mt-2 flex flex-col flex-wrap sm:flex-row">
+				<div class="capitalize sm:w-[20%] sm:pt-3 sm:text-right">Confirm Password</div>
+				<div class="sm:w-[80%] sm:pl-5">
+				    <div class="undefined relative">
+					<input required type="password" placeholder="Confirm New Password"
+					       class="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm"
+					       name="confirm_password"/>
+				    </div>
+				    <div class="mt-1 min-h-[1.25rem] text-sm text-red-600"></div>
+				</div>
+			    </div>
 
-
+			    <c:if test="${sessionScope.error!=null}">
+				<div class=" flex flex-col flex-wrap sm:flex-row">
+				    <div class="sm:w-[20%] sm:pt-3"></div>
+				    <div class="sm:w-[80%] sm:pl-5 text-red-500">${sessionScope.error}</div>
+				</div>
+			    </c:if>
+			    <div class="mt-2 flex flex-col flex-wrap sm:flex-row">
+				<div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right"></div>
+				<div class="sm:w-[80%] sm:pl-5">
+				    <div>
+					<button type="submit"
+						class="bg-blue-500 w-full rounded-sm px-2 py-3 text-center text-sm uppercase text-white hover:bg-blue-600">
+					    Change Password
+					</button>
+				    </div>
+				</div>
+			    </div>
+			</form>
+		    </div>
+		</div>
+	    </div>
+	</c:if>
 	<div id="cover"
 	     onclick="closeModal()"
 	     class="fixed w-[100%] hidden items-center justify-center h-[100%] top-0 right-0 left-0 bg-black bg-opacity-70 z-50 p-5">
@@ -495,32 +719,32 @@
 				    </thead>
 				    <tbody>
 					<tr>
-					    <th class="p-2">ID</th>
-					    <td class="p-2" id="modal_userId"></td>
+					    <th class="p-2 text-left">ID</th>
+					    <td class="p-2 text-left" id="modal_userId"></td>
 					</tr>
 					<tr>
-					    <th class="p-2">Username</th>
-					    <td class="p-2" id="modal_username"></td>
+					    <th class="p-2 text-left">Username</th>
+					    <td class="p-2 text-left" id="modal_username"></td>
 					</tr>
 					<tr>
-					    <th class="p-2">Email</th>
-					    <td class="p-2" id="modal_email"></td>
+					    <th class="p-2 text-left">Email</th>
+					    <td class="p-2 text-left" id="modal_email"></td>
 					</tr>
 					<tr>
-					    <th class="p-2">Name</th>
-					    <td class="p-2" id="modal_name"></td>
+					    <th class="p-2 text-left">Name</th>
+					    <td class="p-2 text-left" id="modal_name"></td>
 					</tr>
 					<tr>
-					    <th class="p-2">Phone</th>
-					    <td class="p-2" id="modal_phone"></td>
+					    <th class="p-2 text-left">Phone</th>
+					    <td class="p-2 text-left" id="modal_phone"></td>
 					</tr>
 					<tr>
-					    <th class="p-2">Address</th>
-					    <td class="p-2" id="modal_address"></td>
+					    <th class="p-2 text-left">Address</th>
+					    <td class="p-2 text-left" id="modal_address"></td>
 					</tr>
 					<tr>
-					    <th class="p-2">Role</th>
-					    <td class="p-2" id="modal_role"></td>
+					    <th class="p-2 text-left">Role</th>
+					    <td class="p-2 text-left" id="modal_role"></td>
 					</tr>
 				    </tbody>
 				</table>
@@ -541,33 +765,94 @@
 				    <thead>
 					<tr>
 					    <th class="p-2 text-left">Field</th>
+					    <th class="p-2 text-left ">Value</th>
+					</tr>
+				    </thead>
+				    <tbody>
+					<tr>
+					    <th class="p-2 text-left ">ID</th>
+					    <td class="p-2 text-left " id="modal_shopId"></td>
+					</tr>
+					<tr>
+					    <th class="p-2 text-left ">Name</th>
+					    <td class="p-2 text-left " id="modal_shopName"></td>
+					</tr>
+					<tr>
+					    <th class="p-2 text-left ">Email</th>
+					    <td class="p-2 text-left " id="modal_shopEmail"></td>
+					</tr>
+					<tr>
+					    <th class="p-2 text-left ">Address</th>
+					    <td class="p-2 text-left " id="modal_shopAddress"></td>
+					</tr>
+					<tr>
+					    <th class="p-2 text-left ">Create Date</th>
+					    <td class="p-2 text-left " id="modal_shopCreateDate"></td>
+					</tr>
+					<tr>
+					    <th class="p-2 text-left ">Active</th>
+					    <td class="p-2 text-left " id="modal_shopActive"></td>
+					</tr>
+				    </tbody>
+				</table>
+			    </div>
+			</div>
+			<div id="disable_shop_btn" style="display: none"
+			     class="my-5 w-full text-center flex items-center justify-center">
+			    <a id="disable_link" class="py-2 px-3 bg-red-500 hover:bg-red-600 text-white rounded-md mt-3"
+			       href="">Disable Shop</a>
+			</div>
+			<div id="enable_shop_btn" style="display: none"
+			     class="my-5 w-full text-center flex items-center justify-center">
+			    <a id="enable_link" class="py-2 px-3 bg-green-500 hover:bg-green-600 text-white rounded-md mt-3"
+			       href="">Enable Shop</a>
+			</div>
+		    </c:if>
+		    <c:if test="${requestScope.tab.equals('products')}">
+			<div class=" flex items-start justify-center p-5">
+			    <img id="productImage" class="w-[150px] h-[150px] object-cover" src="" alt="alt"/>
+			</div>
+			<div class=" flex items-center justify-center">
+			    <div>
+				<table border="1">
+				    <thead>
+					<tr>
+					    <th class="p-2 text-left">Field</th>
 					    <th class="p-2 text-left">Value</th>
 					</tr>
 				    </thead>
 				    <tbody>
 					<tr>
-					    <th class="p-2">ID</th>
-					    <td class="p-2" id="modal_shopId"></td>
+					    <th class="p-2 text-left ">ID</th>
+					    <td class="p-2 text-left " id="modal_productId"></td>
 					</tr>
 					<tr>
-					    <th class="p-2">Name</th>
-					    <td class="p-2" id="modal_shopName"></td>
+					    <th class="p-2 text-left ">Name</th>
+					    <td class="p-2 text-left " id="modal_productName"></td>
 					</tr>
 					<tr>
-					    <th class="p-2">Email</th>
-					    <td class="p-2" id="modal_shopEmail"></td>
+					    <th class="p-2 text-left ">Price</th>
+					    <td class="p-2 text-left " id="modal_productPrice"></td>
 					</tr>
 					<tr>
-					    <th class="p-2">Address</th>
-					    <td class="p-2" id="modal_shopAddress"></td>
+					    <th class="p-2 text-left ">Rate</th>
+					    <td class="p-2 text-left " id="modal_productRate"></td>
 					</tr>
 					<tr>
-					    <th class="p-2">Create Date</th>
-					    <td class="p-2" id="modal_shopCreateDate"></td>
+					    <th class="p-2 text-left ">Create Date</th>
+					    <td class="p-2 text-left " id="modal_productCreateDate"></td>
 					</tr>
 					<tr>
-					    <th class="p-2">Active</th>
-					    <td class="p-2" id="modal_shopActive"></td>
+					    <th class="p-2 text-left ">Color</th>
+					    <td class="p-2 text-left " id="modal_productColor"></td>
+					</tr>
+					<tr>
+					    <th class="p-2 text-left ">Category</th>
+					    <td class="p-2 text-left " id="modal_productCategory"></td>
+					</tr>
+					<tr>
+					    <th class="p-2 text-left ">Shop</th>
+					    <td class="p-2 text-left " id="modal_productShop"></td>
 					</tr>
 				    </tbody>
 				</table>
@@ -595,10 +880,12 @@
 		</div>
 		<div class="lg:col-span-3">
 		    <c:if test="${requestScope.tab.equals('accounts')}">
-			<form action="user" method="POST" class="grid gap-4 text-sm grid-cols-1 md:grid-cols-5">
+			<form id="addUserForm" action="user" method="POST"
+			      class="grid gap-4 text-sm grid-cols-1 md:grid-cols-5">
 			    <div class="md:col-span-5">
-				<label for="name">Name</label>
-				<input type="text" name="name" id="name" class="outline-none h-10 border mt-1 rounded px-4 w-full bg-gray-50" />
+				<label for="name">Name <span class="text-red-500">*</span></label>
+				<input type="text" name="name" id="name"
+				       class="outline-none h-10 border mt-1 rounded px-4 w-full bg-gray-50" required/>
 			    </div>
 			    <div class="grid grid-cols-2 gap-x-4 w-full col-span-1 md:col-span-5">
 				<div class="w-full col-span-1">
@@ -616,14 +903,17 @@
 				    <input type="email" name="email" id="email" class="  outline-none h-10 border mt-1 rounded px-4 w-full bg-gray-50" required/>
 				</div>
 				<div class="w-full col-span-1">
-				    <label for="phone">Phone</label>
-				    <input type="text" name="phone" id="phone" class=" outline-none h-10 border mt-1 rounded px-4 w-full bg-gray-50" />
+				    <label for="phone">Phone <span class="text-red-500">*</span></label>
+				    <input type="text" name="phone" id="phone"
+					   class=" outline-none h-10 border mt-1 rounded px-4 w-full bg-gray-50" required/>
 				</div>
 			    </div>
 			    <div class="grid grid-cols-2 gap-4 w-full col-span-1 md:col-span-5">
 				<div class="w-full col-span-1">
-				    <label class="block text-sm font-medium text-gray-900" for="fileInput">Avatar</label>
-				    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2" id="fileInput" type="file">
+				    <label class="block text-sm font-medium text-gray-900" for="fileInput">Avatar <span
+					    class="text-red-500">*</span></label>
+				    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2"
+					   id="fileInput" type="file" required>
 				    <input id="avatarUrl" type="text" name="avatar" class="hidden">
 				    <div id="avatarPreviewContainer" style="display: none" class="w-[150px] h-[150px] p-3">
 					<img id="avatarPreview" src="" class="w-full h-full object-cover" alt="alt"/>
@@ -640,19 +930,24 @@
 				</div>
 			    </div>
 			    <div class="w-full md:col-span-5">
-				<label>Address</label>
+				<label>Address <span class="text-red-500">*</span></label>
 				<div class="grid grid-cols-3 gap-4">
-				    <select id="city" name="city" class="w-full bg-gray-50 h-10 outline-none border rounded col-span-1">
+				    <select id="city" name="city" class="w-full bg-gray-50 h-10 outline-none border rounded col-span-1"
+					    required>
 					<option value="" class="py-2" selected></option>
 				    </select>
-				    <select id="district" name="district" class="w-full bg-gray-50 h-10 outline-none border rounded col-span-1">
+				    <select id="district" name="district"
+					    class="w-full bg-gray-50 h-10 outline-none border rounded col-span-1" required>
 					<option value="" selected></option>
 				    </select>
-				    <select id="ward" name="ward" class="w-full bg-gray-50 h-10 outline-none border rounded col-span-1">
+				    <select id="ward" name="ward" class="w-full bg-gray-50 h-10 outline-none border rounded col-span-1"
+					    required>
 					<option value=""  selected></option>
 				    </select>
 				</div>
-				<input type="text" placeholder="Detail Address" class=" outline-none h-10 border mt-3 rounded px-4 w-full bg-gray-50" name="detail" />
+				<input type="text" placeholder="Detail Address"
+				       class=" outline-none h-10 border mt-3 rounded px-4 w-full bg-gray-50" name="detail"
+				       required/>
 			    </div>
 			    <div class="md:col-span-5 text-center mt-3">
 				<div class="inline-flex items-center">

@@ -7,6 +7,7 @@ package vietqtran.services;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import vietqtran.db.DBContext;
@@ -36,6 +37,28 @@ public class UserDAO extends DBContext implements IDAO<User> {
 	} catch (SQLException err) {
 	    System.out.println(err);
 	}
+    }
+
+    public long addToGetIndex(User t) {
+	try {
+	    PreparedStatement ps = connection.prepareStatement(Global.INSERT_USER, Statement.RETURN_GENERATED_KEYS);
+	    ps.setString(1, t.getUsername());
+	    ps.setString(2, t.getPassword());
+	    ps.setString(3, t.getName());
+	    ps.setString(4, t.getEmail());
+	    ps.setString(5, t.getPhone());
+	    ps.setInt(6, t.getRole());
+	    ps.setString(7, t.getAvatar());
+	    ps.setString(8, t.getAddress());
+	    ps.executeUpdate();
+	    ResultSet rs = ps.getGeneratedKeys();
+	    if (rs.next()) {
+		return rs.getLong(1);
+	    }
+	} catch (SQLException err) {
+	    System.out.println(err);
+	}
+	return -1;
     }
 
     @Override
@@ -79,7 +102,7 @@ public class UserDAO extends DBContext implements IDAO<User> {
 			rs.getString(6),
 			rs.getInt(7),
 			rs.getString(8),
-			rs.getString(8)
+			rs.getString(9)
 		);
 	    }
 	} catch (SQLException e) {
@@ -172,6 +195,20 @@ public class UserDAO extends DBContext implements IDAO<User> {
 	try {
 	    PreparedStatement ps = connection.prepareStatement(Global.CHECK_USER_EXISTED);
 	    ps.setString(1, email);
+	    ResultSet rs = ps.executeQuery();
+	    while (rs.next()) {
+		return true;
+	    }
+
+	} catch (SQLException e) {
+	}
+	return false;
+    }
+
+    public boolean isUsernameExisted(String username) {
+	try {
+	    PreparedStatement ps = connection.prepareStatement(Global.CHECK_USERNAME_EXISTED);
+	    ps.setString(1, username);
 	    ResultSet rs = ps.executeQuery();
 	    while (rs.next()) {
 		return true;

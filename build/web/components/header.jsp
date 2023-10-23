@@ -6,6 +6,22 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.List" %>
+<%@page import="java.util.ArrayList" %>
+<%@page import="vietqtran.services.CategoryDAO" %>
+<%@page import="vietqtran.model.Category" %>
+<%@page import="java.sql.SQLException" %>
+<%@page import="jakarta.servlet.http.HttpSession" %>
+<%@page import="vietqtran.services.CartProductDAO" %>
+<%@page import="vietqtran.services.ProductDAO" %>
+<%@page import="vietqtran.model.User" %>
+<%@page import="vietqtran.model.Product" %>
+<%@page import="vietqtran.model.CartProduct" %>
+<%@page import="java.text.DecimalFormat" %>
+
+
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,7 +34,7 @@
                 <div class="container mx-auto">
                     <div class="flex justify-between gap-x-6 text-sm">
                         <div class="flex items-center gap-x-3">
-                            <a class="capitalize hover:text-white/70" href="shop">Kênh Người Bán</a>
+                            <a class="capitalize hover:text-white/70" href="shop-dashboard">Kênh Người Bán</a>
                             <div class="h-4 border-r-[1px] border-r-white/40"></div>
 			    <div class="flex items-center">
 				Kết nối
@@ -57,7 +73,7 @@
 				<div class="absolute hidden group-hover:block shadow-md top-[calc(100%+10px)] right-0 bg-white text-black z-50 min-w-[200px] ">
 				    <div class="after:absolute after:contents-[] after:p-[6px] after:bg-white after:right-[5px] after:top-[-6px] after:rotate-45 before:absolute before:contents-[] before:w-full before:h-[20px] before:top-[-20px] before:bg-transparent before:right-0">
 					<div class="hover:bg-slate-50 hover:text-blue-500 w-full text-base"><a class="block p-3 py-2 w-full" href="account">Tài Khoản Của Tôi</a></div>
-					<div class="hover:bg-slate-50 hover:text-blue-500 w-full text-base"><a class="block p-3 py-2 w-full" href="orders">Đơn Mua</a></div>
+					<div class="hover:bg-slate-50 hover:text-blue-500 w-full text-base"><a class="block p-3 py-2 w-full" href="account?tab=orders">Đơn Mua</a></div>
 					<div class="hover:bg-slate-50 hover:text-blue-500 w-full text-base"><a class="block p-3 py-2 w-full" href="check?action=logout">Đăng Xuất</a></div>
 				    </div>
 				</div>
@@ -87,108 +103,91 @@
 				    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path></svg>
 				</button>
 			    </div>
+			    <%
+				CategoryDAO categoryDao = new CategoryDAO();
+				List<Category> categories = categoryDao.getAll();
+				try {
+				    categoryDao.closeConnection();
+				} catch (SQLException ex) {
+				}
+			    %>
 			    <ul class="justufy-start my-2 flex w-full items-center text-[13px]">
-				<c:forEach items="${requestScope.categories}" var="category">
+				<c:forEach items="<%=categories%>" var="category">
 				    <li>
 					<a class="mr-2 w-full overflow-hidden truncate py-1" href="url" target="_blank">${category.name}</a>
 				    </li>
 				</c:forEach>
 			    </ul>
 			</form>
+			<%
+				HttpSession session2 = request.getSession();
+				User user = (User) session2.getAttribute("user");
+				long quantity = 0;
+				List<Product> top5Product = new ArrayList<>();
+				if(user!=null){
+				    CartProductDAO cartProductDao = new CartProductDAO();
+				    ProductDAO productDao = new ProductDAO();
+				    List<CartProduct> top5;
+				    try {
+					quantity = cartProductDao.getAllByUserId(user.getId()).size();
+					if (quantity > 0) {
+					    top5 = cartProductDao.getTop5ByUserId(user.getId());
+					    for (CartProduct cartProduct : top5) {
+						top5Product.add(productDao.get(cartProduct.getProductId()));
+					    }
+					}
+					cartProductDao.closeConnection();
+					productDao.closeConnection();
+				    } catch (SQLException ex) {
+				    }
+				}
+			%>
                         <div class="group relative col-span-1 justify-self-end">
 			    <div class="cursor-pointer">
 				<a class="relative" href="cart">
 				    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path></svg>
-				    <span class="absolute right-[-15px] top-[-10px] flex h-[6px] max-w-[10px] items-center justify-center rounded-lg border-[1px] border-[#0261d6] bg-white px-4 py-2 text-sm font-bold text-[#0261d6]">0</span>
+				    <span class="absolute right-[-15px] top-[-10px] flex h-[6px] max-w-[10px] items-center justify-center rounded-lg border-[1px] border-[#0261d6] bg-white px-4 py-2 text-sm font-bold text-[#0261d6]"><%=quantity%></span>
 				</a>
 			    </div>
-			    <div class="z-50 cart-shadow before:contents-[] after:contents-[] after:bg-tra absolute right-[-15px] top-[50px] hidden max-h-[450px] w-[395px] rounded-sm bg-white text-black drop-shadow-md duration-500 ease-linear before:absolute before:right-[17px] before:top-[-10px] before:rotate-45 before:bg-white before:p-3 after:absolute after:right-0 after:top-[-30px] after:h-[30px] after:w-full group-hover:block group-hover:opacity-100">
-				<!-- <img src="./static/images/empty-cart.png" alt="alt" /> -->
-				<div>
-				    <div>
-					<div class="p-3 text-sm opacity-70">Sản Phẩm Mới Thêm</div>
-				    </div>
-				    <ul>
-					<li class="hover:bg-slate-100">
-					    <a href="" class="block p-2">
-						<div class="flex items-start justify-between">
-						    <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg" alt="" class="h-[40px] w-[40px]" />
-						    <div class="flex-1">
-							<p class="max-w-[250px] truncate px-2 leading-4">dasas adas dadas dasda dadas dasadda sdasdasd asda</p>
-						    </div>
-						    <div class="flex items-center justify-center text-sm text-[#0261d6]">
-							<span class="block translate-y-[-2px]">₫</span>
-							<span>2.345.567</span>
-						    </div>
-						</div>
-					    </a>
-					</li>
-					<li class="hover:bg-slate-100">
-					    <a href="" class="block p-2">
-						<div class="flex items-start justify-between">
-						    <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg" alt="" class="h-[40px] w-[40px]" />
-						    <div class="flex-1">
-							<p class="max-w-[250px] truncate px-2 leading-4">dasas adas dadas dasda dadas dasadda sdasdasd asda</p>
-						    </div>
-						    <div class="flex items-center justify-center text-sm text-[#0261d6]">
-							<span class="block translate-y-[-2px]">₫</span>
-							<span>2.345.567</span>
-						    </div>
-						</div>
-					    </a>
-					</li>
-					<li class="hover:bg-slate-100">
-					    <a href="" class="block p-2">
-						<div class="flex items-start justify-between">
-						    <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg" alt="" class="h-[40px] w-[40px]" />
-						    <div class="flex-1">
-							<p class="max-w-[250px] truncate px-2 leading-4">dasas adas dadas dasda dadas dasadda sdasdasd asda</p>
-						    </div>
-						    <div class="flex items-center justify-center text-sm text-[#0261d6]">
-							<span class="block translate-y-[-2px]">₫</span>
-							<span>2.345.567</span>
-						    </div>
-						</div>
-					    </a>
-					</li>
-					<li class="hover:bg-slate-100">
-					    <a href="" class="block p-2">
-						<div class="flex items-start justify-between">
-						    <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg" alt="" class="h-[40px] w-[40px]" />
-						    <div class="flex-1">
-							<p class="max-w-[250px] truncate px-2 leading-4">dasas adas dadas dasda dadas dasadda sdasdasd asda</p>
-						    </div>
-						    <div class="flex items-center justify-center text-sm text-[#0261d6]">
-							<span class="block translate-y-[-2px]">₫</span>
-							<span>2.345.567</span>
-						    </div>
-						</div>
-					    </a>
-					</li>
-					<li class="hover:bg-slate-100">
-					    <a href="" class="block p-2">
-						<div class="flex items-start justify-between">
-						    <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg" alt="" class="h-[40px] w-[40px]" />
-						    <div class="flex-1">
-							<p class="max-w-[250px] truncate px-2 leading-4">dasas adas dadas dasda dadas dasadda sdasdasd asda</p>
-						    </div>
-						    <div class="flex items-center justify-center text-sm text-[#0261d6]">
-							<span class="block translate-y-[-2px]">₫</span>
-							<span>2.345.567</span>
-						    </div>
-						</div>
-					    </a>
-					</li>
-				    </ul>
-				    <div class="w-full items-center justify-end">
-					<a href="cart" class="float-right m-2 block w-fit cursor-pointer bg-[#0261d6] px-4 rounded-sm hover:bg-blue-600 py-2 text-sm text-white">Xem Giỏ Hàng</a>
-				    </div>
+			    <c:if test="${sessionScope.user!=null}">
+				<div class="z-50 cart-shadow before:contents-[] after:contents-[] after:bg-tra absolute right-[-15px] top-[50px] hidden max-h-[450px] w-[395px] rounded-sm bg-white text-black drop-shadow-md duration-500 ease-linear before:absolute before:right-[17px] before:top-[-10px] before:rotate-45 before:bg-white before:p-3 after:absolute after:right-0 after:top-[-30px] after:h-[30px] after:w-full group-hover:block group-hover:opacity-100">
+				    <c:if test="<%=top5Product.size()==0%>">
+					<img src="./static/images/empty-cart.png" alt="alt" /> 
+				    </c:if>
+				    <c:if test="<%=top5Product.size()>0%>">
+					<div>
+					    <div>
+						<div class="p-3 text-sm opacity-70">Sản Phẩm Mới Thêm</div>
+					    </div>
+					    <ul>
+						<c:forEach items="<%=top5Product%>" var="p">
+						    <li class="hover:bg-slate-100">
+							<a href="" class="block p-2">
+							    <div class="flex items-start justify-between">
+								<img src="${p.url}" alt="" class="h-[40px] w-[40px] object-cover" />
+								<div class="flex-1">
+								    <p class="max-w-[250px] truncate px-2 leading-4">${p.name}</p>
+								</div>
+								<div class="flex items-center justify-center text-sm text-[#0261d6]">
+								    <span class="block translate-y-[-2px]">₫</span>
+								    <span>${DecimalFormat("###.###").format(p.price)}</span>
+								</div>
+							    </div>
+							</a>
+						    </li>
+						</c:forEach>
+					    </ul>
+					    <div class="w-full items-center justify-end">
+						<a href="cart" class="float-right m-2 block w-fit cursor-pointer bg-[#0261d6] px-4 rounded-sm hover:bg-blue-600 py-2 text-sm text-white">Xem Giỏ Hàng</a>
+					    </div>
+					</div>
+				    </c:if>
 				</div>
-			    </div>
+			    </c:if>
 			</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+		    </div>
+		</div>
+	    </div>
+	</div>
     </body>
 </html>

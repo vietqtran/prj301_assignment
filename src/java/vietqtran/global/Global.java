@@ -15,10 +15,10 @@ public class Global {
      * SQL Server Query
      */
     // Address
-    public static String INSERT_ADDRESS = "INSERT INTO address ([detail], [town], [district], [city]) VALUES (?, ?, ?, ?)";
+    public static String INSERT_ADDRESS = "INSERT INTO address ([userId], [name], [phone], [detail], [town], [district], [city]) VALUES (?, ?, ?, ?, ?, ?, ?)";
     public static String GET_ALL_ADDRESS = "SELECT * FROM address";
     public static String GET_ADDRESS_BY_ID = "SELECT * FROM address WHERE id = ?";
-    public static String UPDATE_ADDRESS = "UPDATE address SET [detail] = ?, town = ?, district = ?, [city] = ? where id = ?";
+    public static String UPDATE_ADDRESS = "UPDATE address SET [name] = ?, [phone] = ?, [detail] = ?, town = ?, district = ?, [city] = ? where id = ?";
     public static String DELETE_ADDRESS = "DELETE FROM address WHERE id = ?";
 
     // Cart
@@ -28,10 +28,10 @@ public class Global {
     public static String DELETE_CART = "DELETE FROM carts WHERE id = ?";
 
     // Cart Product
-    public static String INSERT_CART_PRODUCT = "INSERT INTO [cartProducts] ([productId], [cartId], [shopId], [quantity], [price], [salePrice], [totalPrice]) VALUES (?, ?, ?, ?, ?, ?, ?);";
-    public static String GET_ALL_CART_PRODUCTS = "SELECT * FROM cartProducts";
+    public static String INSERT_CART_PRODUCT = "INSERT INTO [cartProducts] ([productId], [cartId], [shopId], [quantity], sizeId) VALUES (?, ?, ?, ?, ?);";
+    public static String GET_ALL_CART_PRODUCTS = "SELECT * FROM cartProducts order by id desc";
     public static String GET_CART_PRODUCT_BY_ID = "SELECT * FROM [cartProducts] WHERE id = ?";
-    public static String UPDATE_CART_PRODUCT = "UPDATE [cartProducts] SET [quantity] = ?, [price] = ?, [salePrice] = ?, [totalPrice] = ? where id = ?";
+    public static String UPDATE_CART_PRODUCT = "UPDATE [cartProducts] SET [quantity] = ?, sizeId = ? where id = ?";
     public static String DELETE_CART_PRODUCT = "DELETE FROM cartProducts WHERE id = ?";
 
     // Category
@@ -49,8 +49,8 @@ public class Global {
     public static String DELETE_COLOR = "DELETE FROM colors WHERE id = ?";
 
     // Order
-    public static String INSERT_ORDER = "INSERT INTO [orders] ([userId], [shopId], [shipperId], [totalPrice], [saleTotalPrice], [successDate], [phone], [address], [status], [voucherId], [note], [deliveryChecking]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    public static String GET_ALL_ORDERS = "SELECT * FROM orders";
+    public static String INSERT_ORDER = "INSERT INTO [orders] ([userId], [shopId], [shipperId], [totalPrice], [saleTotalPrice], [successDate], [phone], [address], [voucherId], [note], [deliveryChecking]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    public static String GET_ALL_ORDERS = "SELECT * FROM orders order by id desc";
     public static String GET_ORDER_BY_ID = "SELECT * FROM orders WHERE id = ?";
     public static String UPDATE_ORDER = "UPDATE [orders] SET [shipperId] = ?, [totalPrice] = ?, [saleTotalPrice] = ?, [successDate] = ?, [phone] = ?, [address] = ?, [voucherId] = ?, [status] = ?, [note] = ?, [deliveryChecking] = ? WHERE id = ?;";
     public static String DELETE_ORDER = "DELETE FROM orders WHERE id = ?";
@@ -64,9 +64,13 @@ public class Global {
 
     // Product
     public static String INSERT_PRODUCT = "INSERT INTO products ([name], price, salePrice, [description], city, rate, boughtQuantity, color, categoryId, shopCategoryId, shopId, createBy, [url]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    public static String GET_ALL_PRODUCTS = "SELECT * FROM products";
+    public static String GET_ALL_PRODUCTS = "SELECT p.*, sp.name AS size_name, sp.inventory AS size_inventory\n"
+	    + "FROM products AS p\n"
+	    + "INNER JOIN shops AS s ON p.shopId = s.id\n"
+	    + "LEFT JOIN sizesProduct AS sp ON p.id = sp.productId\n"
+	    + "WHERE s.active = 1 AND sp.inventory > 0;";
     public static String GET_PRODUCT_BY_ID = "SELECT * FROM products WHERE id = ?";
-    public static String UPDATE_PRODUCT = "UPDATE products SET [name] = ?, price = ?, salePrice = ?, [description] = ?, rate = ?, city = ?, [boughtQuantity] = ?, [url] = ?, color = ?, shopCategoryId = ?, categoryId = ? deleteBy = ? WHERE id = ?; ";
+    public static String UPDATE_PRODUCT = "UPDATE products SET [name] = ?, price = ?, salePrice = ?, [description] = ?, rate = ?, city = ?, [boughtQuantity] = ?, [url] = ?, color = ?, shopCategoryId = ?, categoryId = ?, deleteBy = ? WHERE id = ?;";
     public static String DELETE_PRODUCT = "DELETE FROM products WHERE id = ?";
 
     // Product Image
@@ -89,13 +93,6 @@ public class Global {
     public static String UPDATE_SHIP_COMPANY = "UPDATE shipCompany SET name = ?, image = ? WHERE id = ?;";
     public static String DELETE_SHIP_COMPANY = "DELETE FROM shipCompany WHERE id = ?";
 
-    // Shipper
-    public static String INSERT_SHIPPER = "INSERT INTO [shippers] ([username], [password], [firstName], [lastName], [email], [phone], [avatar], [shipCompany]) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-    public static String GET_ALL_SHIPPERS = "SELECT * FROM shippers";
-    public static String GET_SHIPPER_BY_ID = "SELECT * FROM shippers WHERE id = ?";
-    public static String UPDATE_SHIPPER = "UPDATE shippers SET username = ?, password = ?, firstName = ?, lastName = ?, email = ?, phone = ?, avatar = ?, shipCompany = ? WHERE id = ?;";
-    public static String DELETE_SHIPPER = "DELETE FROM shippers WHERE id = ?";
-
     // Shop Category
     public static String INSERT_SHOP_CATEGORY = "INSERT INTO shopCategories ([name], [image]) VALUES (?, ?)";
     public static String GET_ALL_SHOP_CATEGORIES = "SELECT * FROM shopCategories";
@@ -105,7 +102,7 @@ public class Global {
 
     // Shop
     public static String INSERT_SHOP = "INSERT INTO shops (email, password, [name], [address], active, avatar) VALUES(?, ?, ?, ?, ?, ?);";
-    public static String GET_ALL_SHOPS = "SELECT * FROM shops";
+    public static String GET_ALL_SHOPS = "SELECT * FROM shops order by id desc	";
     public static String GET_SHOP_BY_ID = "SELECT * FROM shops WHERE id = ?";
     public static String UPDATE_SHOP = "UPDATE shops SET email = ?, password = ?,  [name] = ?, [address] = ?, active = ?, avatar = ? WHERE id = ?";
     public static String DELETE_SHOP = "DELETE FROM shops WHERE id = ?";
@@ -127,12 +124,13 @@ public class Global {
 
     //User
     public static String INSERT_USER = "INSERT INTO users (username, [password], name, email, phone, role, avatar, address) VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
-    public static String GET_ALL_USERS = "SELECT * FROM users";
+    public static String GET_ALL_USERS = "SELECT * FROM users order by id desc";
     public static String GET_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
     public static String UPDATE_USER = "UPDATE users SET username = ?, password = ?, name = ?, email = ?, phone = ?, role = ?, avatar = ?, address = ? WHERE id = ?";
     public static String DELETE_USER = "DELETE FROM users WHERE id = ?";
     public static String GET_LOGIN_USER = "SELECT * FROM users WHERE email = ? and password = ?;";
     public static String CHECK_USER_EXISTED = "SELECT * FROM users WHERE email = ?;";
+    public static String CHECK_USERNAME_EXISTED = "SELECT * FROM users WHERE username = ?;";
 
     //User Role
     public static String INSERT_USER_ROLE = "INSERT INTO roles (userType) VALUES (?);";

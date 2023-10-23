@@ -109,7 +109,7 @@ public class RegisterServlet extends HttpServlet {
 		    Cookie passwordCookie = new Cookie("password", password);
 		    String username = email.split("@")[0];
 		    User user = new User(username, password, "", email, "", 5, "", "");
-		    dao.add(user);
+		    long userId = dao.addToGetIndex(user);
 		    if (remember != null) {
 			emailCookie.setMaxAge(60 * 60 * 24);
 			passwordCookie.setMaxAge(60 * 60 * 24);

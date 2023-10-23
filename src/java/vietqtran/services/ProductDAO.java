@@ -7,8 +7,11 @@ package vietqtran.services;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import vietqtran.db.DBContext;
 import vietqtran.global.Global;
 import vietqtran.model.Product;
@@ -23,7 +26,7 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
     @Override
     public void add(Product t) throws SQLException {
 	try {
-	    PreparedStatement ps = connection.prepareStatement(Global.INSERT_PRODUCT);
+	    PreparedStatement ps = connection.prepareStatement(Global.INSERT_PRODUCT, Statement.RETURN_GENERATED_KEYS);
 	    ps.setString(1, t.getName());
 	    ps.setDouble(2, t.getPrice());
 	    ps.setDouble(3, t.getSalePrice());
@@ -41,6 +44,33 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	} catch (SQLException err) {
 	    System.out.println(err);
 	}
+    }
+
+    public long addWithGetIndex(Product t) throws SQLException {
+	try {
+	    PreparedStatement ps = connection.prepareStatement(Global.INSERT_PRODUCT, Statement.RETURN_GENERATED_KEYS);
+	    ps.setString(1, t.getName());
+	    ps.setDouble(2, t.getPrice());
+	    ps.setDouble(3, t.getSalePrice());
+	    ps.setString(4, t.getDescription());
+	    ps.setString(5, t.getCity());
+	    ps.setDouble(6, t.getRate());
+	    ps.setInt(7, t.getBoughtQuantity());
+	    ps.setLong(8, t.getColor());
+	    ps.setLong(9, t.getCategoryId());
+	    ps.setLong(10, t.getShopCategoryId());
+	    ps.setLong(11, t.getShopId());
+	    ps.setString(12, t.getCreateBy());
+	    ps.setString(13, t.getUrl());
+	    ps.executeUpdate();
+	    ResultSet rs = ps.getGeneratedKeys();
+	    if (rs.next()) {
+		return rs.getInt(1);
+	    }
+	} catch (SQLException err) {
+	    System.out.println(err);
+	}
+	return -1;
     }
 
     @Override
@@ -142,13 +172,45 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	return null;
     }
 
+    public Product getShopProduct(long shopId, long id) throws SQLException {
+	try {
+	    PreparedStatement ps = connection.prepareStatement("SELECT * FROM products WHERE id = ? and shopId = ?;");
+	    ps.setLong(1, id);
+	    ps.setLong(2, shopId);
+	    ResultSet rs = ps.executeQuery();
+	    while (rs.next()) {
+		return new Product(
+			rs.getLong(1),
+			rs.getString(2),
+			rs.getDouble(3),
+			rs.getDouble(4),
+			rs.getString(5),
+			rs.getString(6),
+			rs.getDouble(7),
+			rs.getDate(8),
+			rs.getInt(9),
+			rs.getLong(10),
+			rs.getLong(11),
+			rs.getLong(12),
+			rs.getLong(13),
+			rs.getString(14),
+			rs.getString(15),
+			rs.getString(16)
+		);
+	    }
+	} catch (SQLException e) {
+	    System.out.println(e);
+	}
+	return null;
+    }
+
     @Override
     public void update(Product t) throws SQLException {
 	try {
 	    PreparedStatement ps = connection.prepareStatement(Global.UPDATE_PRODUCT);
 	    ps.setString(1, t.getName());
 	    ps.setDouble(2, t.getPrice());
-	    ps.setDouble(2, t.getSalePrice());
+	    ps.setDouble(3, t.getSalePrice());
 	    ps.setString(4, t.getDescription());
 	    ps.setDouble(5, t.getRate());
 	    ps.setString(6, t.getCity());
@@ -209,6 +271,40 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	return null;
     }
 
+    public List<Product> getShopProducts(long shopId) {
+	List<Product> result = new ArrayList<>();
+	try {
+	    PreparedStatement ps = connection.prepareStatement("SELECT * FROM products WHERE shopId = ?;");
+	    ps.setLong(1, shopId);
+	    ResultSet rs = ps.executeQuery();
+	    while (rs.next()) {
+		Product product = new Product(
+			rs.getLong(1),
+			rs.getString(2),
+			rs.getDouble(3),
+			rs.getDouble(4),
+			rs.getString(5),
+			rs.getString(6),
+			rs.getDouble(7),
+			rs.getDate(8),
+			rs.getInt(9),
+			rs.getLong(10),
+			rs.getLong(11),
+			rs.getLong(12),
+			rs.getLong(13),
+			rs.getString(14),
+			rs.getString(15),
+			rs.getString(16)
+		);
+		result.add(product);
+	    }
+	    return result;
+	} catch (SQLException e) {
+	    System.out.println(e);
+	}
+	return null;
+    }
+
     public List<Product> getByPagination(int start, int end, List<Product> filterProducts) throws SQLException {
 	List<Product> products = new ArrayList<>();
 	for (int i = start; i < end; i++) {
@@ -220,6 +316,16 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
     public void closeConnection() throws SQLException {
 	if (connection != null && !connection.isClosed()) {
 	    connection.close();
+	}
+    }
+
+    public static void main(String[] args) {
+	try {
+	    Product p = new ProductDAO().get(203);
+	    p.setName("vietttttt");
+	    new ProductDAO().update(p);
+	} catch (SQLException ex) {
+	    Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
 }

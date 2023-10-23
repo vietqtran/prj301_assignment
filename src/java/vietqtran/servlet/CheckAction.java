@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vietqtran.services.ProductDAO;
 import vietqtran.services.ShopDAO;
 import vietqtran.services.UserDAO;
 
@@ -64,52 +65,82 @@ public class CheckAction extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
 	String action = (request.getParameter("action") != null) ? request.getParameter("action").trim() : "";
-	if (action.equals("logout")) {
-	    HttpSession session = request.getSession();
-	    session.removeAttribute("user");
-	    response.sendRedirect("home");
-	} else if (action.equals("deleteUser")) {
-	    long id = Long.parseLong(request.getParameter("id"));
-	    try {
-		UserDAO userDao = new UserDAO();
-		userDao.delete(id);
-		userDao.closeConnection();
-	    } catch (SQLException ex) {
-		Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+	switch (action) {
+	    case "logout": {
+		HttpSession session = request.getSession();
+		session.removeAttribute("user");
+		response.sendRedirect("home");
+		break;
 	    }
-	    response.sendRedirect("admin");
-	} else if (action.equals("deleteShop")) {
-	    long id = Long.parseLong(request.getParameter("id"));
-	    try {
-		ShopDAO shopDao = new ShopDAO();
-		shopDao.delete(id);
-		shopDao.closeConnection();
-	    } catch (SQLException ex) {
-		Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+	    case "deleteUser": {
+		long id = Long.parseLong(request.getParameter("id"));
+		try {
+		    UserDAO userDao = new UserDAO();
+		    userDao.delete(id);
+		    userDao.closeConnection();
+		} catch (SQLException ex) {
+		    Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		response.sendRedirect("admin");
+		break;
 	    }
-	    response.sendRedirect("admin?tab=shops");
-	} else if (action.equals("disableShop")) {
-	    long id = Long.parseLong(request.getParameter("id"));
-	    try {
-		ShopDAO shopDao = new ShopDAO();
-		shopDao.disbleShop(id);
-		shopDao.closeConnection();
-	    } catch (SQLException ex) {
-		Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+	    case "deleteShop": {
+		long id = Long.parseLong(request.getParameter("id"));
+		try {
+		    ShopDAO shopDao = new ShopDAO();
+		    shopDao.delete(id);
+		    shopDao.closeConnection();
+		} catch (SQLException ex) {
+		    Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		response.sendRedirect("admin?tab=shops");
+		break;
 	    }
-	    response.sendRedirect("admin?tab=shops");
-	} else if (action.equals("enableShop")) {
-	    long id = Long.parseLong(request.getParameter("id"));
-	    try {
-		ShopDAO shopDao = new ShopDAO();
-		shopDao.enableShop(id);
-		shopDao.closeConnection();
-	    } catch (SQLException ex) {
-		Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+	    case "disableShop": {
+		long id = Long.parseLong(request.getParameter("id"));
+		try {
+		    ShopDAO shopDao = new ShopDAO();
+		    shopDao.disbleShop(id);
+		    shopDao.closeConnection();
+		} catch (SQLException ex) {
+		    Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		response.sendRedirect("admin?tab=shops");
+		break;
 	    }
-	    response.sendRedirect("admin?tab=shops");
-	} else {
-	    response.sendRedirect("nor-found");
+	    case "enableShop": {
+		long id = Long.parseLong(request.getParameter("id"));
+		try {
+		    ShopDAO shopDao = new ShopDAO();
+		    shopDao.enableShop(id);
+		    shopDao.closeConnection();
+		} catch (SQLException ex) {
+		    Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		response.sendRedirect("admin?tab=shops");
+		break;
+	    }
+	    case "logoutShop": {
+		HttpSession session = request.getSession();
+		session.removeAttribute("shop");
+		response.sendRedirect("shopLogin");
+		break;
+	    }
+	    case "deleteProduct": {
+		long id = Long.parseLong(request.getParameter("id").trim());
+		ProductDAO dao = new ProductDAO();
+		try {
+		    dao.delete(id);
+		    dao.closeConnection();
+		} catch (SQLException ex) {
+		    Logger.getLogger(CheckAction.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		response.sendRedirect("shop-dashboard?tab=products");
+		break;
+	    }
+	    default:
+		response.sendRedirect("not-found");
+		break;
 	}
     }
 

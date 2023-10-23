@@ -85,6 +85,30 @@ public class ShopDAO extends DBContext implements IDAO<Shop> {
 	return null;
     }
 
+    public Shop get(String email, String password) throws SQLException {
+	try {
+	    PreparedStatement ps = connection.prepareStatement("SELECT * FROM shops WHERE email = ? AND password = ?;");
+	    ps.setString(1, email);
+	    ps.setString(2, password);
+	    ResultSet rs = ps.executeQuery();
+	    while (rs.next()) {
+		return new Shop(
+			rs.getLong(1),
+			rs.getString(2),
+			rs.getString(3),
+			rs.getString(4),
+			rs.getString(5),
+			rs.getDate(6),
+			rs.getBoolean(7),
+			rs.getString(8)
+		);
+	    }
+	} catch (SQLException e) {
+	    System.out.println(e);
+	}
+	return null;
+    }
+
     @Override
     public void update(Shop t) throws SQLException {
 	try {
@@ -164,6 +188,15 @@ public class ShopDAO extends DBContext implements IDAO<Shop> {
 	    }
 	}
 	return 0;
+    }
+
+    public boolean checkShopName(String name) throws SQLException {
+	for (Shop shop : getAll()) {
+	    if (shop.getName().equals(name)) {
+		return true;
+	    }
+	}
+	return false;
     }
 
     public void closeConnection() throws SQLException {

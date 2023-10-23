@@ -11,6 +11,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import vietqtran.model.User;
+import vietqtran.services.CartDAO;
 
 /**
  *
@@ -57,6 +63,19 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
+	HttpSession session = request.getSession();
+	User user = (User) session.getAttribute("user");
+	if (user == null) {
+	    response.sendRedirect("login");
+	    return;
+	}
+	CartDAO cartDao = new CartDAO();
+	try {
+	    request.setAttribute("cart", cartDao.getCartList(user.getId()));
+	    cartDao.closeConnection();
+	} catch (SQLException ex) {
+	    Logger.getLogger(CartServlet.class.getName()).log(Level.SEVERE, null, ex);
+	}
 	request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 

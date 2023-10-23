@@ -23,89 +23,88 @@ public class OrderProduct {
     }
 
     public OrderProduct(long id, long orderId, long productId, double productPrice, int quantity, double totalPrice, double salePrice, String imageUrl) {
-        this.id = id;
-        this.orderId = orderId;
-        this.productId = productId;
-        this.productPrice = productPrice;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
-        this.salePrice = salePrice;
-        this.imageUrl = imageUrl;
+	this.id = id;
+	this.orderId = orderId;
+	this.productId = productId;
+	this.productPrice = productPrice;
+	this.quantity = quantity;
+	this.totalPrice = totalPrice;
+	this.salePrice = salePrice;
+	this.imageUrl = imageUrl;
     }
 
     public OrderProduct(long orderId, long productId, double productPrice, int quantity, double totalPrice, double salePrice, String imageUrl) {
-        this.orderId = orderId;
-        this.productId = productId;
-        this.productPrice = productPrice;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
-        this.salePrice = salePrice;
-        this.imageUrl = imageUrl;
+	this.orderId = orderId;
+	this.productId = productId;
+	this.productPrice = productPrice;
+	this.quantity = quantity;
+	this.totalPrice = totalPrice;
+	this.salePrice = salePrice;
+	this.imageUrl = imageUrl;
     }
 
     public long getId() {
-        return id;
+	return id;
+    }
+
+    public void setId(long id) {
+	this.id = id;
     }
 
     public long getOrderId() {
-        return orderId;
+	return orderId;
     }
 
     public void setOrderId(long orderId) {
-        this.orderId = orderId;
+	this.orderId = orderId;
     }
 
     public long getProductId() {
-        return productId;
+	return productId;
     }
 
     public void setProductId(long productId) {
-        this.productId = productId;
+	this.productId = productId;
     }
 
     public double getProductPrice() {
-        return productPrice;
+	return productPrice;
     }
 
     public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
+	this.productPrice = productPrice;
     }
 
     public int getQuantity() {
-        return quantity;
+	return quantity;
     }
 
     public void setQuantity(int quantity) {
-        this.quantity = quantity;
+	this.quantity = quantity;
     }
 
     public double getTotalPrice() {
-        return totalPrice;
+	return totalPrice;
     }
 
     public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+	this.totalPrice = totalPrice;
     }
 
     public double getSalePrice() {
-        return salePrice;
+	return salePrice;
     }
 
     public void setSalePrice(double salePrice) {
-        this.salePrice = salePrice;
+	this.salePrice = salePrice;
     }
 
     public String getImageUrl() {
-        return imageUrl;
+	return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderProduct{" + "id=" + id + ", orderId=" + orderId + ", productId=" + productId + ", productPrice=" + productPrice + ", quantity=" + quantity + ", totalPrice=" + totalPrice + ", salePrice=" + salePrice + ", imageUrl=" + imageUrl + '}';
+	this.imageUrl = imageUrl;
     }
 
 }

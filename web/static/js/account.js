@@ -3,29 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
  */
 
-const tabs = document.getElementsByClassName('tab')
-const tabSelects = document.getElementsByClassName('tab_select')
-
-function handleChangeTab(e, btn) {
-    const tab = document.getElementById(e)
-    const tabSelect = document.getElementById(btn)
-
-    for (var i = 0; i < tabs.length; i++) {
-	tabs[i].classList.add('hidden')
-    }
-
-    for (var i = 0; i < tabSelects.length; i++) {
-	tabSelects[i].style.fontWeight = 'normal'
-	tabSelects[i].style.color = 'rgb(17 24 39 / 1)'
-    }
-
-    tab.classList.remove('hidden')
-    tabSelect.style.color = '#0261d6'
-    tabSelect.style.fontWeight = 'bold'
-}
-
-handleChangeTab('account', 'account_btn')
-
 
 function showOldPass() {
     let input = document.getElementById("change_password_old")
@@ -45,3 +22,45 @@ function showNewPass() {
     }
 }
 
+function selectStar(index) {
+    console.log(index)
+    const starOutlines = document.getElementsByClassName("starOutline")
+    const starSolids = document.getElementsByClassName("starSolid")
+    for (var i = 0; i < starSolids.length; i++) {
+	starSolids[i].style.display = 'none'
+    }
+    for (var i = 0; i < starOutlines.length; i++) {
+	starOutlines[i].style.display = 'block'
+    }
+    for (var i = 0; i <= index; i++) {
+	starSolids[i].style.display = 'block'
+    }
+    for (var i = 0; i <= index; i++) {
+	starOutlines[i].style.display = 'none'
+    }
+    document.getElementById("starRate").value = index + 1
+}
+
+function toggleRateModal() {
+    let rateModal = document.getElementById("rateModal")
+    if (rateModal.style.display === 'none') {
+	rateModal.style.display = 'flex'
+    } else {
+	rateModal.style.display = 'none'
+    }
+}
+
+function clickContent(event) {
+    event.stopPropagation()
+}
+
+function rateButton(id) {
+    toggleRateModal()
+    document.getElementById("productIdRate").value = id
+}
+
+function handleSubmitRate() {
+    if (document.getElementById("starRate").value !== '') {
+	document.getElementById("rateForm").submit()
+    }
+}

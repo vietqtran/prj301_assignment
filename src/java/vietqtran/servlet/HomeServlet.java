@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import vietqtran.services.CategoryDAO;
+import vietqtran.services.ProductDAO;
 
 /**
  *
@@ -49,10 +49,10 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
-	CategoryDAO categoryDao = new CategoryDAO();
+	ProductDAO productDao = new ProductDAO();
 	try {
-	    request.setAttribute("categories", categoryDao.getAll());
-	    categoryDao.closeConnection();
+	    request.setAttribute("products", productDao.getAll());
+	    productDao.closeConnection();
 	    request.getRequestDispatcher("home.jsp").forward(request, response);
 	} catch (SQLException ex) {
 	    Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, null, ex);

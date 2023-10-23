@@ -96,6 +96,12 @@ public class AdminServlet extends HttpServlet {
 		    categoryDao.closeConnection();
 		    shopDao2.closeConnection();
 		    break;
+            case "profile":
+                check = true;
+                break;
+            case "changePassword":
+                check = true;
+                break;
 		default:
 		    break;
 	    }

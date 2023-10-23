@@ -11,8 +11,6 @@ CREATE TABLE [roles] (
     [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     [userType] NVARCHAR(50) NOT NULL
 );
-INSERT INTO [roles] ([userType])
-VALUES ('Admin'), ('Manager'), ('Seller'), ('Customer');
 
 -- Bảng User
 CREATE TABLE [users] (
@@ -26,7 +24,164 @@ CREATE TABLE [users] (
     [avatar] NVARCHAR(255) DEFAULT '',
     [address] NVARCHAR(255) DEFAULT ''
 );
+-- Bảng Address
+CREATE TABLE [address] (
+    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	[userId] BIGINT NOT NULL,
+	[name] NVARCHAR(255) NOT NULL,
+	[phone] NVARCHAR(255) NOT NULL,
+    [detail] NVARCHAR(255) NOT NULL,
+    [town] NVARCHAR(255) NOT NULL,
+    [district] NVARCHAR(255) NOT NULL,
+    [city] NVARCHAR(255) NOT NULL
+);
 
+-- Bảng Colors
+CREATE TABLE [colors] (
+    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    [name] NVARCHAR(50) NOT NULL,
+    [code] NVARCHAR(7) NOT NULL
+);
+-- Bảng Categories
+CREATE TABLE [categories] ( 
+    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    [name] NVARCHAR(255) NOT NULL,
+    [image] NVARCHAR(255) NOT NULL
+);
+
+-- Bảng Shop
+CREATE TABLE shops (
+    id BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    email NVARCHAR(255) NOT NULL unique,
+    password NVARCHAR(255) NOT NULL,
+    name NVARCHAR(255) NOT NULL,
+    address NVARCHAR(255) NOT NULL,
+    createDate DATE DEFAULT CAST(GETDATE() AS DATE) NOT NULL,
+    active BIT DEFAULT 'TRUE' NOT NULL,
+    avatar NVARCHAR(255) NOT NULL
+);
+-- Bảng Shop Report
+CREATE TABLE [shopReports] (
+	[id] bigint primary key identity(1, 1) not null,
+    [shopId] BIGINT NOT NULL,
+    [profit] FLOAT NOT NULL DEFAULT 0,
+    [revenue] FLOAT NOT NULL DEFAULT 0,
+    [expense] FLOAT NOT NULL DEFAULT 0,
+    [amountOrders] BIGINT NOT NULL DEFAULT 0,
+    [amountProducts] BIGINT NOT NULL DEFAULT 0
+);
+CREATE TABLE [products] (
+    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    [name] NVARCHAR(255) NOT NULL,
+    [price] FLOAT NOT NULL,
+    [salePrice] FLOAT,
+    [description] NVARCHAR(MAX) not null,
+	[city] NVARCHAR(255) not null,
+	[rate] float default 0 not null,
+    [createDate] DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
+    [boughtQuantity] INT NOT NULL DEFAULT 0,
+    [color] BIGINT NOT NULL,
+    [categoryId] BIGINT NOT NULL,
+    [shopCategoryId] BIGINT NOT NULL,
+    [shopId] BIGINT NOT NULL,
+    [createBy] NVARCHAR(255),
+    [deleteBy] NVARCHAR(255),
+	[url] nvarchar(255) NOT NULL,
+);
+
+-- Bảng Product Image
+CREATE TABLE [productImages] (
+    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    [productId] BIGINT NOT NULL,
+    [imageUrl] NVARCHAR(255) NOT NULL,
+    [role] INT NOT NULL -- 1-main, 2-sub, ...detail
+);
+
+-- Bảng Sizes Product
+CREATE TABLE [sizesProduct] (
+    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    [inventory] INT NOT NULL DEFAULT 0,
+	[name] NVARCHAR(255) not null,
+    [productId] BIGINT NOT NULL
+);
+-- Bảng Voucher
+CREATE TABLE [vouchers] (
+    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    [priceCondition] FLOAT NOT NULL,
+    [price] FLOAT NOT NULL DEFAULT 0,
+    [percent] INT NOT NULL DEFAULT 0,
+    [createBy] NVARCHAR(255),
+    [deleteBy] NVARCHAR(255)
+);
+--
+create table [shipCompany](
+	[id] bigint primary key identity(1, 1) not null,
+	[name] nvarchar(255) not null,
+	[price] float not null,
+	[image] nvarchar(255) not null
+);
+-- Bảng Order
+CREATE TABLE [orders] (
+    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    [userId] BIGINT NOT NULL,
+	[shopId] BIGINT not null,
+	[shipperId] bigint,
+    [totalPrice] FLOAT NOT NULL,
+	[saleTotalPrice] FLOAT,
+    [orderDate] DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
+	[successDate] DATE,
+    [phone] NVARCHAR(11) NOT NULL,
+    [address] NVARCHAR(255) NOT NULL,
+    [voucherId] BIGINT,
+    [status] NVARCHAR(50) NOT NULL DEFAULT 'waitForConfirmation',
+	[note] nvarchar(255),
+	[deliveryChecking] nvarchar(255) not null
+);
+
+-- Bảng Order Product
+CREATE TABLE [orderProducts] (
+	[id] bigint primary key identity(1, 1) not null,
+    [orderId] BIGINT NOT NULL,
+    [productId] BIGINT NOT NULL,
+    [productPrice] FLOAT NOT NULL,
+    [quantity] INT NOT NULL,
+    [totalPrice] FLOAT NOT NULL,
+    [salePrice] FLOAT,
+    [imageUrl] NVARCHAR(255) NOT NULL,
+	[size] nvarchar(255)
+);
+
+-- Bảng Cart
+CREATE TABLE [carts] (
+    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    [userId] BIGINT NOT NULL
+);
+
+
+-- Bảng Cart Product
+CREATE TABLE [cartProducts] (
+	[id] bigint primary key identity(1, 1) not null,
+    [productId] BIGINT NOT NULL,
+    [cartId] BIGINT NOT NULL,
+	[shopId] bigint not null,
+    [quantity] INT NOT NULL,
+	sizeId bigint
+);
+
+create table [rates](
+	[id] bigint primary key identity(1, 1) not null,
+	[userId] bigint not null,
+	[productId] bigint not null,
+	[star] int default 0 not null,
+	[content] NVARCHAR(MAX) not null,
+	[date] date default getdate() not null
+);
+
+
+SELECT * FROM address
+
+INSERT INTO [roles] ([userType])
+VALUES ('Admin'), ('Manager'), ('Seller'), ('Customer');
 INSERT INTO [users] (username, password, name, email, phone, role, avatar, address) VALUES
     ('user1', 'password1', 'User One', 'user1@example.com', '123-456-7890', 1, 'avatar1.jpg', '123 Main St'),
     ('user2', 'password2', 'User Two', 'user2@example.com', '234-567-8901', 2, 'avatar2.jpg', '456 Elm St'),
@@ -78,15 +233,7 @@ INSERT INTO [users] (username, password, name, email, phone, role, avatar, addre
     ('user48', 'password48', 'User Forty-Eight', 'user48@example.com', '890-123-4567', 1, 'avatar48.jpg', '999 Elm St'),
     ('user49', 'password49', 'User Forty-Nine', 'user49@example.com', '901-234-5678', 3, 'avatar49.jpg', '111 Birch St'),
     ('user50', 'password50', 'User Fifty', 'user50@example.com', '012-345-6789', 2, 'avatar50.jpg', '222 Maple St');
-
--- Bảng Address
-CREATE TABLE [address] (
-    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    [detail] NVARCHAR(255) NOT NULL,
-    [town] NVARCHAR(255) NOT NULL,
-    [district] NVARCHAR(255) NOT NULL,
-    [city] NVARCHAR(255) NOT NULL
-);
+	INSERT INTO [users] (username, password, name, email, phone, role, avatar, address) VALUES('admin', 'admin', 'admin', 'admin@gmail.com', '', 1, '', '')
 INSERT INTO [address] (
     [detail],
     [town],
@@ -103,13 +250,6 @@ INSERT INTO [address] (
     ('505 Willow St', 'Town8', 'District8', 'City8'),
     ('606 Redwood St', 'Town9', 'District9', 'City9'),
     ('707 Spruce St', 'Town10', 'District10', 'City10');
-
--- Bảng Colors
-CREATE TABLE [colors] (
-    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    [name] NVARCHAR(50) NOT NULL,
-    [code] NVARCHAR(7) NOT NULL
-);
 insert into colors([name], [code]) 
 values('Black', '#000000'), 
       ('White', '#FFFFFF'),
@@ -123,13 +263,6 @@ values('Black', '#000000'),
       ('Light Green', '#94FBAB'),
       ('white', '#ffffff'),
       ('white', '#ffffff');
-
--- Bảng Categories
-CREATE TABLE [categories] (
-    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    [name] NVARCHAR(255) NOT NULL,
-    [image] NVARCHAR(255) NOT NULL
-);
 INSERT INTO [categories] (
     [name],
     [image]
@@ -144,42 +277,6 @@ INSERT INTO [categories] (
     ('Category 8', 'image8.jpg'),
     ('Category 9', 'image9.jpg'),
     ('Category 10', 'image10.jpg');
-
--- Bảng Shop Category
-CREATE TABLE [shopCategories] (
-    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    [name] NVARCHAR(255) NOT NULL,
-    [image] NVARCHAR(255) NOT NULL
-);
-INSERT INTO [shopCategories] (
-    [name],
-    [image]
-) VALUES
-    ('Category 1', 'image1.jpg'),
-    ('Category 2', 'image2.jpg'),
-    ('Category 3', 'image3.jpg'),
-    ('Category 4', 'image4.jpg'),
-    ('Category 5', 'image5.jpg'),
-    ('Category 6', 'image6.jpg'),
-    ('Category 7', 'image7.jpg'),
-    ('Category 8', 'image8.jpg'),
-    ('Category 9', 'image9.jpg'),
-    ('Category 10', 'image10.jpg');
-
--- Bảng Shop
-CREATE TABLE shops (
-    id BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    email NVARCHAR(255) NOT NULL unique,
-    password NVARCHAR(255) NOT NULL,
-    name NVARCHAR(255) NOT NULL,
-    address NVARCHAR(255) NOT NULL,
-    createDate DATE DEFAULT CAST(GETDATE() AS DATE) NOT NULL,
-    active BIT DEFAULT 'TRUE' NOT NULL,
-    avatar NVARCHAR(255) NOT NULL
-);
-
-
--- Insert 10 rows into the "shops" table
 INSERT INTO shops (email, password, name, address, active, avatar)
 VALUES
     ('shop1@example.com', 'password1', 'Shop 1', '123 Main St', 'TRUE', 'avatar1.jpg'),
@@ -192,17 +289,6 @@ VALUES
     ('shop8@example.com', 'password8', 'Shop 8', '555 Redwood St', 'TRUE', 'avatar8.jpg'),
     ('shop9@example.com', 'password9', 'Shop 9', '666 Walnut St', 'TRUE', 'avatar9.jpg'),
     ('shop10@example.com', 'password10', 'Shop 10', '777 Pine St', 'TRUE', 'avatar10.jpg');
-
--- Bảng Shop Report
-CREATE TABLE [shopReports] (
-	[id] bigint primary key identity(1, 1) not null,
-    [shopId] BIGINT NOT NULL,
-    [profit] FLOAT NOT NULL DEFAULT 0,
-    [revenue] FLOAT NOT NULL DEFAULT 0,
-    [expense] FLOAT NOT NULL DEFAULT 0,
-    [amountOrders] BIGINT NOT NULL DEFAULT 0,
-    [amountProducts] BIGINT NOT NULL DEFAULT 0
-);
 INSERT INTO [shopReports] (
     [shopId],
     [profit],
@@ -221,30 +307,8 @@ INSERT INTO [shopReports] (
     (8, 750.0, 1500.0, 750.0, 28, 240),
     (9, 600.0, 1200.0, 600.0, 24, 200),
     (10, 650.0, 1300.0, 650.0, 26, 230);
-
--- Bảng Product
-CREATE TABLE [products] (
-    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    [name] NVARCHAR(255) NOT NULL,
-    [price] FLOAT NOT NULL,
-    [salePrice] FLOAT,
-    [description] NVARCHAR(MAX) not null,
-	[city] NVARCHAR(255) not null,
-	[rate] float default 0 not null,
-    [createDate] DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
-    [boughtQuantity] INT NOT NULL DEFAULT 0,
-    [color] BIGINT NOT NULL,
-    [categoryId] BIGINT NOT NULL,
-    [shopCategoryId] BIGINT NOT NULL,
-    [shopId] BIGINT NOT NULL,
-    [createBy] NVARCHAR(255),
-    [deleteBy] NVARCHAR(255),
-	[url] nvarchar(255) NOT NULL,
-);
-
 DECLARE @counter INT
 SET @counter = 1
-
 WHILE @counter <= 100
 BEGIN
     INSERT INTO products (name, price, salePrice, description, city, rate, createDate, boughtQuantity, color, categoryId, shopCategoryId, shopId, createBy, deleteBy, url)
@@ -262,20 +326,12 @@ BEGIN
         CAST(ROUND(RAND() * 10, 0) AS BIGINT),                                           -- Shop Category ID (assuming it's 1)
         CAST(ROUND(RAND() * 10, 0) AS BIGINT),                                           -- Shop ID (assuming it's 1)
         'Admin',                                     -- Created by
-        NULL,                                        -- Deleted by (set to NULL)
+        '',                                        -- Deleted by (set to NULL)
         'https://placeholder.com/product' + CAST(@counter AS NVARCHAR(10)) + '.jpg' -- Image URL (placeholder)
     )
 
     SET @counter = @counter + 1
 END
-
--- Bảng Product Image
-CREATE TABLE [productImages] (
-    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    [productId] BIGINT NOT NULL,
-    [imageUrl] NVARCHAR(255) NOT NULL,
-    [role] INT NOT NULL -- 1-main, 2-sub, ...detail
-);
 INSERT INTO [productImages] (
     [productId],
     [imageUrl],
@@ -291,14 +347,6 @@ INSERT INTO [productImages] (
     (4, 'image8.jpg', 1),
     (5, 'image9.jpg', 1),
     (5, 'image10.jpg', 2);
-
--- Bảng Sizes Product
-CREATE TABLE [sizesProduct] (
-    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    [inventory] INT NOT NULL DEFAULT 0,
-	[name] NVARCHAR(255) not null,
-    [productId] BIGINT NOT NULL
-);
 INSERT INTO [sizesProduct] (
     [inventory],
     [name],
@@ -314,16 +362,6 @@ INSERT INTO [sizesProduct] (
     (75, 'Large', 3),
     (30, 'Small', 4),
     (70, 'Medium', 4);
-
--- Bảng Voucher
-CREATE TABLE [vouchers] (
-    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    [priceCondition] FLOAT NOT NULL,
-    [price] FLOAT NOT NULL DEFAULT 0,
-    [percent] INT NOT NULL DEFAULT 0,
-    [createBy] NVARCHAR(255),
-    [deleteBy] NVARCHAR(255)
-);
 INSERT INTO [vouchers] (
     [priceCondition],
     [price],
@@ -341,45 +379,19 @@ INSERT INTO [vouchers] (
     (120.0, 30.0, 0, 'User8', NULL),
     (55.0, 11.0, 0, 'User9', NULL),
     (95.0, 0.0, 25, 'User10', NULL);
-
---
-create table [shipCompany](
-	[id] bigint primary key identity(1, 1) not null,
-	[name] nvarchar(255) not null,
-	[image] nvarchar(255) not null
-);
 INSERT INTO [shipCompany] (
     [name],
+	[price],
     [image]
 ) VALUES
-    ('Company 1', 'image1.jpg'),
-    ('Company 2', 'image2.jpg'),
-    ('Company 3', 'image3.jpg'),
-    ('Company 4', 'image4.jpg'),
-    ('Company 5', 'image5.jpg'),
-    ('Company 6', 'image6.jpg'),
-    ('Company 7', 'image7.jpg'),
-    ('Company 8', 'image8.jpg'),
-    ('Company 9', 'image9.jpg'),
-    ('Company 10', 'image10.jpg');
+    (N'Giao Hàng Nhanh', 40000, N'ghn.png'),
+    (N'VN Post', 35000, N'vnpost.png'),
+    (N'Giao Hàng Tiết Kiệm', 30000, N'ghtk.png'),
+    (N'Viettel Post',  40000, N'viettelpost.png'),
+    (N'J&T EXPRESS',  35000, N'j&t.png'),
+    (N'Ninja Van',  25000, N'ninjavan.png');
 
--- Bảng Order
-CREATE TABLE [orders] (
-    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    [userId] BIGINT NOT NULL,
-	[shopId] BIGINT not null,
-	[shipperId] bigint,
-    [totalPrice] FLOAT NOT NULL,
-	[saleTotalPrice] FLOAT,
-    [orderDate] DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
-	[successDate] DATE,
-    [phone] NVARCHAR(11) NOT NULL,
-    [address] NVARCHAR(255) NOT NULL,
-    [voucherId] BIGINT,
-    [status] NVARCHAR(50) NOT NULL,
-	[note] nvarchar(255),
-	[deliveryChecking] nvarchar(255) not null
-);
+
 INSERT INTO [orders] (
     [userId],
     [shopId],
@@ -405,18 +417,6 @@ INSERT INTO [orders] (
     (8, 8, 8, 130.0, NULL, '2023-09-23', '2023-09-24', '1111111111', 'Address 8', NULL, 'Completed', 'Note 8', 'Checking 8'),
     (9, 9, 9, 95.0, NULL, '2023-09-23', '2023-09-24', '2222222222', 'Address 9', NULL, 'Completed', 'Note 9', 'Checking 9'),
     (10, 10, 10, 120.0, NULL, '2023-09-23', NULL, '3333333333', 'Address 10', NULL, 'In Progress', 'Note 10', 'Checking 10');
-
--- Bảng Order Product
-CREATE TABLE [orderProducts] (
-	[id] bigint primary key identity(1, 1) not null,
-    [orderId] BIGINT NOT NULL,
-    [productId] BIGINT NOT NULL,
-    [productPrice] FLOAT NOT NULL,
-    [quantity] INT NOT NULL,
-    [totalPrice] FLOAT NOT NULL,
-    [salePrice] FLOAT,
-    [imageUrl] NVARCHAR(255) NOT NULL
-);
 INSERT INTO [orderProducts] (
     [orderId],
     [productId],
@@ -436,12 +436,6 @@ INSERT INTO [orderProducts] (
     (5, 8, 19.99, 3, 59.97, NULL, 'product8.jpg'),
     (5, 9, 29.99, 2, 59.98, NULL, 'product9.jpg'),
     (6, 10, 64.99, 1, 64.99, 54.99, 'product10.jpg');
-
--- Bảng Cart
-CREATE TABLE [carts] (
-    [id] BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    [userId] BIGINT NOT NULL
-);
 INSERT INTO [carts] ([userId])
 VALUES
     (1),
@@ -454,19 +448,6 @@ VALUES
     (8),
     (9),
     (10);
-
-
--- Bảng Cart Product
-CREATE TABLE [cartProducts] (
-	[id] bigint primary key identity(1, 1) not null,
-    [productId] BIGINT NOT NULL,
-    [cartId] BIGINT NOT NULL,
-	[shopId] bigint not null,
-    [quantity] INT NOT NULL,
-    [price] FLOAT NOT NULL,
-    [salePrice] FLOAT,
-    [totalPrice] FLOAT NOT NULL
-);
 INSERT INTO [cartProducts] (
     [productId],
     [cartId],
@@ -486,15 +467,6 @@ INSERT INTO [cartProducts] (
     (8, 5, 5, 3, 19.99, NULL, 59.97),
     (9, 5, 5, 2, 29.99, NULL, 59.98),
     (10, 6, 6, 1, 64.99, 54.99, 64.99);
-
-create table [rates](
-	[id] bigint primary key identity(1, 1) not null,
-	[userId] bigint not null,
-	[productId] bigint not null,
-	[star] int default 0 not null,
-	[content] NVARCHAR(MAX) not null,
-	[date] date default getdate() not null
-);
 INSERT INTO [rates] (
     [userId],
     [productId],
@@ -523,19 +495,129 @@ INSERT INTO [rates] (
     (10, 9, 5, 'Excellent product!', '2023-09-23'),
     (10, 10, 3, 'Could improve.', '2023-09-23');
 
+
+select * from address
 select * from users
 select * from categories
 select * from vouchers
-select * from sizesProduct
+select * from sizesProduct where productId = 203
 select * from roles
 select * from address
 select * from colors
 select * from shops
 SELECT * FROM shopReports
-select * from productImages
+select * from productImages where productId = 203
 select * from orders
 select * from orderProducts
 select * from shipCompany
 select * from cartProducts
-select * from carts
-select * from rates
+ select * from rates
+select * from products 
+SELECT * FROM carts
+
+CREATE TRIGGER increase_amountProducts 
+ON products
+AFTER INSERT
+AS
+BEGIN
+  UPDATE shopReports
+  SET amountProducts = amountProducts + 1
+  WHERE shopId = (SELECT shopId FROM inserted)
+END
+
+
+CREATE TRIGGER add_new_shopReport
+ON shops
+AFTER INSERT
+AS 
+BEGIN
+  INSERT INTO shopReports (shopId) 
+  SELECT id 
+  FROM inserted
+END
+
+CREATE TRIGGER trg_InsertUserCart
+ON [users]
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO [carts] ([userId])
+    SELECT id
+    FROM INSERTED;
+END;
+
+CREATE TRIGGER trg_check_insert_cart_product
+ON cartProducts
+INSTEAD OF INSERT
+AS
+BEGIN
+  DECLARE @productId BIGINT
+  DECLARE @cartId BIGINT
+  DECLARE @sizeId BIGINT
+  DECLARE @quantity INT
+  DECLARE @shopId BIGINT
+
+  DECLARE insertCursor CURSOR FOR
+  SELECT productId, cartId, sizeId, quantity, shopId
+  FROM inserted;
+
+  OPEN insertCursor;
+  FETCH NEXT FROM insertCursor INTO @productId, @cartId, @sizeId, @quantity, @shopId;
+
+  WHILE @@FETCH_STATUS = 0
+  BEGIN
+    IF EXISTS (
+      SELECT 1
+      FROM cartProducts
+      WHERE productId = @productId
+        AND cartId = @cartId
+        AND sizeId = @sizeId
+    )
+    BEGIN
+      UPDATE cartProducts
+      SET quantity = quantity + @quantity
+      WHERE productId = @productId
+        AND cartId = @cartId
+        AND sizeId = @sizeId;
+    END
+    ELSE
+    BEGIN
+      INSERT INTO cartProducts (productId, cartId, shopId, quantity, sizeId)
+      VALUES (@productId, @cartId, @shopId, @quantity, @sizeId);
+    END;
+
+    FETCH NEXT FROM insertCursor INTO @productId, @cartId, @sizeId, @quantity, @shopId;
+  END;
+
+  CLOSE insertCursor;
+  DEALLOCATE insertCursor;
+END;
+
+CREATE TRIGGER IncreaseBoughtQuantity
+ON orderProducts
+AFTER INSERT
+AS
+BEGIN
+  UPDATE products
+  SET boughtQuantity = boughtQuantity + inserted.quantity
+  FROM products
+  INNER JOIN inserted ON products.id = inserted.productId
+END
+
+
+CREATE TRIGGER UpdateProductRate 
+ON rates
+AFTER INSERT
+AS 
+BEGIN
+  UPDATE p
+  SET p.rate = r.avgRate
+  FROM products p
+  INNER JOIN 
+  (
+    SELECT productId, AVG(star) AS avgRate
+    FROM rates 
+    GROUP BY productId
+  ) r 
+  ON p.id = r.productId
+END

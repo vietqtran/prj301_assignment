@@ -21,7 +21,7 @@ import vietqtran.services.UserDAO;
  *
  * @author tranq
  */
-@WebServlet(name = "AddUser", urlPatterns = {"/user"})
+@WebServlet(name = "UserServlet", urlPatterns = {"/user"})
 public class UserServlet extends HttpServlet {
 
     /**

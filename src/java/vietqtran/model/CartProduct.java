@@ -15,101 +15,74 @@ public class CartProduct {
     private long cartId;
     private long shopId;
     private int quantity;
-    private double price;
-    private double salePrice;
-    private double totalPrice;
+    private long sizeId;
 
     public CartProduct() {
     }
 
-    public CartProduct(long id, long productId, long cartId, long shopId, int quantity, double price, double salePrice, double totalPrice) {
-        this.id = id;
-        this.productId = productId;
-        this.cartId = cartId;
-        this.shopId = shopId;
-        this.quantity = quantity;
-        this.price = price;
-        this.salePrice = salePrice;
-        this.totalPrice = totalPrice;
+    public CartProduct(long id, long productId, long cartId, long shopId, int quantity, long sizeId) {
+	this.id = id;
+	this.productId = productId;
+	this.cartId = cartId;
+	this.shopId = shopId;
+	this.quantity = quantity;
+	this.sizeId = sizeId;
     }
 
-    public CartProduct(long productId, long cartId, long shopId, int quantity, double price, double salePrice, double totalPrice) {
-        this.productId = productId;
-        this.cartId = cartId;
-        this.shopId = shopId;
-        this.quantity = quantity;
-        this.price = price;
-        this.salePrice = salePrice;
-        this.totalPrice = totalPrice;
+    public CartProduct(long productId, long cartId, long shopId, int quantity, long sizeId) {
+	this.productId = productId;
+	this.cartId = cartId;
+	this.shopId = shopId;
+	this.quantity = quantity;
+	this.sizeId = sizeId;
     }
 
     public long getId() {
-        return id;
+	return id;
     }
 
     public void setId(long id) {
-        this.id = id;
+	this.id = id;
     }
-    
+
     public long getProductId() {
-        return productId;
+	return productId;
     }
 
     public void setProductId(long productId) {
-        this.productId = productId;
+	this.productId = productId;
     }
 
     public long getCartId() {
-        return cartId;
+	return cartId;
     }
 
     public void setCartId(long cartId) {
-        this.cartId = cartId;
+	this.cartId = cartId;
     }
 
     public long getShopId() {
-        return shopId;
+	return shopId;
     }
 
     public void setShopId(long shopId) {
-        this.shopId = shopId;
+	this.shopId = shopId;
     }
 
     public int getQuantity() {
-        return quantity;
+	return quantity;
     }
 
     public void setQuantity(int quantity) {
-        this.quantity = quantity;
+	this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
+    public long getSizeId() {
+	return sizeId;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getSalePrice() {
-        return salePrice;
-    }
-
-    public void setSalePrice(double salePrice) {
-        this.salePrice = salePrice;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    @Override
-    public String toString() {
-        return "CartProduct{" + "productId=" + productId + ", cartId=" + cartId + ", shopId=" + shopId + ", quantity=" + quantity + ", price=" + price + ", salePrice=" + salePrice + ", totalPrice=" + totalPrice + '}';
+    public void setSizeId(long sizeId) {
+	this.sizeId = sizeId;
     }
 
 }

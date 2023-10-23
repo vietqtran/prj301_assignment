@@ -11,8 +11,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import vietqtran.model.Order;
+import vietqtran.model.User;
 import vietqtran.services.CategoryDAO;
+import vietqtran.services.OrderDAO;
 
 /**
  *
@@ -59,12 +66,48 @@ public class Account extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
+	HttpSession session = request.getSession();
+	User user = (User) session.getAttribute("user");
+	if (user == null) {
+	    response.sendRedirect("login");
+	    return;
+	}
 	CategoryDAO categoryDao = new CategoryDAO();
+	String tab = request.getParameter("tab") != null ? request.getParameter("tab").trim() : "account";
 	try {
 	    request.setAttribute("categories", categoryDao.getAll());
 	    categoryDao.closeConnection();
 	} catch (SQLException e) {
 	}
+
+	if (tab.equals("orders")) {
+	    try {
+		List<Order> orders;
+		OrderDAO orderDao = new OrderDAO();
+		String status = request.getParameter("status") != null ? request.getParameter("status") : "all";
+		switch (status) {
+		    case "all":
+			orders = orderDao.getAll();
+			break;
+		    case "waitForConfirmation":
+		    case "waitingForDelivery":
+		    case "delivering":
+		    case "delivered":
+		    case "canceled":
+			orders = orderDao.getAllByStatus(status, user.getId());
+			break;
+		    default:
+			response.sendRedirect("not-found");
+			return;
+		}
+		request.setAttribute("orders", orders);
+
+	    } catch (SQLException ex) {
+		Logger.getLogger(Account.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	}
+
+	request.setAttribute("tab", tab);
 	request.getRequestDispatcher("account.jsp").forward(request, response);
     }
 

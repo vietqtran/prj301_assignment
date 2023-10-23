@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import vietqtran.db.DBContext;
 import vietqtran.global.Global;
 import vietqtran.model.Rate;
@@ -22,62 +24,62 @@ public class RateDAO extends DBContext implements IDAO<Rate> {
 
     @Override
     public void add(Rate t) throws SQLException {
-        try {
-            PreparedStatement ps = connection.prepareStatement(Global.INSERT_RATE);
-            ps.setLong(1, t.getUserId());
-            ps.setLong(2, t.getProductId());
-            ps.setInt(3, t.getStart());
-            ps.setString(4, t.getContent());
-            ps.executeUpdate();
-        } catch (SQLException err) {
-            System.out.println(err);
-        }
+	try {
+	    PreparedStatement ps = connection.prepareStatement(Global.INSERT_RATE);
+	    ps.setLong(1, t.getUserId());
+	    ps.setLong(2, t.getProductId());
+	    ps.setInt(3, t.getStart());
+	    ps.setString(4, t.getContent());
+	    ps.executeUpdate();
+	} catch (SQLException err) {
+	    System.out.println(err);
+	}
     }
 
     @Override
     public List<Rate> getAll() throws SQLException {
-        List<Rate> result = new ArrayList<>();
-        try {
-            PreparedStatement ps = connection.prepareStatement(Global.GET_ALL_RATES);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Rate rate = new Rate(
-                        rs.getLong(1),
-                        rs.getLong(2),
-                        rs.getLong(3),
-                        rs.getInt(4),
-                        rs.getString(5),
-                        rs.getDate(6)
-                );
-                result.add(rate);
-            }
-            return result;
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return null;
+	List<Rate> result = new ArrayList<>();
+	try {
+	    PreparedStatement ps = connection.prepareStatement(Global.GET_ALL_RATES);
+	    ResultSet rs = ps.executeQuery();
+	    while (rs.next()) {
+		Rate rate = new Rate(
+			rs.getLong(1),
+			rs.getLong(2),
+			rs.getLong(3),
+			rs.getInt(4),
+			rs.getString(5),
+			rs.getDate(6)
+		);
+		result.add(rate);
+	    }
+	    return result;
+	} catch (SQLException e) {
+	    System.out.println(e);
+	}
+	return null;
     }
 
     @Override
     public Rate get(long id) throws SQLException {
-        try {
-            PreparedStatement ps = connection.prepareStatement(Global.GET_RATE_BY_ID);
-            ps.setLong(1, id);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                return new Rate(
-                        rs.getLong(1),
-                        rs.getLong(2),
-                        rs.getLong(3),
-                        rs.getInt(4),
-                        rs.getString(5),
-                        rs.getDate(6)
-                );
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return null;
+	try {
+	    PreparedStatement ps = connection.prepareStatement(Global.GET_RATE_BY_ID);
+	    ps.setLong(1, id);
+	    ResultSet rs = ps.executeQuery();
+	    while (rs.next()) {
+		return new Rate(
+			rs.getLong(1),
+			rs.getLong(2),
+			rs.getLong(3),
+			rs.getInt(4),
+			rs.getString(5),
+			rs.getDate(6)
+		);
+	    }
+	} catch (SQLException e) {
+	    System.out.println(e);
+	}
+	return null;
     }
 
     @Override
@@ -85,29 +87,54 @@ public class RateDAO extends DBContext implements IDAO<Rate> {
 
     }
 
-    @Override
-    public void delete(long id) throws SQLException {
-        try {
-            PreparedStatement ps = connection.prepareStatement(Global.DELETE_RATE);
-            ps.setLong(1, id);
-            ps.executeUpdate();
-        } catch (SQLException err) {
-            System.out.println(err);
-        }
+    public List<Rate> getRatesByProductId(long productId) throws SQLException {
+	List<Rate> result = new ArrayList<>();
+	try {
+	    PreparedStatement ps = connection.prepareStatement("SELECT * FROM rates WHERE [productId] = ?;");
+	    ps.setLong(1, productId);
+	    ResultSet rs = ps.executeQuery();
+	    while (rs.next()) {
+		Rate rate = new Rate(
+			rs.getLong(1),
+			rs.getLong(2),
+			rs.getLong(3),
+			rs.getInt(4),
+			rs.getString(5),
+			rs.getDate(6)
+		);
+		result.add(rate);
+	    }
+	    return result;
+	} catch (SQLException e) {
+	    System.out.println(e);
+	}
+	return null;
     }
 
-    public static void main(String[] args) throws SQLException {
-        RateDAO dao = new RateDAO();
-//        Rate rate = new Rate(21, 2, 2, 2, "cont?tettetent", Date.valueOf("2023-09-23"));
-//        dao.delete(21);
-        for (Rate rate : dao.getAll()) {
-            System.out.println(rate);
-        }
+    @Override
+    public void delete(long id) throws SQLException {
+	try {
+	    PreparedStatement ps = connection.prepareStatement(Global.DELETE_RATE);
+	    ps.setLong(1, id);
+	    ps.executeUpdate();
+	} catch (SQLException err) {
+	    System.out.println(err);
+	}
     }
 
     public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
+	if (connection != null && !connection.isClosed()) {
+	    connection.close();
+	}
+    }
+
+    public static void main(String[] args) {
+	try {
+	    for (Rate rate : new RateDAO().getRatesByProductId(1)) {
+		System.out.println(rate);
+	    }
+	} catch (SQLException ex) {
+	    Logger.getLogger(RateDAO.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
 }

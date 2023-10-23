@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="vietqtran.model.Product" %>
+<%@page import="java.text.DecimalFormat" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -45,331 +48,51 @@
 			    </div>
 			</div>
 		    </div>
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
+		    <c:forEach items="${requestScope.products}" var="product">
+			<div class="col-span-1">
+			    <a href="productDetail?id=${product.id}">
+				<div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
+				    <div class="relative w-full pt-[100%]">
+					<img src="${product.url}" alt=""
+					     class="absolute left-0 top-0 h-full w-full bg-white object-cover"/></div>
+				    <div class="overflow-hidden p-2">
+					<div class="line-clamp-2 min-h-[2rem] text-xs">${product.name}</div>
+					<div class="mt-3 flex items-center justify-start gap-x-1">
+					    <c:if test="${product.salePrice!=0}">
+						<div class="max-w-[50%] truncate text-gray-500 line-through"><span
+							class="text-xs">
+							₫</span><span class="text-sm">${DecimalFormat("###.###").format(product.price)}</span>
+						</div>
+						<div class="text-primary truncate text-blue-500"><span class="text-xs">
+							₫</span><span class="text-[16px] text-sm">${DecimalFormat("###.###").format(product.salePrice)}</span>
+						</div>
+					    </c:if>
+					    <c:if test="${product.salePrice==0}">
+						<div class="text-primary truncate text-blue-500"><span class="text-xs">
+							₫</span><span class="text-[16px] text-sm">${DecimalFormat("###.###").format(product.price)}</span>
+						</div>
+					    </c:if>
 					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
+					<div class="mt-3 flex items-center justify-start gap-x-2">
+					    <div class="flex items-center justify-start relative w-[50px]">
+						<img src="./static/images/stars-gray.png" alt="alt" class="w-full absolute z-40 left-0"/>
+						<%
+						    Product product = (Product) pageContext.getAttribute("product");
+						    double star = (product.getRate() / 5) * 100;
+						    String starPercentage = star + "%";
+						%>
+						<div class="overflow-hidden absolute z-50 left-0" style="width: <%= starPercentage %>">
+						    <img src="./static/images/star-yellow.png" alt="alt" class="min-w-[50px]"/>
+						</div>
+					    </div>
+					    <div class="flex gap-x-1 text-xs">
+						<span>${product.boughtQuantity}</span><span>Đã bán</span></div>
+					</div>
 				    </div>
 				</div>
-			    </div>
-			</a>
-		    </div>
-
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
-
-		    <div class="col-span-1">
-			<a href="/Điện-Thoại-Vsmart-Active-3-6GB64GB--Hàng-Chính-Hãng-60afb2c76ef5b902180aacba"
-			   >
-			    <div class="overflow-hidden rounded-sm bg-white shadow transition-all duration-200 hover:translate-y-[-0.09rem] hover:border-[1px] hover:border-blue-500 hover:shadow-md">
-				<div class="relative w-full pt-[100%]"><img src="https://api-ecom.duthanhduoc.com/images/bbea6d3e-e5b1-494f-ab16-02eece816d50.jpg" alt="Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng" class="absolute left-0 top-0 h-full w-full bg-white object-cover" /></div>
-				<div class="overflow-hidden p-2">
-				    <div class="line-clamp-2 min-h-[2rem] text-xs">Điện Thoại Vsmart Active 3 6GB/64GB - Hàng Chính Hãng</div>
-				    <div class="mt-3 flex items-center justify-start gap-x-1">
-					<div class="max-w-[50%] truncate text-gray-500 line-through"><span class="text-xs">₫</span><span class="text-sm">3.990.000</span></div>
-					<div class="text-primary truncate text-blue-500"><span class="text-xs">₫</span><span class="text-[16px] text-sm">3.190.000</span></div>
-				    </div>
-				    <div class="mt-3 flex items-center justify-start gap-x-2">
-					<div class="flex items-center justify-start relative w-[50px]">
-					    <img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
-					    <div class="h-[8px] w-[50%] overflow-hidden absolute z-50 left-0">
-						<img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
-					    </div>
-					</div>
-					<div class="flex gap-x-1 text-xs"><span>1,2k</span><span>Đã bán</span></div>
-				    </div>
-				</div>
-			    </div>
-			</a>
-		    </div>
+			    </a>
+			</div>
+		    </c:forEach>
 
 		</div>
 	    </div>

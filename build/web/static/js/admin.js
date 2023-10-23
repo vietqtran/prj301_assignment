@@ -84,14 +84,31 @@ function handleViewShop(s) {
     }
 }
 
+function handleViewProduct(p) {
+    document.getElementById("cover").style.display = "flex"
+    document.getElementById("modal_productId").innerHTML = p.parentNode.parentNode.getAttribute('data-product-id');
+    document.getElementById("modal_productName").innerHTML = p.parentNode.parentNode.getAttribute('data-product-name');
+    document.getElementById("modal_productPrice").innerHTML = p.parentNode.parentNode.getAttribute('data-product-price');
+    document.getElementById("modal_productRate").innerHTML = p.parentNode.parentNode.getAttribute('data-product-rate');
+    document.getElementById("modal_productCreateDate").innerHTML = p.parentNode.parentNode.getAttribute('data-product-createDate');
+    document.getElementById("modal_productColor").innerHTML = p.parentNode.parentNode.getAttribute('data-product-color');
+    document.getElementById("modal_productCategory").innerHTML = p.parentNode.parentNode.getAttribute('data-product-categoryId');
+    document.getElementById("modal_productShop").innerHTML = p.parentNode.parentNode.getAttribute('data-product-shop');
+
+    document.getElementById("productImage").src = p.parentNode.parentNode.getAttribute('data-product-url');
+
+
+    document.getElementById("modal_role").innerHTML = role;
+    document.getElementById("delete_link").href = "check?action=deleteProduct&id=" + p.parentNode.parentNode.getAttribute('data-product-id')
+    document.getElementById("cover").style.display = "flex"
+}
+
 
 
 function closeModal() {
     document.getElementById("cover").style.display = "none"
     document.getElementById("add_user").style.display = 'none'
 }
-
-
 
 function handleClickContent(event) {
     event.stopPropagation()
@@ -106,3 +123,19 @@ function toggleAdduserModal() {
 	document.getElementById("add_user").style.display = 'none'
     }
 }
+
+function changeAvatarButton() {
+    document.getElementById("fileInput").click()
+}
+
+const inputFile = document.getElementById('fileInput');
+inputFile.addEventListener('change', () => {
+    document.getElementById('buttonOpenFile').style.display = 'none'
+    document.getElementById("buttonSubmitForm").style.display = "flex"
+});
+
+
+const form = document.getElementById('profileForm');
+const oldUser = {
+  username: document.getElementById('username').value
+};

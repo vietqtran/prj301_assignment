@@ -31,8 +31,9 @@
 				    <span class="mb-2 mt-5 block">Theo Danh Mục</span>
 				    <c:forEach items="${requestScope.categories}" var="category">
 					<div class="flex items-center justify-start pb-2">
-					    <input type="checkbox" value="${category.id}" name="cid" class="mr-2" id="${category.id}" />
-					    <label for="${category.id}">${category.name}</label>
+					    <input type="checkbox" value="${category.id}" name="cid" class="mr-2"
+						   id="category${category.id}"/>
+					    <label for="category${category.id}">${category.name}</label>
 					</div>
 				    </c:forEach>
 				</div>
@@ -41,8 +42,8 @@
 				    <span class="mb-2 mt-5 block">Màu Sắc</span>
 				    <c:forEach items="${requestScope.colors}" var="color">
 					<div class="flex items-center justify-start pb-2">
-					    <input type="checkbox" value="${color.id}" name="clid" class="mr-2" id="${color.id}" />
-					    <label for="${color.id}">${color.name}</label>
+					    <input type="checkbox" value="${color.id}" name="clid" class="mr-2" id="color${color.id}"/>
+					    <label for="color${color.id}">${color.name}</label>
 					</div>
 				    </c:forEach>
 				</div>
@@ -214,14 +215,14 @@
 						</div>
 						<div class="mt-3 flex items-center justify-start gap-x-2">
 						    <div class="flex items-center justify-start relative w-[50px]">
-							<img src="./static/images/stars-gray.png" alt="alt" class="h-[8px] w-full absolute z-40 left-0"/>
+							<img src="./static/images/stars-gray.png" alt="alt" class="w-full absolute z-40 left-0"/>
 							<%
-								Product product = (Product) pageContext.getAttribute("product");
-								double star = (product.getRate() / 5) * 100;
-								String starPercentage = star + "%";
+							    Product product = (Product) pageContext.getAttribute("product");
+							    double star = (product.getRate() / 5) * 100;
+							    String starPercentage = star + "%";
 							%>
-							<div class="h-[8px] overflow-hidden absolute z-50 left-0" style="width: <%= starPercentage %>">
-							    <img src="./static/images/star-yellow.png" alt="alt" class="h-[8px] max-w-[50px]"/>
+							<div class="overflow-hidden absolute z-50 left-0" style="width: <%= starPercentage %>">
+							    <img src="./static/images/star-yellow.png" alt="alt" class="min-w-[50px]"/>
 							</div>
 						    </div>
 						    <div class="flex gap-x-1 text-xs"><span>${product.boughtQuantity}</span><span>Đã bán</span></div>

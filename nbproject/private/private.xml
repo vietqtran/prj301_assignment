@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/servlet/AdminServlet.java</file>
-            <file>file:/D:/SourceCode/PRJ301/Assignment/web/admin.jsp</file>
-            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/model/Product.java</file>
-            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/services/CartProductDAO.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/services/RateDAO.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/shop.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/account.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/servlet/DetailProduct.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/static/js/shop.js</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/static/js/admin.js</file>
         </group>
     </open-files>
 </project-private>
