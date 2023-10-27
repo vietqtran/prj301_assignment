@@ -13,8 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import vietqtran.model.Cart;
 import vietqtran.model.CartProduct;
 import vietqtran.model.Product;
@@ -87,10 +85,6 @@ public class AddToCart extends HttpServlet {
 	try {
 	    HttpSession session = request.getSession();
 	    User user = (User) session.getAttribute("user");
-	    if (user == null) {
-		response.sendRedirect("login");
-		return;
-	    }
 	    ProductDAO productDao = new ProductDAO();
 	    ShopDAO shopDao = new ShopDAO();
 	    CartDAO cartDAO = new CartDAO();
@@ -143,10 +137,8 @@ public class AddToCart extends HttpServlet {
 	    shopDao.closeConnection();
 	    cartDAO.closeConnection();
 	    cartProductDao.closeConnection();
-	    String referer = request.getHeader("referer");
-	    response.sendRedirect(referer);
+	    response.sendRedirect("productDetail?id=" + productId);
 	} catch (SQLException ex) {
-	    Logger.getLogger(AddToCart.class.getName()).log(Level.SEVERE, null, ex);
 	}
 
     }

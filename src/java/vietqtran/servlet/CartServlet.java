@@ -65,10 +65,6 @@ public class CartServlet extends HttpServlet {
 	    throws ServletException, IOException {
 	HttpSession session = request.getSession();
 	User user = (User) session.getAttribute("user");
-	if (user == null) {
-	    response.sendRedirect("login");
-	    return;
-	}
 	CartDAO cartDao = new CartDAO();
 	try {
 	    request.setAttribute("cart", cartDao.getCartList(user.getId()));

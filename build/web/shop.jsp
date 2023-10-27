@@ -12,10 +12,12 @@
 <%@ page import="vietqtran.model.ShipCompany" %>
 <%@ page import="vietqtran.model.Product" %>
 <%@ page import="vietqtran.services.OrderProductDAO" %>
+<%@ page import="vietqtran.services.OrderDAO" %>
 <%@ page import="vietqtran.services.ProductDAO" %>
 <%@ page import="vietqtran.services.ShopDAO" %>
 <%@ page import="vietqtran.services.ShipCompanyDAO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -132,35 +134,20 @@
 		<div class="rounded-sm bg-white px-2 pb-10 md:px-7 md:pb-20 container mx-auto">
 		    <div class="grid lg:grid-cols-6 md:grid-cols-3 gap-4 grid-cols-2">
 			<div class="col-span-1 p-5 shadow-lg rounded-md">
-			    <h1 class="font-bold text-xl">Profit</h1>
-			    <span class="text-xl pt-3 block">100</span>
-			</div>
-			<div class="col-span-1 p-5 shadow-lg rounded-md">
 			    <h1 class="font-bold text-xl">Revenue</h1>
-			    <span class="text-xl pt-3 block">100</span>
-			</div>
-			<div class="col-span-1 p-5 shadow-lg rounded-md">
-			    <h1 class="font-bold text-xl">Expense</h1>
-			    <span class="text-xl pt-3 block">100</span>
+			    <span class="text-xl pt-3 block">${requestScope.report.revenue}</span>
 			</div>
 			<div class="col-span-1 p-5 shadow-lg rounded-md">
 			    <h1 class="font-bold text-xl">Orders</h1>
-			    <span class="text-xl pt-3 block">100</span>
+			    <span class="text-xl pt-3 block">${requestScope.report.amountOrders}</span>
 			</div>
 			<div class="col-span-1 p-5 shadow-lg rounded-md">
 			    <h1 class="font-bold text-xl">Products</h1>
-			    <span class="text-xl pt-3 block">100</span>
+			    <span class="text-xl pt-3 block">${requestScope.report.amountProducts}</span>
 			</div> 
-			<div class="col-span-1 p-5 shadow-lg rounded-md">
-			    <h1 class="font-bold text-xl">Vouchers</h1>
-			    <span class="text-xl pt-3 block">100</span>
-			</div>
 		    </div>
 		    <div class="mt-10 grid md:grid-cols-3 gap-4">
-			<div class="col-span-1">
-			    <canvas id="soldChart"></canvas>
-			</div>
-			<div class="col-span-2">
+			<div class="col-span-3">
 			    <canvas id="myChart"></canvas>
 			</div>
 		    </div>
@@ -313,7 +300,7 @@
 		</div>
 	    </div>
 	</c:if>
-<!--
+
 
 	<c:if test="${requestScope.tab.equals('orders')}">
 	    <div id="orders" class="tab w-full bg-white py-5 md:px-0 px-10">
@@ -459,7 +446,7 @@
 		</div>
 	    </div>
 	</c:if>
--->
+
 
 
 	<c:if test="${requestScope.tab.equals('profile')}">
@@ -710,6 +697,7 @@
 		<div class="lg:col-span-3">
 		    <c:if test="${requestScope.tab.equals('products')}">
 			<form action="shopProduct" method="POST" class="grid gap-4 text-sm grid-cols-1 md:grid-cols-5">
+			    <input type="text" name="shopId" class="hidden" value="${sessionScope.shop.id}">
 			    <div class="md:col-span-5">
 				<label for="name">Product Name<span class="text-red-500">*</span></label>
 				<input type="text" name="name" id="name" class="outline-none border border-blue-500 text-gray-900 text-sm rounded-lg block w-full p-2" required/>
@@ -764,18 +752,7 @@
 				</div>
 				<div class="col-span-1 md:pt-5 pt-0">
 				    <div id="sizeContainer">
-					<div class="flex items-center justify-start w-full mb-2">
-					    <div class="flex items-center justify-start">
-						<div class="mr-2">
-						    <label>Size<span class="text-red-500">*</span></label>
-						    <input type="text" name="sizeName" class="outline-none border border-blue-500 text-gray-900 text-sm rounded-lg block w-full p-2" required/>
-						</div>
-						<div class="ml-2">
-						    <label for="inventory">Inventory<span class="text-red-500">*</span></label>
-						    <input type="number" name="inventory" class="outline-none border border-blue-500 text-gray-900 text-sm rounded-lg block w-full p-2" required/>
-						</div>
-					    </div>
-					</div>
+					
 				    </div>
 				    <button id="addSizeButton" type="button" class="w-fit mt-3 text-sm rounded-sm py-1 px-2 text-white bg-blue-500">Add Size</button>
 				</div>
@@ -811,8 +788,11 @@
 			}
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 	<script>
+			const revenueData = [];
+			<c:forEach items="${requestScope.revenueData}" var="data">
+			    revenueData.push(${data})
+			</c:forEach>
 			const revenueChart = document.getElementById('myChart');
 			new Chart(revenueChart, {
 			    type: 'bar',
@@ -820,7 +800,7 @@
 				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 				datasets: [{
 					label: 'Revenue',
-					data: [1001221, 1331441, 3123, 13131, 3, 1313131, 313, 31, 313, 13, 213.34234],
+					data:revenueData,
 					borderWidth: 1
 				    }]
 			    },
@@ -833,28 +813,7 @@
 			    }
 			});
 
-			const soldChart = document.getElementById('soldChart');
-			new Chart(soldChart, {
-			    type: 'doughnut',
-			    data: {
-				labels: [
-				    'Red',
-				    'Blue',
-				    'Yellow'
-				],
-				datasets: [{
-					label: 'My First Dataset',
-					data: [300, 50, 100],
-					backgroundColor: [
-					    'rgb(255, 99, 132)',
-					    'rgb(54, 162, 235)',
-					    'rgb(255, 205, 86)'
-					],
-					hoverOffset: 4
-				    }]
-			    }
-			});
-
+			
 	</script>
     </body>
 </html>

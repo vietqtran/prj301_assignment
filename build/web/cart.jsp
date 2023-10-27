@@ -59,9 +59,9 @@
 
 			<div class="absolute hidden group-hover:block shadow-md top-[calc(100%+10px)] right-0 bg-white text-black z-50 min-w-[200px] ">
 			    <div class="after:absolute after:contents-[] after:p-[6px] after:bg-white after:right-[5px] after:top-[-6px] after:rotate-45 before:absolute before:contents-[] before:w-full before:h-[20px] before:top-[-20px] before:bg-transparent before:right-0">
-				<div class="hover:bg-slate-50 hover:text-blue-500 w-full text-base"><a class="block p-3 py-2 w-full" href="account">Tài Khoản Của Tôi</a></div>
-				<div class="hover:bg-slate-50 hover:text-blue-500 w-full text-base"><a class="block p-3 py-2 w-full" href="orders">Đơn Mua</a></div>
-				<div class="hover:bg-slate-50 hover:text-blue-500 w-full text-base"><a class="block p-3 py-2 w-full" href="check?action=logout">Đăng Xuất</a></div>
+				<div class="hover:bg-slate-50 hover:text-blue-500 w-full text-base"><a href="account" class="block p-3 py-2 w-full" href="account">Tài Khoản Của Tôi</a></div>
+				<div class="hover:bg-slate-50 hover:text-blue-500 w-full text-base"><a href="account?tab=orders" class="block p-3 py-2 w-full" href="orders">Đơn Mua</a></div>
+				<div class="hover:bg-slate-50 hover:text-blue-500 w-full text-base"><a href="check?action=logout" class="block p-3 py-2 w-full" href="check?action=logout">Đăng Xuất</a></div>
 			    </div>
 			</div>
 		    </div>

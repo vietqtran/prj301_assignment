@@ -66,10 +66,6 @@ public class CreateOrder extends HttpServlet {
 	    throws ServletException, IOException {
 	HttpSession session = request.getSession();
 	User user = (User) session.getAttribute("user");
-	if (user == null) {
-	    response.sendRedirect("login");
-	    return;
-	}
 	CartProductDAO cartProductDao = new CartProductDAO();
 	AddressDAO addressDao = new AddressDAO();
 	ShipCompanyDAO shipCompanyDao = new ShipCompanyDAO();

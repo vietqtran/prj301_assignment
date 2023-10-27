@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import vietqtran.db.DBContext;
 import vietqtran.global.Global;
 import vietqtran.model.Product;
@@ -26,7 +24,7 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
     @Override
     public void add(Product t) throws SQLException {
 	try {
-	    PreparedStatement ps = connection.prepareStatement(Global.INSERT_PRODUCT, Statement.RETURN_GENERATED_KEYS);
+	    PreparedStatement ps = connection.prepareStatement(Global.INSERT_PRODUCT);
 	    ps.setString(1, t.getName());
 	    ps.setDouble(2, t.getPrice());
 	    ps.setDouble(3, t.getSalePrice());
@@ -305,27 +303,10 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	return null;
     }
 
-    public List<Product> getByPagination(int start, int end, List<Product> filterProducts) throws SQLException {
-	List<Product> products = new ArrayList<>();
-	for (int i = start; i < end; i++) {
-	    products.add(filterProducts.get(i));
-	}
-	return products;
-    }
-
     public void closeConnection() throws SQLException {
 	if (connection != null && !connection.isClosed()) {
 	    connection.close();
 	}
     }
 
-    public static void main(String[] args) {
-	try {
-	    Product p = new ProductDAO().get(203);
-	    p.setName("vietttttt");
-	    new ProductDAO().update(p);
-	} catch (SQLException ex) {
-	    Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-	}
-    }
 }

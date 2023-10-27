@@ -140,11 +140,13 @@ public class ShopProduct extends HttpServlet {
 	    response.sendRedirect("shopLogin");
 	    return;
 	}
+
 	ProductDAO productDao = new ProductDAO();
 	ProductImageDAO imageDao = new ProductImageDAO();
 	SizeProductDAO sizeDao = new SizeProductDAO();
 
 	String name = request.getParameter("name").trim();
+	long shopId = Long.parseLong(request.getParameter("shopId").trim());
 	double price = Double.parseDouble(request.getParameter("price").trim());
 	double salePrice = Double.parseDouble(request.getParameter("salePrice").trim());
 	String description = request.getParameter("description").trim();
@@ -154,7 +156,7 @@ public class ShopProduct extends HttpServlet {
 	String address = shop.getAddress();
 	String[] parts = address.split(", ");
 	String city = parts[parts.length - 1];
-	Product product = new Product(name, price, salePrice, description, city, 0, 0, color, category, 0, shop.getId(), shop.getName(), "", url);
+	Product product = new Product(name, price, salePrice, description, city, 0, 0, color, category, 0, shopId, shop.getName(), "", url);
 	try {
 	    long productId = productDao.addWithGetIndex(product);
 	    imageDao.add(new ProductImage(productId, url, 1));

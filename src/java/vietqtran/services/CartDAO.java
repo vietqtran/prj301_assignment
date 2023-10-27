@@ -158,11 +158,4 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 	return result;
     }
 
-    public static void main(String[] args) {
-	try {
-	    System.out.println(new CartDAO().getByUserId(3));
-	} catch (SQLException ex) {
-	    Logger.getLogger(CartDAO.class.getName()).log(Level.SEVERE, null, ex);
-	}
-    }
 }

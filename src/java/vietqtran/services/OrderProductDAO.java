@@ -31,6 +31,7 @@ public class OrderProductDAO extends DBContext implements IDAO<OrderProduct> {
 	    ps.setDouble(5, t.getTotalPrice());
 	    ps.setDouble(6, t.getSalePrice());
 	    ps.setString(7, t.getImageUrl());
+	    ps.setLong(8, t.getSizeId());
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
@@ -52,7 +53,8 @@ public class OrderProductDAO extends DBContext implements IDAO<OrderProduct> {
 			rs.getInt(5),
 			rs.getDouble(6),
 			rs.getDouble(7),
-			rs.getString(8)
+			rs.getString(8),
+			rs.getLong(9)
 		);
 		result.add(product);
 	    }
@@ -78,7 +80,8 @@ public class OrderProductDAO extends DBContext implements IDAO<OrderProduct> {
 			rs.getInt(5),
 			rs.getDouble(6),
 			rs.getDouble(7),
-			rs.getString(8)
+			rs.getString(8),
+			rs.getLong(9)
 		);
 		result.add(product);
 	    }
@@ -104,7 +107,8 @@ public class OrderProductDAO extends DBContext implements IDAO<OrderProduct> {
 			rs.getInt(5),
 			rs.getDouble(6),
 			rs.getDouble(7),
-			rs.getString(8)
+			rs.getString(8),
+			rs.getLong(9)
 		);
 	    }
 	} catch (SQLException e) {

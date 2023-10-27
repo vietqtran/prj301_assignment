@@ -11,8 +11,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vietqtran.model.Product;
 import vietqtran.services.ProductDAO;
 
 /**
@@ -50,8 +54,52 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
 	ProductDAO productDao = new ProductDAO();
+	String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
 	try {
-	    request.setAttribute("products", productDao.getAll());
+	    List<Product> products = productDao.getAll();
+	    if (!sort.isEmpty()) {
+		if (sort.equals("rate")) {
+		    Collections.sort(products, new Comparator<Product>() {
+			@Override
+			public int compare(Product p1, Product p2) {
+			    return Double.compare(p2.getRate(), p1.getRate());
+			}
+		    });
+		}
+		if (sort.equals("newest")) {
+		    Collections.sort(products, new Comparator<Product>() {
+			@Override
+			public int compare(Product p1, Product p2) {
+			    return Long.compare(p2.getId(), p1.getId());
+			}
+		    });
+		}
+		if (sort.equals("sellWell")) {
+		    Collections.sort(products, new Comparator<Product>() {
+			@Override
+			public int compare(Product p1, Product p2) {
+			    return Integer.compare(p2.getBoughtQuantity(), p1.getBoughtQuantity());
+			}
+		    });
+		}
+		if (sort.equals("descPrice")) {
+		    Collections.sort(products, new Comparator<Product>() {
+			@Override
+			public int compare(Product p1, Product p2) {
+			    return Double.compare(p2.getPrice(), p1.getPrice());
+			}
+		    });
+		}
+		if (sort.equals("ascPrice")) {
+		    Collections.sort(products, new Comparator<Product>() {
+			@Override
+			public int compare(Product p1, Product p2) {
+			    return Double.compare(p1.getPrice(), p2.getPrice());
+			}
+		    });
+		}
+	    }
+	    request.setAttribute("products", products);
 	    productDao.closeConnection();
 	    request.getRequestDispatcher("home.jsp").forward(request, response);
 	} catch (SQLException ex) {

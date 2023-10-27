@@ -64,3 +64,13 @@ function handleSubmitRate() {
 	document.getElementById("rateForm").submit()
     }
 }
+
+function changeAvatarButton() {
+    document.getElementById("fileInput").click()
+}
+
+const inputFile = document.getElementById('fileInput');
+inputFile.addEventListener('change', () => {
+    document.getElementById('buttonOpenFile').style.display = 'none'
+    document.getElementById("buttonSubmitForm").style.display = "flex"
+});

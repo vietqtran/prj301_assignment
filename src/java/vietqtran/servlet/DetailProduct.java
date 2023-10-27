@@ -12,7 +12,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+import java.util.List;
 import vietqtran.model.Product;
+import vietqtran.model.Rate;
 import vietqtran.services.CategoryDAO;
 import vietqtran.services.ColorDAO;
 import vietqtran.services.ProductDAO;
@@ -76,13 +78,14 @@ public class DetailProduct extends HttpServlet {
 	    ColorDAO colorDao = new ColorDAO();
 	    RateDAO rateDao = new RateDAO();
 	    CategoryDAO categoryDao = new CategoryDAO();
+	    List<Rate> rates = rateDao.getRatesByProductId(product.getId());
 	    request.setAttribute("shop", shopDao.get(product.getShopId()));
 	    request.setAttribute("product", product);
 	    request.setAttribute("sizes", sizeDao.getAllByProductId(id));
 	    request.setAttribute("images", imageDao.getAllProductImage(id));
 	    request.setAttribute("productColor", colorDao.get(product.getColor()));
 	    request.setAttribute("productCategory", categoryDao.get(product.getCategoryId()));
-	    request.setAttribute("rates", rateDao.getRatesByProductId(product.getId()));
+	    request.setAttribute("rates", rates);
 	    dao.closeConnection();
 	    sizeDao.closeConnection();
 	    imageDao.closeConnection();
@@ -94,6 +97,7 @@ public class DetailProduct extends HttpServlet {
 	    response.sendRedirect("not-found");
 	}
 	request.getRequestDispatcher("detail.jsp").forward(request, response);
+
     }
 
     /**

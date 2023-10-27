@@ -80,10 +80,6 @@ public class AddressServlet extends HttpServlet {
 	    throws ServletException, IOException {
 	HttpSession session = request.getSession();
 	User user = (User) session.getAttribute("user");
-	if (user == null) {
-	    response.sendRedirect("login");
-	    return;
-	}
 	String name = request.getParameter("name").trim();
 	String phone = request.getParameter("phone").trim();
 	String city = request.getParameter("city").trim();

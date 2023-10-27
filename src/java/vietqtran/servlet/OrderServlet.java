@@ -141,7 +141,7 @@ public class OrderServlet extends HttpServlet {
 		    }
 		    cartProductDao.delete(pid);
 		    double price = product.getSalePrice() > 0 ? product.getSalePrice() : product.getPrice();
-		    OrderProduct orderProduct = new OrderProduct(orderId, product.getId(), product.getPrice(), cartProduct.getQuantity(), cartProduct.getQuantity() * price, product.getSalePrice(), product.getUrl());
+		    OrderProduct orderProduct = new OrderProduct(orderId, product.getId(), product.getPrice(), cartProduct.getQuantity(), cartProduct.getQuantity() * price, product.getSalePrice(), product.getUrl(), cartProduct.getSizeId());
 		    orderProductDao.add(orderProduct);
 		}
 	    }

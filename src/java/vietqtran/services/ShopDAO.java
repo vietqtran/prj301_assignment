@@ -7,6 +7,7 @@ package vietqtran.services;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import vietqtran.db.DBContext;
@@ -34,6 +35,26 @@ public class ShopDAO extends DBContext implements IDAO<Shop> {
 	} catch (SQLException err) {
 	    System.out.println(err);
 	}
+    }
+
+    public long addWithGetIndex(Shop t) throws SQLException {
+	try {
+	    PreparedStatement ps = connection.prepareStatement(Global.INSERT_SHOP, Statement.RETURN_GENERATED_KEYS);
+	    ps.setString(1, t.getEmail());
+	    ps.setString(2, t.getPassword());
+	    ps.setString(3, t.getName());
+	    ps.setString(4, t.getAddress());
+	    ps.setBoolean(5, t.isActive());
+	    ps.setString(6, t.getAvatar());
+	    ps.executeUpdate();
+	    ResultSet rs = ps.getGeneratedKeys();
+	    if (rs.next()) {
+		return rs.getInt(1);
+	    }
+	} catch (SQLException err) {
+	    System.out.println(err);
+	}
+	return -1;
     }
 
     @Override

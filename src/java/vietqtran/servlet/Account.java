@@ -20,6 +20,7 @@ import vietqtran.model.Order;
 import vietqtran.model.User;
 import vietqtran.services.CategoryDAO;
 import vietqtran.services.OrderDAO;
+import vietqtran.services.UserDAO;
 
 /**
  *
@@ -68,10 +69,6 @@ public class Account extends HttpServlet {
 	    throws ServletException, IOException {
 	HttpSession session = request.getSession();
 	User user = (User) session.getAttribute("user");
-	if (user == null) {
-	    response.sendRedirect("login");
-	    return;
-	}
 	CategoryDAO categoryDao = new CategoryDAO();
 	String tab = request.getParameter("tab") != null ? request.getParameter("tab").trim() : "account";
 	try {
@@ -122,7 +119,54 @@ public class Account extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
-	processRequest(request, response);
+	HttpSession session = request.getSession();
+	User user = (User) session.getAttribute("user");
+	String oldPassword = request.getParameter("password").trim();
+
+	if (!oldPassword.equals(user.getPassword())) {
+	    session.setAttribute("error", "Old Password not match!");
+	    response.sendRedirect("account?tab=password");
+	    return;
+	} else {
+	    session.removeAttribute("error");
+	}
+
+	String newPassword = request.getParameter("new_password").trim();
+	if (newPassword.length() < 8) {
+	    session.setAttribute("error", "Password length must be greater than 8 characters!");
+	    response.sendRedirect("account?tab=password");
+	    return;
+	} else {
+	    session.removeAttribute("error");
+	}
+
+	if (newPassword.equals(oldPassword)) {
+	    session.setAttribute("error", "New Password must be different with Old Password!");
+	    response.sendRedirect("account?tab=password");
+	    return;
+	} else {
+	    session.removeAttribute("error");
+	}
+
+	String confirmPassword = request.getParameter("confirm_password").trim();
+	if (!newPassword.equals(confirmPassword)) {
+	    session.setAttribute("error", "Confirm Password not match!");
+	    response.sendRedirect("account?tab=password");
+	    return;
+	} else {
+	    session.removeAttribute("error");
+	}
+
+	user.setPassword(newPassword);
+	UserDAO userDao = new UserDAO();
+	userDao.update(user);
+	session.setAttribute("user", userDao.get(user.getId()));
+	try {
+	    userDao.closeConnection();
+	} catch (SQLException ex) {
+	    Logger.getLogger(ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	response.sendRedirect("account?tab=password");
     }
 
     /**

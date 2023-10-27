@@ -6,12 +6,15 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.text.DecimalFormat" %>
+<%@page import="vietqtran.model.User" %>
+<%@page import="vietqtran.model.Rate" %>
+<%@page import="vietqtran.services.UserDAO" %>
+<%@page import="vietqtran.services.RateDAO" %>
+<%@page import="java.sql.SQLException" %>
+
+<jsp:useBean id="decimalFormat" class="java.text.DecimalFormat" />
+<jsp:setProperty name="decimalFormat" property="maximumFractionDigits" value="1"/> 
 <!DOCTYPE html>
-<%
-response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
-response.setHeader("Pragma", "no-cache"); // HTTP 1.0
-response.setDateHeader("Expires", 0);
-%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -78,7 +81,7 @@ response.setDateHeader("Expires", 0);
 			<h1 class="text-xl font-medium uppercase">${requestScope.product.name}</h1>
 			<div class="mt-8 flex items-center">
 			    <div class="flex items-center">
-				<span class="border-b-blue-500 text-blue-500 mr-1 border-b">${requestScope.product.rate}</span>
+				<span class="border-b-blue-500 text-blue-500 mr-1 border-b">${decimalFormat.format(requestScope.product.rate)}</span>
 				<div class="flex items-center relative w-[100px] ml-2">
 				    <div class="flex items-center justify-start relative w-full">
                                         <img src="./static/images/stars-gray.png" alt="alt" class="w-full absolute z-40 left-0"/>
@@ -100,9 +103,8 @@ response.setDateHeader("Expires", 0);
 			    </div>
 			</div>
 			<div class="mt-8 flex items-center gap-x-4 bg-gray-50 px-5 py-4">
-			    <div class="text-gray-500 line-through">₫${DecimalFormat("###.###").format(requestScope.product.price)}</div>
-			    <div class="text-blue-500 text-2xl font-medium sm:text-3xl">₫${DecimalFormat("###.###").format(requestScope.product.salePrice)}</div>
-			    <!--<div class="bg-primary rounded-sm px-1 py-[2px] text-xs font-semibold uppercase text-white">50% giảm</div>-->
+			    <div class="text-gray-500 line-through">₫${DecimalFormat("###,###").format(requestScope.product.price)}</div>
+			    <div class="text-blue-500 text-2xl font-medium sm:text-3xl">₫${DecimalFormat("###,###").format(requestScope.product.salePrice)}</div>
 			</div>
 			<form id="quantityForm" action="addToCart" method="POST">
 			    <input type="text" name="productId" class="hidden" value="${requestScope.product.id}">
@@ -219,44 +221,287 @@ response.setDateHeader("Expires", 0);
 
 	<div class="my-5 container mx-auto max-w-[1250px] bg-white p-5">
 	    <h1 class="bg-white font-medium">ĐÁNH GIÁ SẢN PHẨM</h1>
-	    <div class="p-6">
-		<c:forEach items="${requestScope.rates}" var="rate">
-		    <span>${rate.id}</span>
-		</c:forEach>
+	    <div class="flex items-center justify-between py-10 border-blue-500 border-[1px] mt-5 rounded-sm">
+		<div class="flex items-center flex-col px-5">
+		    <div class="text-3xl font-medium text-blue-500">${decimalFormat.format(requestScope.product.rate)} <span class="text-xl">trên 5</span></div>
+		    <div class="py-3">
+			<div class="flex items-center justify-start relative w-[110px]">
+			    <img src="./static/images/stars-gray.png" alt="alt" class="w-full absolute z-40 left-0 block"/>
+			    <div class="overflow-hidden absolute z-50 left-0" style="width: ${(requestScope.product.rate/5)*100}%">
+				<img src="./static/images/star-yellow.png" alt="alt" class="min-w-[110px] block"/>
+			    </div>
+			</div>
+		    </div>
+		</div>
+		<div class="flex-1 px-5">
+		    <button onclick="selectRateTab(0, this)" class="rateBtn border-[1px] border-blue-500 py-2 px-8 my-1 rounded-sm text-sm mx-3 bg-blue-500 text-white">Tất Cả</button>
+		    <button onclick="selectRateTab(1, this)" class="rateBtn border-[1px] border-blue-500 py-2 px-8 my-1 rounded-sm text-sm mx-3">5 Sao</button>
+		    <button onclick="selectRateTab(2, this)" class="rateBtn border-[1px] border-blue-500 py-2 px-8 my-1 rounded-sm text-sm mx-3">4 Sao</button>
+		    <button onclick="selectRateTab(3, this)" class="rateBtn border-[1px] border-blue-500 py-2 px-8 my-1 rounded-sm text-sm mx-3">3 Sao</button>
+		    <button onclick="selectRateTab(4, this)" class="rateBtn border-[1px] border-blue-500 py-2 px-8 my-1 rounded-sm text-sm mx-3">2 Sao</button>
+		    <button onclick="selectRateTab(5, this)" class="rateBtn border-[1px] border-blue-500 py-2 px-8 my-1 rounded-sm text-sm mx-3">1 Sao</button>
+		    <button onclick="selectRateTab(6, this)" class="rateBtn border-[1px] border-blue-500 py-2 px-8 my-1 rounded-sm text-sm mx-3">Có Bình Luận</button>
+		</div>
 	    </div>
-
+	    <div class="p-6">
+		<%					
+		    UserDAO userDao = new UserDAO();
+		%>
+		<div style="display: block" id="allRate" class="rates">
+		    <c:forEach items="${requestScope.rates}" var="r">
+			<%
+			    Rate rate = (Rate) pageContext.getAttribute("r");
+			    User rateUser = new User();
+			    rateUser = userDao.get(rate.getUserId());
+			%>
+			<div class="py-2 w-full border-b-[1px] flex items-start justify-start">
+			    <div class="w-[40px] h-[40px] rounded-full overflow-hidden">
+				<c:if test='<%=rateUser.getAvatar().equals("")%>'>
+				    <img class="w-full h-full object-cover" src="./static/images/user.png" alt="alt"/>
+				</c:if>
+				<c:if test='<%=!rateUser.getAvatar().equals("")%>'>
+				    <img class="w-full h-full object-cover" src="<%=rateUser.getAvatar()%>" alt="alt"/>
+				</c:if>
+			    </div>
+			    <div class="flex flex-col items-start justify-start px-4 text-sm">
+				<span><%=rateUser.getEmail()%></span>
+				<div class="flex items-center justify-start relative w-[80px] h-[20px]">
+				    <img src="./static/images/stars-gray.png" alt="alt" class="w-full absolute z-40 left-0 block"/>
+				    <div class="overflow-hidden absolute z-50 left-0" style="width: <%=((double)rate.getStart()/5)*100%>%">
+					<img src="./static/images/star-yellow.png" alt="alt" class="min-w-[80px] block"/>
+				    </div>
+				</div>
+				<span class="text-xs font-medium text-gray-700 my-2"><%=rate.getDate()%></span>
+				${r.content}
+			    </div>
+			</div>
+		    </c:forEach>
+		</div>
+		<div style="display: none" id="star5" class="rates">
+		    <c:forEach items="${requestScope.rates}" var="r">
+			<%
+			    Rate rate = (Rate) pageContext.getAttribute("r");
+			    User rateUser = new User();
+			    rateUser = userDao.get(rate.getUserId());
+			%>
+			<c:if test="${r.start==5}">
+			    <div class="py-2 w-full border-b-[1px] flex items-start justify-start">
+				<div class="w-[40px] h-[40px] rounded-full overflow-hidden">
+				    <c:if test='<%=rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="./static/images/user.png" alt="alt"/>
+				    </c:if>
+				    <c:if test='<%=!rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="<%=rateUser.getAvatar()%>" alt="alt"/>
+				    </c:if>
+				</div>
+				<div class="flex flex-col items-start justify-start px-4 text-sm">
+				    <span><%=rateUser.getEmail()%></span>
+				    <div class="flex items-center justify-start relative w-[80px] h-[20px]">
+					<img src="./static/images/stars-gray.png" alt="alt" class="w-full absolute z-40 left-0 block"/>
+					<div class="overflow-hidden absolute z-50 left-0" style="width: <%=((double)rate.getStart()/5)*100%>%">
+					    <img src="./static/images/star-yellow.png" alt="alt" class="min-w-[80px] block"/>
+					</div>
+				    </div>
+				    <span class="text-xs font-medium text-gray-700 my-2"><%=rate.getDate()%></span>
+				    ${r.content}
+				</div>
+			    </div>
+			</c:if>
+		    </c:forEach>
+		</div>
+		<div style="display: none" id="star4" class="rates">
+		    <c:forEach items="${requestScope.rates}" var="r">
+			<%
+			    Rate rate = (Rate) pageContext.getAttribute("r");
+			    User rateUser = new User();
+			    rateUser = userDao.get(rate.getUserId());
+			%>
+			<c:if test="${r.start==4}">
+			    <div class="py-2 w-full border-b-[1px] flex items-start justify-start">
+				<div class="w-[40px] h-[40px] rounded-full overflow-hidden">
+				    <c:if test='<%=rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="./static/images/user.png" alt="alt"/>
+				    </c:if>
+				    <c:if test='<%=!rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="<%=rateUser.getAvatar()%>" alt="alt"/>
+				    </c:if>
+				</div>
+				<div class="flex flex-col items-start justify-start px-4 text-sm">
+				    <span><%=rateUser.getEmail()%></span>
+				    <div class="flex items-center justify-start relative w-[80px] h-[20px]">
+					<img src="./static/images/stars-gray.png" alt="alt" class="w-full absolute z-40 left-0 block"/>
+					<div class="overflow-hidden absolute z-50 left-0" style="width: <%=((double)rate.getStart()/5)*100%>%">
+					    <img src="./static/images/star-yellow.png" alt="alt" class="min-w-[80px] block"/>
+					</div>
+				    </div>
+				    <span class="text-xs font-medium text-gray-700 my-2"><%=rate.getDate()%></span>
+				    ${r.content}
+				</div>
+			    </div>
+			</c:if>
+		    </c:forEach>
+		</div>
+		<div style="display: none" id="star3" class="rates">
+		    <c:forEach items="${requestScope.rates}" var="r">
+			<%
+			    Rate rate = (Rate) pageContext.getAttribute("r");
+			    User rateUser = new User();
+			    rateUser = userDao.get(rate.getUserId());
+			%>
+			<c:if test="${r.start==3}">
+			    <div class="py-2 w-full border-b-[1px] flex items-start justify-start">
+				<div class="w-[40px] h-[40px] rounded-full overflow-hidden">
+				    <c:if test='<%=rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="./static/images/user.png" alt="alt"/>
+				    </c:if>
+				    <c:if test='<%=!rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="<%=rateUser.getAvatar()%>" alt="alt"/>
+				    </c:if>
+				</div>
+				<div class="flex flex-col items-start justify-start px-4 text-sm">
+				    <span><%=rateUser.getEmail()%></span>
+				    <div class="flex items-center justify-start relative w-[80px] h-[20px]">
+					<img src="./static/images/stars-gray.png" alt="alt" class="w-full absolute z-40 left-0 block"/>
+					<div class="overflow-hidden absolute z-50 left-0" style="width: <%=((double)rate.getStart()/5)*100%>%">
+					    <img src="./static/images/star-yellow.png" alt="alt" class="min-w-[80px] block"/>
+					</div>
+				    </div>
+				    <span class="text-xs font-medium text-gray-700 my-2"><%=rate.getDate()%></span>
+				    ${r.content}
+				</div>
+			    </div>
+			</c:if>
+		    </c:forEach>
+		</div>
+		<div style="display: none" id="star2" class="rates">
+		    <c:forEach items="${requestScope.rates}" var="r">
+			<%
+			    Rate rate = (Rate) pageContext.getAttribute("r");
+			    User rateUser = new User();
+			    rateUser = userDao.get(rate.getUserId());
+			%>
+			<c:if test="${r.start==2}">
+			    <div class="py-2 w-full border-b-[1px] flex items-start justify-start">
+				<div class="w-[40px] h-[40px] rounded-full overflow-hidden">
+				    <c:if test='<%=rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="./static/images/user.png" alt="alt"/>
+				    </c:if>
+				    <c:if test='<%=!rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="<%=rateUser.getAvatar()%>" alt="alt"/>
+				    </c:if>
+				</div>
+				<div class="flex flex-col items-start justify-start px-4 text-sm">
+				    <span><%=rateUser.getEmail()%></span>
+				    <div class="flex items-center justify-start relative w-[80px] h-[20px]">
+					<img src="./static/images/stars-gray.png" alt="alt" class="w-full absolute z-40 left-0 block"/>
+					<div class="overflow-hidden absolute z-50 left-0" style="width: <%=((double)rate.getStart()/5)*100%>%">
+					    <img src="./static/images/star-yellow.png" alt="alt" class="min-w-[80px] block"/>
+					</div>
+				    </div>
+				    <span class="text-xs font-medium text-gray-700 my-2"><%=rate.getDate()%></span>
+				    ${r.content}
+				</div>
+			    </div>
+			</c:if>
+		    </c:forEach>
+		</div>
+		<div style="display: none" id="star1" class="rates">
+		    <c:forEach items="${requestScope.rates}" var="r">
+			<%
+			    Rate rate = (Rate) pageContext.getAttribute("r");
+			    User rateUser = new User();
+			    rateUser = userDao.get(rate.getUserId());
+			%>
+			<c:if test="${r.start==1}">
+			    <div class="py-2 w-full border-b-[1px] flex items-start justify-start">
+				<div class="w-[40px] h-[40px] rounded-full overflow-hidden">
+				    <c:if test='<%=rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="./static/images/user.png" alt="alt"/>
+				    </c:if>
+				    <c:if test='<%=!rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="<%=rateUser.getAvatar()%>" alt="alt"/>
+				    </c:if>
+				</div>
+				<div class="flex flex-col items-start justify-start px-4 text-sm">
+				    <span><%=rateUser.getEmail()%></span>
+				    <div class="flex items-center justify-start relative w-[80px] h-[20px]">
+					<img src="./static/images/stars-gray.png" alt="alt" class="w-full absolute z-40 left-0 block"/>
+					<div class="overflow-hidden absolute z-50 left-0" style="width: <%=((double)rate.getStart()/5)*100%>%">
+					    <img src="./static/images/star-yellow.png" alt="alt" class="min-w-[80px] block"/>
+					</div>
+				    </div>
+				    <span class="text-xs font-medium text-gray-700 my-2"><%=rate.getDate()%></span>
+				    ${r.content}
+				</div>
+			    </div>
+			</c:if>
+		    </c:forEach>
+		</div>
+		<div style="display: none" id="allRateContent" class="rates">
+		    <c:forEach items="${requestScope.rates}" var="r">
+			<%
+			    Rate rate = (Rate) pageContext.getAttribute("r");
+			    User rateUser = new User();
+			    rateUser = userDao.get(rate.getUserId());
+			%> 
+			<c:if test="${r.content.equals('')==false}">
+			    <div class="py-2 w-full border-b-[1px] flex items-start justify-start">
+				<div class="w-[40px] h-[40px] rounded-full overflow-hidden">
+				    <c:if test='<%=rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="./static/images/user.png" alt="alt"/>
+				    </c:if>
+				    <c:if test='<%=!rateUser.getAvatar().equals("")%>'>
+					<img class="w-full h-full object-cover" src="<%=rateUser.getAvatar()%>" alt="alt"/>
+				    </c:if>
+				</div>
+				<div class="flex flex-col items-start justify-start px-4 text-sm">
+				    <span><%=rateUser.getEmail()%></span>
+				    <div class="flex items-center justify-start relative w-[80px] h-[20px]">
+					<img src="./static/images/stars-gray.png" alt="alt" class="w-full absolute z-40 left-0 block"/>
+					<div class="overflow-hidden absolute z-50 left-0" style="width: <%=((double)rate.getStart()/5)*100%>%">
+					    <img src="./static/images/star-yellow.png" alt="alt" class="min-w-[80px] block"/>
+					</div>
+				    </div>
+				    <span class="text-xs font-medium text-gray-700 my-2"><%=rate.getDate()%></span>
+				    ${r.content}
+				</div>
+			    </div>
+			</c:if>
+		    </c:forEach>
+		</div>
+	    </div>
 	</div>
 
 	<%@include file="./components/footer.jsp" %>
+	<script src="./static/js/detail.js"></script>
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 	<script>
-					$('.autoplay').slick({
-					    slidesToShow: 5,
-					    slidesToScroll: 2,
-					    autoplaySpeed: 2000,
-					    prevArrow: $('.custom-prev'),
-					    nextArrow: $('.custom-next')
-					});
-					fetch(url, {
-					    method: 'POST',
-					    cache: 'no-cache'
-					});
+			$('.autoplay').slick({
+			    slidesToShow: 5,
+			    slidesToScroll: 2,
+			    autoplaySpeed: 2000,
+			    prevArrow: $('.custom-prev'),
+			    nextArrow: $('.custom-next')
+			});
+			fetch(url, {
+			    method: 'POST',
+			    cache: 'no-cache'
+			});
 	</script>
-	<script src="./static/js/detail.js"></script>
 	<script>
-					if (document.querySelector('#editor') !== null) {
-					    ClassicEditor
-						    .create(document.querySelector('#editor'), {
-							ckfinder: {
-							    uploadUrl: '/upload-image'
-							}
-						    })
-						    .catch(error => {
-							console.error(error);
-						    });
-					}
+	    if (document.querySelector('#editor') !== null) {
+		ClassicEditor
+			.create(document.querySelector('#editor'), {
+			    ckfinder: {
+				uploadUrl: '/upload-image'
+			    }
+			})
+			.catch(error => {
+			    console.error(error);
+			});
+	    }
 	</script>
     </body>
 </html>

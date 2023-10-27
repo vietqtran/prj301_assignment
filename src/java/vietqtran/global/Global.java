@@ -52,11 +52,11 @@ public class Global {
     public static String INSERT_ORDER = "INSERT INTO [orders] ([userId], [shopId], [shipperId], [totalPrice], [saleTotalPrice], [successDate], [phone], [address], [voucherId], [note], [deliveryChecking]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     public static String GET_ALL_ORDERS = "SELECT * FROM orders order by id desc";
     public static String GET_ORDER_BY_ID = "SELECT * FROM orders WHERE id = ?";
-    public static String UPDATE_ORDER = "UPDATE [orders] SET [shipperId] = ?, [totalPrice] = ?, [saleTotalPrice] = ?, [successDate] = ?, [phone] = ?, [address] = ?, [voucherId] = ?, [status] = ?, [note] = ?, [deliveryChecking] = ? WHERE id = ?;";
+    public static String UPDATE_ORDER = "UPDATE [orders] SET [successDate] = ?, [status] = ? WHERE id = ?;";
     public static String DELETE_ORDER = "DELETE FROM orders WHERE id = ?";
 
     // Order Product
-    public static String INSERT_ORDER_PRODUCT = "INSERT INTO [orderProducts] ([orderId], [productId], [productPrice], [quantity], [totalPrice], [salePrice], [imageUrl]) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    public static String INSERT_ORDER_PRODUCT = "INSERT INTO [orderProducts] ([orderId], [productId], [productPrice], [quantity], [totalPrice], [salePrice], [imageUrl], [size]) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     public static String GET_ALL_ORDER_PRODUCTS = "SELECT * FROM orderProducts";
     public static String GET_ORDER_PRODUCT_BY_ID = "SELECT * FROM orderProducts WHERE id = ?";
     public static String UPDATE_ORDER_PRODUCT = "UPDATE [orderProducts] SET [productPrice] = ?, [salePrice] = ?, [quantity] = ?, [totalPrice] = ? WHERE [id] = ?;";
@@ -64,11 +64,16 @@ public class Global {
 
     // Product
     public static String INSERT_PRODUCT = "INSERT INTO products ([name], price, salePrice, [description], city, rate, boughtQuantity, color, categoryId, shopCategoryId, shopId, createBy, [url]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    public static String GET_ALL_PRODUCTS = "SELECT p.*, sp.name AS size_name, sp.inventory AS size_inventory\n"
-	    + "FROM products AS p\n"
-	    + "INNER JOIN shops AS s ON p.shopId = s.id\n"
-	    + "LEFT JOIN sizesProduct AS sp ON p.id = sp.productId\n"
-	    + "WHERE s.active = 1 AND sp.inventory > 0;";
+    public static String GET_ALL_PRODUCTS = "WITH i AS (\n"
+	    + "  SELECT p.*\n"
+	    + "  FROM products AS p \n"
+	    + "  INNER JOIN shops AS s ON p.shopId = s.id\n"
+	    + "  LEFT JOIN sizesProduct AS sp ON p.id = sp.productId\n"
+	    + "  WHERE s.active = 1 AND sp.inventory > 0\n"
+	    + ")\n"
+	    + "\n"
+	    + "SELECT DISTINCT *\n"
+	    + "FROM i";
     public static String GET_PRODUCT_BY_ID = "SELECT * FROM products WHERE id = ?";
     public static String UPDATE_PRODUCT = "UPDATE products SET [name] = ?, price = ?, salePrice = ?, [description] = ?, rate = ?, city = ?, [boughtQuantity] = ?, [url] = ?, color = ?, shopCategoryId = ?, categoryId = ?, deleteBy = ? WHERE id = ?;";
     public static String DELETE_PRODUCT = "DELETE FROM products WHERE id = ?";

@@ -14,11 +14,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import vietqtran.model.Order;
+import vietqtran.model.OrderProduct;
+import vietqtran.model.Product;
+import vietqtran.model.SizeProduct;
 import vietqtran.model.User;
 import vietqtran.services.OrderDAO;
+import vietqtran.services.OrderProductDAO;
+import vietqtran.services.ProductDAO;
+import vietqtran.services.SizeProductDAO;
 
 /**
  *
@@ -65,12 +69,6 @@ public class OrderAction extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
-	HttpSession session = request.getSession();
-	User user = (User) session.getAttribute("user");
-	if (user == null) {
-	    response.sendRedirect("login");
-	    return;
-	}
 	String status = request.getParameter("status").trim();
 	if (status.equals("canceled") || status.equals("delivered")) {
 	    try {
@@ -80,6 +78,21 @@ public class OrderAction extends HttpServlet {
 		order.setStatus(status);
 		orderDao.update(order);
 		if (status.equals("canceled")) {
+		    OrderProductDAO orderProductDao = new OrderProductDAO();
+		    ProductDAO productDao = new ProductDAO();
+		    SizeProductDAO sizeDao = new SizeProductDAO();
+		    List<OrderProduct> orderProducts = orderProductDao.getByOrderId(order.getId());
+		    for (OrderProduct orderProduct : orderProducts) {
+			Product product = productDao.get(orderProduct.getProductId());
+			SizeProduct size = sizeDao.get(orderProduct.getSizeId());
+			size.setInventory(size.getInventory() + orderProduct.getQuantity());
+			sizeDao.update(size);
+			product.setBoughtQuantity(product.getBoughtQuantity() - orderProduct.getQuantity());
+			productDao.update(product);
+		    }
+		    orderProductDao.closeConnection();
+		    productDao.closeConnection();
+		    sizeDao.closeConnection();
 		    response.sendRedirect("account?tab=orders&status=canceled");
 		} else {
 		    orderDao.setSuccessDate(id);

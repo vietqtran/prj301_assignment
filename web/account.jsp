@@ -11,8 +11,10 @@
 <%@ page import="vietqtran.model.Shop" %>
 <%@ page import="vietqtran.model.ShipCompany" %>
 <%@ page import="vietqtran.model.Product" %>
+<%@ page import="vietqtran.model.SizeProduct" %>
 <%@ page import="vietqtran.services.OrderProductDAO" %>
 <%@ page import="vietqtran.services.ProductDAO" %>
+<%@ page import="vietqtran.services.SizeProductDAO" %>
 <%@ page import="vietqtran.services.ShopDAO" %>
 <%@ page import="vietqtran.services.ShipCompanyDAO" %>
 <%@ page import="java.util.List" %>
@@ -48,7 +50,7 @@
 					</div>
 				    </c:if>
 				    <c:if test="${!sessionScope.user.avatar.equals('')}">
-					<div class="bg-cover bg-center bg-[url('https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-6/379178696_791051569690767_4898055343665726787_n.jpg?stp=dst-jpg_p526x296&_nc_cat=108&ccb=1-7&_nc_sid=813123&_nc_ohc=NeAh2QdtcNEAX8CTiyx&_nc_ht=scontent.fhan20-1.fna&oh=00_AfALEDX3qqlO-hpw6C_zIrkfLPSmecwE5iW6jAoEN15Lww&oe=651AEE1D')] rounded-full overflow-hidden border-[1px] border-blue-500 w-[25px] h-[25px] box-content"></div>
+					<div class="bg-cover bg-center bg-[url('${sessionScope.user.avatar}')] rounded-full overflow-hidden border-[1px] border-blue-500 w-[25px] h-[25px] box-content"></div>
 				    </c:if>	
 				</c:if>
 				<c:if test="${sessionScope.user.name.equals('')}">
@@ -58,7 +60,7 @@
 					</div>
 				    </c:if>
 				    <c:if test="${!sessionScope.user.avatar.equals('')}">
-					<div class="bg-cover bg-center bg-[url('https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-6/379178696_791051569690767_4898055343665726787_n.jpg?stp=dst-jpg_p526x296&_nc_cat=108&ccb=1-7&_nc_sid=813123&_nc_ohc=NeAh2QdtcNEAX8CTiyx&_nc_ht=scontent.fhan20-1.fna&oh=00_AfALEDX3qqlO-hpw6C_zIrkfLPSmecwE5iW6jAoEN15Lww&oe=651AEE1D')] rounded-full overflow-hidden border-[1px] border-blue-500 w-[25px] h-[25px] box-content"></div>
+					<div class="bg-cover bg-center bg-[url('${sessionScope.user.avatar}')] rounded-full overflow-hidden border-[1px] border-blue-500 w-[25px] h-[25px] box-content"></div>
 				    </c:if>	
 				</c:if>				
 				<div class="flex-grow pl-4">
@@ -113,7 +115,7 @@
 				    <div class="mt-1 text-sm text-gray-700">Quản lý thông tin hồ sơ để bảo mật tài khoản</div>
 				</div>
 				<div class="mt-8 flex flex-col-reverse md:flex-row md:items-start">
-				    <form class="mt-6 flex-grow md:mt-0 md:pr-12">
+				    <form class="mt-6 flex-grow md:mt-0 md:pr-12" action="updateAccount" method="POST">
 					<div class="flex flex-col flex-wrap sm:flex-row">
 					    <div class="truncate pt-3 capitalize sm:w-[20%] sm:text-right">Email</div>
 					    <div class="sm:w-[80%] sm:pl-5"><div class="pt-3 text-gray-700">${sessionScope.user.email}</div></div>
@@ -122,7 +124,7 @@
 					    <div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Tên</div>
 					    <div class="sm:w-[80%] sm:pl-5">
 						<div class="">
-						    <input type="text" placeholder="Tên người dùng" class="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm" name="name" />
+						    <input type="text" value="${sessionScope.user.name}" placeholder="Tên người dùng" class="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm" name="name" />
 						    <div class="mt-1 min-h-[1.25rem] text-sm text-red-600"></div>
 						</div>
 					    </div>
@@ -131,119 +133,28 @@
 					    <div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Số điện thoại</div>
 					    <div class="sm:w-[80%] sm:pl-5">
 						<div class="">
-						    <input type="text" placeholder="Số điện thoại" class="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm" name="phone" value="" />
+						    <input value="${sessionScope.user.phone}" type="text" placeholder="Số điện thoại" class="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm" name="phone"/>
 						    <div class="mt-1 min-h-[1.25rem] text-sm text-red-600"></div>
 						</div>
 					    </div>
 					</div>
-					<div class="mt-2 flex flex-col flex-wrap sm:flex-row">
-					    <div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Địa chỉ</div>
-					    <div class="sm:w-[80%] sm:pl-5 mb-5">
-						<div class="flex justify-between">
-						    <select id="city" name="city"class="focus:border-primary h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 outline-none">
-							<option value="" class="py-2" selected></option>
-						    </select>
-						    <select id="district" name="district" class="focus:border-primary h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 outline-none">
-							<option value="" selected></option>
-						    </select>
-						    <select id="ward" name="ward" class="focus:border-primary h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 outline-none">
-							<option value=""  selected></option>
-						    </select>
-						</div>
-						<input type="text" placeholder="Số nhà, tên đường" class="mt-3 w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm" name="detail" />
-					    </div>
-					</div>
-					<div class="mt-2 flex flex-col flex-wrap sm:flex-row">
-					    <div class="truncate pt-3 capitalize sm:w-[20%] sm:text-right">Ngày sinh</div>
-					    <div class="sm:w-[80%] sm:pl-5">
-						<div class="flex justify-between">
-						    <select name="date" class="focus:border-primary h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 outline-none">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-							<option value="8">8</option>
-							<option value="9">9</option>
-							<option value="10">10</option>
-							<option value="11">11</option>
-							<option value="12">12</option>
-							<option value="13">13</option>
-							<option value="14">14</option>
-							<option value="15">15</option>
-							<option value="16">16</option>
-							<option value="17">17</option>
-							<option value="18">18</option>
-							<option value="19">19</option>
-							<option value="20">20</option>
-							<option value="21">21</option>
-							<option value="22">22</option>
-							<option value="23">23</option>
-							<option value="24">24</option>
-							<option value="25">25</option>
-							<option value="26">26</option>
-							<option value="27">27</option>
-							<option value="28">28</option>
-							<option value="29">29</option>
-							<option value="30">30</option>
-							<option value="31">31</option>
-						    </select>
-						    <select name="month" class="focus:border-primary h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 outline-none">
-							<option value="1">Tháng 1</option>
-							<option value="2">Tháng 2</option>
-							<option value="3">Tháng 3</option>
-							<option value="4">Tháng 4</option>
-							<option value="5">Tháng 5</option>
-							<option value="6">Tháng 6</option>
-							<option value="7">Tháng 7</option>
-							<option value="8">Tháng 8</option>
-							<option value="9">Tháng 9</option>
-							<option value="10">Tháng 10</option>
-							<option value="11">Tháng 11</option>
-							<option value="12">Tháng 12</option>
-						    </select>
-						    <select name="year" class="focus:border-primary h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 outline-none">
-							<option class="hover:bg-primary hover:text-white" value="1990">1990</option>
-							<option class="hover:bg-primary hover:text-white" value="1991">1991</option>
-							<option class="hover:bg-primary hover:text-white" value="1992">1992</option>
-							<option class="hover:bg-primary hover:text-white" value="1993">1993</option>
-							<option class="hover:bg-primary hover:text-white" value="1994">1994</option>
-							<option class="hover:bg-primary hover:text-white" value="1995">1995</option>
-							<option class="hover:bg-primary hover:text-white" value="1996">1996</option>
-							<option class="hover:bg-primary hover:text-white" value="1997">1997</option>
-							<option class="hover:bg-primary hover:text-white" value="1998">1998</option>
-							<option class="hover:bg-primary hover:text-white" value="1999">1999</option>
-							<option class="hover:bg-primary hover:text-white" value="2000">2000</option>
-							<option class="hover:bg-primary hover:text-white" value="2001">2001</option>
-							<option class="hover:bg-primary hover:text-white" value="2002">2002</option>
-							<option class="hover:bg-primary hover:text-white" value="2003">2003</option>
-							<option class="hover:bg-primary hover:text-white" value="2004">2004</option>
-							<option class="hover:bg-primary hover:text-white" value="2005">2005</option>
-							<option class="hover:bg-primary hover:text-white" value="2006">2006</option>
-							<option class="hover:bg-primary hover:text-white" value="2007">2007</option>
-							<option class="hover:bg-primary hover:text-white" value="2008">2008</option>
-							<option class="hover:bg-primary hover:text-white" value="2009">2009</option>
-							<option class="hover:bg-primary hover:text-white" value="2010">2010</option>
-							<option class="hover:bg-primary hover:text-white" value="2011">2011</option>
-							<option class="hover:bg-primary hover:text-white" value="2012">2012</option>
-							<option class="hover:bg-primary hover:text-white" value="2013">2013</option>
-							<option class="hover:bg-primary hover:text-white" value="2014">2014</option>
-							<option class="hover:bg-primary hover:text-white" value="2015">2015</option>
-							<option class="hover:bg-primary hover:text-white" value="2016">2016</option>
-							<option class="hover:bg-primary hover:text-white" value="2017">2017</option>
-							<option class="hover:bg-primary hover:text-white" value="2018">2018</option>
-							<option class="hover:bg-primary hover:text-white" value="2019">2019</option>
-							<option class="hover:bg-primary hover:text-white" value="2020">2020</option>
-							<option class="hover:bg-primary hover:text-white" value="2021">2021</option>
-							<option class="hover:bg-primary hover:text-white" value="2022">2022</option>
-							<option class="hover:bg-primary hover:text-white" value="2023">2023</option>
-						    </select>
-						</div>
-						<div class="mt-1 min-h-[1.25rem] text-sm text-red-600"></div>
-					    </div>
-					</div>
+					<!--					<div class="mt-2 flex flex-col flex-wrap sm:flex-row">
+										    <div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">Địa chỉ</div>
+										    <div class="sm:w-[80%] sm:pl-5 mb-5">
+											<div class="flex justify-between">
+											    <select id="city" name="city"class="focus:border-primary h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 outline-none">
+												<option value="" class="py-2" selected></option>
+											    </select>
+											    <select id="district" name="district" class="focus:border-primary h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 outline-none">
+												<option value="" selected></option>
+											    </select>
+											    <select id="ward" name="ward" class="focus:border-primary h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 outline-none">
+												<option value=""  selected></option>
+											    </select>
+											</div>
+											<input type="text" placeholder="Số nhà, tên đường" class="mt-3 w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm" name="detail" />
+										    </div>
+										</div>-->
 					<div class="mt-2 flex flex-col flex-wrap sm:flex-row">
 					    <div class="truncate pt-3 capitalize sm:w-[20%] sm:text-right"></div>
 					    <div class="sm:w-[80%] sm:pl-5">
@@ -254,34 +165,34 @@
 					</div>
 				    </form>
 				    <div class="flex justify-center md:w-72 md:border-l md:border-l-gray-200">
-					<div class="flex flex-col items-center">
-					    <c:if test="${!sessionScope.user.name.equals('')}">
-						<c:if test="${sessionScope.user.avatar.equals('')}">
-						    <div class="rounded-full overflow-hidden bg-white relative p-10 mb-5 border-[1px] border-blue-500 mb-5">
-							<div class="absolute font-medium text-[#0261d6] text-2xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">${sessionScope.user.name.toUpperCase().charAt(0)}</div>
-						    </div>
-						</c:if>
-						<c:if test="${!sessionScope.user.avatar.equals('')}">
-						    <div class="bg-cover mb-5 bg-center bg-[url('https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-6/379178696_791051569690767_4898055343665726787_n.jpg?stp=dst-jpg_p526x296&_nc_cat=108&ccb=1-7&_nc_sid=813123&_nc_ohc=NeAh2QdtcNEAX8CTiyx&_nc_ht=scontent.fhan20-1.fna&oh=00_AfALEDX3qqlO-hpw6C_zIrkfLPSmecwE5iW6jAoEN15Lww&oe=651AEE1D')] rounded-full overflow-hidden border-[1px] border-blue-500 w-[80px] h-[80px] box-content"></div>
-						</c:if>	
-					    </c:if>
-					    <c:if test="${sessionScope.user.name.equals('')}">
-						<c:if test="${sessionScope.user.avatar.equals('')}">
-						    <div class="rounded-full overflow-hidden bg-white relative p-10 mb-5 border-[1px] border-blue-500">
-							<div class="absolute font-medium text-[#0261d6] text-2xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">${sessionScope.user.username.toUpperCase().charAt(0)}</div>
-						    </div>
-						</c:if>
-						<c:if test="${!sessionScope.user.avatar.equals('')}">
-						    <div class="bg-cover mb-5 bg-center bg-[url('https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-6/379178696_791051569690767_4898055343665726787_n.jpg?stp=dst-jpg_p526x296&_nc_cat=108&ccb=1-7&_nc_sid=813123&_nc_ohc=NeAh2QdtcNEAX8CTiyx&_nc_ht=scontent.fhan20-1.fna&oh=00_AfALEDX3qqlO-hpw6C_zIrkfLPSmecwE5iW6jAoEN15Lww&oe=651AEE1D')] rounded-full overflow-hidden border-[1px] border-blue-500 w-[80px] h-[80px] box-content"></div>
-						</c:if>	
-					    </c:if>
-					    <div>
-						<input type="file" class="hidden" accept=".jpg,.jpeg,.png" />
-						<button class="flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm">Chọn ảnh</button>
-					    </div>
-					    <div class="mt-3 text-gray-400">
-						<div>Dụng lượng file tối đa 1 MB</div>
-						<div>Định dạng .jpg .jpeg .png</div>
+					<div class="flex justify-center md:w-72 md:border-l md:border-l-gray-200">
+					    <div class="flex flex-col items-center">
+						<div class="my-5 flex h-24 w-24 items-center justify-center overflow-hidden">
+						    <c:if test="${sessionScope.user.avatar.equals('')}">
+							<img id="avatarPreview" src="./static/images/smug-pepe.jpg" alt=""
+							     class="h-full w-full rounded-full object-cover">
+						    </c:if>
+						    <c:if test="${!sessionScope.user.avatar.equals('')}">
+							<img id="avatarPreview" src="${sessionScope.user.avatar}" alt=""
+							     class="h-full w-full rounded-full object-cover">
+						    </c:if>
+						</div>
+						<div>
+						    <form id="changeAvatarForm" action="avatar" method="GET"
+							  class="flex items-center justify-center">
+							<input onchange="submitChangeAvatar()" type="text" class="hidden" id="avatarUrl"
+							       name="avatarUrl">
+							<input id="fileInput" type="file" class="hidden" accept=".jpg,.jpeg,.png">
+							<button type="submit" id="buttonSubmitForm"
+								class="hidden h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm">
+							    Change
+							</button>
+						    </form>
+						    <button id="buttonOpenFile" onclick="changeAvatarButton()"
+							    class="flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm">
+							Select Avatar
+						    </button>
+						</div>
 					    </div>
 					</div>
 				    </div>
@@ -331,25 +242,26 @@
 							</span>
 						    </span>
 						</div>
-						<div class="mt-1 text-red-600 min-h-[1.25rem] text-sm">
-						    <!--err--> 
-						</div>
 					    </div>
 					</div>
-					<div class="mt-2 flex flex-col flex-wrap sm:flex-row">
+					<div class="mt-8 flex flex-col flex-wrap sm:flex-row">
 					    <div class="capitalize sm:w-[20%] sm:pt-3 sm:text-right">Nhập lại mật khẩu mới</div>
 					    <div class="sm:w-[80%] sm:pl-5">
 						<div class="undefined relative">
 						    <input required type="password" placeholder="Xác nhận mật khẩu mới" class="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm" name="confirm_password">
 						</div>
-						<div class="mt-1 text-red-600 min-h-[1.25rem] text-sm">
-						</div>
 					    </div>
 					</div>
-					<div class="mt-2 flex flex-col flex-wrap sm:flex-row">
-					    <div class="truncate capitalize sm:w-[20%] sm:pt-3 sm:text-right">
+
+					<div class="flex flex-col flex-wrap sm:flex-row mt-5">
+					    <div class="truncate capitalize sm:w-[20%] sm:text-right">
 					    </div>
 					    <div class="sm:w-[80%] sm:pl-5">
+						<c:if test="${sessionScope.error!=null}">
+						    <div class="my-2 text-red-600 min-h-[1.25rem] text-sm">
+							${sessionScope.error}
+						    </div>
+						</c:if>
 						<div>
 						    <button type="submit" class="w-full bg-blue-500 py-3 px-2 text-center text-sm uppercase text-white hover:bg-blue-600 rounded-sm">Cập nhật mật khẩu</button>
 						</div>
@@ -422,6 +334,8 @@
 								OrderProduct orderProduct = (OrderProduct) pageContext.getAttribute("p");
 								ProductDAO productDao = new ProductDAO();
 								Product product = productDao.get(orderProduct.getProductId());
+								SizeProductDAO sizeDao = new SizeProductDAO();
+								SizeProduct size = sizeDao.get(orderProduct.getSizeId());
 							    %>
 							    <div class="flex p-6">
 								<div class="flex-shrink-0">
@@ -429,6 +343,7 @@
 								</div>
 								<div class="ml-3 flex-grow overflow-hidden">
 								    <div class="truncate"><%=product.getName()%></div>
+								    <div class="mt-3"><%=size.getName()%></div>
 								    <div class="mt-3">x${p.quantity}</div>
 								</div>
 								<c:if test="${p.salePrice>0}">
@@ -593,5 +508,8 @@
 				    });
 			}
 	</script>
+	<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-storage.js"></script>
+	<script src="static/js/uploadFirebase.js"></script>
     </body>
 </html>

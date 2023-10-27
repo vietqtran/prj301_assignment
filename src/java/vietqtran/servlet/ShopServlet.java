@@ -13,12 +13,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vietqtran.model.Order;
+import vietqtran.model.OrderProduct;
+import vietqtran.model.Product;
 import vietqtran.model.Shop;
 import vietqtran.services.CategoryDAO;
 import vietqtran.services.ColorDAO;
 import vietqtran.services.OrderDAO;
+import vietqtran.services.OrderProductDAO;
 import vietqtran.services.ProductDAO;
 import vietqtran.services.ShipCompanyDAO;
 import vietqtran.services.ShopCategoryDAO;
@@ -74,18 +82,23 @@ public class ShopServlet extends HttpServlet {
 	    String tab = (request.getParameter("tab") != null) ? request.getParameter("tab") : "dashboard";
 	    HttpSession session = request.getSession();
 	    Shop shop = (Shop) session.getAttribute("shop");
-	    if (shop == null) {
-		response.sendRedirect("shopLogin");
-		return;
-	    }
 	    boolean check = false;
 	    long shopId;
 	    switch (tab) {
 		case "dashboard":
+		    Shop shopjs = (Shop) session.getAttribute("shop");
+		    OrderDAO orderDaojs = new OrderDAO();
+		    List<Double> datajs = new ArrayList<>();
+		    for (int i = 0; i < 12; i++) {
+			datajs.add(orderDaojs.getMonthRevenue(i, shopjs.getId()));
+		    }
+
 		    ShopReportDAO shopReportDAO = new ShopReportDAO();
 		    shopId = shop.getId();
 		    request.setAttribute("report", shopReportDAO.getByShopId(shopId));
+		    request.setAttribute("revenueData", datajs);
 		    shopReportDAO.closeConnection();
+		    orderDaojs.closeConnection();
 		    check = true;
 		    break;
 		case "products":

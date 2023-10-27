@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import vietqtran.db.DBContext;
 import vietqtran.global.Global;
 import vietqtran.model.Order;
@@ -33,10 +35,9 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.setDate(6, t.getSuccessDate());
 	    ps.setString(7, t.getPhone());
 	    ps.setString(8, t.getAddress());
-	    ps.setString(9, t.getStatus());
-	    ps.setLong(10, t.getVoucherId());
-	    ps.setString(11, t.getNote());
-	    ps.setString(12, t.getDeliveryChecking());
+	    ps.setLong(9, t.getVoucherId());
+	    ps.setString(10, t.getNote());
+	    ps.setString(11, t.getDeliveryChecking());
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
@@ -165,17 +166,9 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
     public void update(Order t) throws SQLException {
 	try {
 	    PreparedStatement ps = connection.prepareStatement(Global.UPDATE_ORDER);
-	    ps.setLong(1, t.getShipperId());
-	    ps.setDouble(2, t.getTotalPrice());
-	    ps.setDouble(3, t.getSaleTotalPrice());
-	    ps.setDate(4, t.getSuccessDate());
-	    ps.setString(5, t.getPhone());
-	    ps.setString(6, t.getAddress());
-	    ps.setLong(7, t.getVoucherId());
-	    ps.setString(8, t.getStatus());
-	    ps.setString(9, t.getNote());
-	    ps.setString(10, t.getDeliveryChecking());
-	    ps.setLong(11, t.getId());
+	    ps.setDate(1, t.getSuccessDate());
+	    ps.setString(2, t.getStatus());
+	    ps.setLong(3, t.getId());
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
@@ -232,7 +225,7 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	return null;
     }
 
-    public Object getAllByShop(long shopId) {
+    public List<Order> getAllByShop(long shopId) {
 	List<Order> result = new ArrayList<>();
 	try {
 	    PreparedStatement ps = connection.prepareStatement("SELECT * FROM orders WHERE shopId = ? order by orderDate desc");
@@ -274,4 +267,15 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	}
     }
 
+    public double getMonthRevenue(int month, long shopId) {
+	List<Order> orders = getAllByShop(shopId);
+	double revenue = 0;
+	for (Order order : orders) {
+	    java.sql.Date date = order.getOrderDate();
+	    if (date.getMonth() == month && !order.getStatus().equals("canceled")) {
+		revenue += order.getTotalPrice();
+	    }
+	}
+	return revenue;
+    }
 }

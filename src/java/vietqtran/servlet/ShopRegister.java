@@ -104,9 +104,9 @@ public class ShopRegister extends HttpServlet {
 		    } else {
 			request.removeAttribute("inforMessage");
 			Shop shop = new Shop(email, pasword, shopName, address, true, avatar);
-			shopDao.add(shop);
+			long shopId = shopDao.addWithGetIndex(shop);
 			HttpSession session = request.getSession();
-			session.setAttribute("shop", shop);
+			session.setAttribute("shop", shopDao.get(shopId));
 			check = true;
 		    }
 		}

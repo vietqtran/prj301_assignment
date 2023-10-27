@@ -213,11 +213,4 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	}
     }
 
-    public static void main(String[] args) {
-	try {
-	    new CartProductDAO().add(new CartProduct(1, 1, 1, 1, 1));
-	} catch (SQLException ex) {
-	    Logger.getLogger(CartProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-	}
-    }
 }

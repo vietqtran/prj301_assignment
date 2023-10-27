@@ -52,22 +52,22 @@
 				    <span class="mr-2">${sessionScope.user.name}</span>
 				    <c:if test="${sessionScope.user.avatar.equals('')}">
 					<div class="rounded-full overflow-hidden bg-white relative p-10 border-[1px] border-blue-500 mb-5">
-					    <div class="absolute font-medium text-[#0261d6] text-2xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">${sessionScope.user.name.toUpperCase().charAt(0)}</div>
+					    <div class="absolute font-medium text-[#0261d6] text-2xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[25px] h-[25px]">${sessionScope.user.name.toUpperCase().charAt(0)}</div>
 					</div>
 				    </c:if>
 				    <c:if test="${!sessionScope.user.avatar.equals('')}">
-					<div class="bg-cover bg-center bg-[url('https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-6/379178696_791051569690767_4898055343665726787_n.jpg?stp=dst-jpg_p526x296&_nc_cat=108&ccb=1-7&_nc_sid=813123&_nc_ohc=NeAh2QdtcNEAX8CTiyx&_nc_ht=scontent.fhan20-1.fna&oh=00_AfALEDX3qqlO-hpw6C_zIrkfLPSmecwE5iW6jAoEN15Lww&oe=651AEE1D')] rounded-full overflow-hidden border-[1px] border-blue-500 w-[25px] h-[25px] box-content"></div>
+					    <div class="bg-cover bg-center bg-[url('${sessionScope.user.avatar}')] rounded-full overflow-hidden border-[1px] border-blue-500 w-[25px] h-[25px] box-content"></div>
 				    </c:if>	
 				</c:if>
 				<c:if test="${sessionScope.user.name.equals('')}">
 				    <span class="mr-2">${sessionScope.user.username}</span>
 				    <c:if test="${sessionScope.user.avatar.equals('')}">
-					<div class="rounded-full overflow-hidden bg-white relative p-3 border-[1px] border-blue-500">
+					<div class="rounded-full overflow-hidden bg-white relative p-3 border-[1px] border-blue-500 w-[25px] h-[25px]">
 					    <div class="absolute font-medium text-[#0261d6] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">${sessionScope.user.username.toUpperCase().charAt(0)}</div>
 					</div>
 				    </c:if>
 				    <c:if test="${!sessionScope.user.avatar.equals('')}">
-					<div class="bg-cover bg-center bg-[url('https://scontent.fhan20-1.fna.fbcdn.net/v/t39.30808-6/379178696_791051569690767_4898055343665726787_n.jpg?stp=dst-jpg_p526x296&_nc_cat=108&ccb=1-7&_nc_sid=813123&_nc_ohc=NeAh2QdtcNEAX8CTiyx&_nc_ht=scontent.fhan20-1.fna&oh=00_AfALEDX3qqlO-hpw6C_zIrkfLPSmecwE5iW6jAoEN15Lww&oe=651AEE1D')] rounded-full overflow-hidden border-[1px] border-blue-500 w-[25px] h-[25px] box-content"></div>
+					<div class="bg-cover bg-center bg-[url('${sessionScope.user.avatar}')] rounded-full overflow-hidden border-[1px] border-blue-500 w-[25px] h-[25px] box-content"></div>
 				    </c:if>	
 				</c:if>
 				<div class="absolute hidden group-hover:block shadow-md top-[calc(100%+10px)] right-0 bg-white text-black z-50 min-w-[200px] ">
@@ -96,9 +96,9 @@
                                 </a>
                             </div>
                         </div>
-                        <form class="w-full overflow-hidden px-3" method="POST" action="search">
+                        <form class="w-full overflow-hidden px-3" method="POST" action="searchProduct">
 			    <div class="flex rounded-sm bg-white p-1">
-				<input type="text" class="w-full flex-grow-0 border-none bg-transparent px-3 py-2 text-black outline-none" placeholder="Free Ship Đơn Từ 0Đ" name="search" />
+				<input value="${requestScope.search}" type="text" class="w-full flex-grow-0 border-none bg-transparent px-3 py-2 text-black outline-none" placeholder="Free Ship Đơn Từ 0Đ" name="search" />
 				<button class="rounded-sm bg-[#0261d6] px-4 py-2 text-white hover:opacity-90 lg:px-6">
 				    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path></svg>
 				</button>
@@ -114,7 +114,7 @@
 			    <ul class="justufy-start my-2 flex w-full items-center text-[13px]">
 				<c:forEach items="<%=categories%>" var="category">
 				    <li>
-					<a class="mr-2 w-full overflow-hidden truncate py-1" href="url" target="_blank">${category.name}</a>
+					<a class="mr-2 w-full overflow-hidden truncate py-1" href="products?cid=${category.id}">${category.name}</a>
 				    </li>
 				</c:forEach>
 			    </ul>

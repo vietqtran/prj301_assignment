@@ -13,11 +13,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
+import vietqtran.model.OrderProduct;
 import vietqtran.model.Rate;
 import vietqtran.model.User;
-import vietqtran.services.ProductDAO;
+import vietqtran.services.OrderProductDAO;
 import vietqtran.services.RateDAO;
 
 /**
@@ -82,16 +82,17 @@ public class AddRateServlet extends HttpServlet {
 	try {
 	    HttpSession session = request.getSession();
 	    User user = (User) session.getAttribute("user");
-	    if (user == null) {
-		response.sendRedirect("login");
-		return;
-	    }
 	    int star = Integer.parseInt(request.getParameter("star").trim());
-	    long productId = Long.parseLong(request.getParameter("productId").trim());
+	    long orderId = Long.parseLong(request.getParameter("productId").trim());
 	    String content = request.getParameter("content");
 	    RateDAO rateDao = new RateDAO();
-	    Rate rate = new Rate(user.getId(), productId, star, content);
-	    rateDao.add(rate);
+	    OrderProductDAO orderProductDao = new OrderProductDAO();
+	    List<OrderProduct> orderProducts = orderProductDao.getByOrderId(orderId);
+	    for (OrderProduct orderProduct : orderProducts) {
+		Rate rate = new Rate(user.getId(), orderProduct.getProductId(), star, content);
+		rateDao.add(rate);
+	    }
+	    orderProductDao.closeConnection();
 	    rateDao.closeConnection();
 	    response.sendRedirect("account?tab=orders&status=delivered");
 	} catch (SQLException ex) {

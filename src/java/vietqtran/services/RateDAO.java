@@ -128,13 +128,4 @@ public class RateDAO extends DBContext implements IDAO<Rate> {
 	}
     }
 
-    public static void main(String[] args) {
-	try {
-	    for (Rate rate : new RateDAO().getRatesByProductId(1)) {
-		System.out.println(rate);
-	    }
-	} catch (SQLException ex) {
-	    Logger.getLogger(RateDAO.class.getName()).log(Level.SEVERE, null, ex);
-	}
-    }
 }

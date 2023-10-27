@@ -18,11 +18,12 @@ public class OrderProduct {
     private double totalPrice;
     private double salePrice;
     private String imageUrl;
+    private long sizeId;
 
     public OrderProduct() {
     }
 
-    public OrderProduct(long id, long orderId, long productId, double productPrice, int quantity, double totalPrice, double salePrice, String imageUrl) {
+    public OrderProduct(long id, long orderId, long productId, double productPrice, int quantity, double totalPrice, double salePrice, String imageUrl, long sizeId) {
 	this.id = id;
 	this.orderId = orderId;
 	this.productId = productId;
@@ -31,9 +32,10 @@ public class OrderProduct {
 	this.totalPrice = totalPrice;
 	this.salePrice = salePrice;
 	this.imageUrl = imageUrl;
+	this.sizeId = sizeId;
     }
 
-    public OrderProduct(long orderId, long productId, double productPrice, int quantity, double totalPrice, double salePrice, String imageUrl) {
+    public OrderProduct(long orderId, long productId, double productPrice, int quantity, double totalPrice, double salePrice, String imageUrl, long sizeId) {
 	this.orderId = orderId;
 	this.productId = productId;
 	this.productPrice = productPrice;
@@ -41,6 +43,7 @@ public class OrderProduct {
 	this.totalPrice = totalPrice;
 	this.salePrice = salePrice;
 	this.imageUrl = imageUrl;
+	this.sizeId = sizeId;
     }
 
     public long getId() {
@@ -105,6 +108,14 @@ public class OrderProduct {
 
     public void setImageUrl(String imageUrl) {
 	this.imageUrl = imageUrl;
+    }
+
+    public long getSizeId() {
+	return sizeId;
+    }
+
+    public void setSizeId(long sizeId) {
+	this.sizeId = sizeId;
     }
 
 }

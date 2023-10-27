@@ -60,15 +60,11 @@ addcartBtn.addEventListener('click', () => {
     quantityForm.submit()
 })
 
-buyNowBtn.addEventListener('click', () => {
-    var action = "buyNow"
-    quantityForm.action = action
-    quantityForm.submit()
-})
-
 
 const productOptions = document.querySelectorAll(".productOption")
 const productOptionInputs = document.querySelectorAll(".productOptionInput")
+
+
 
 productOptions.forEach(function (element, index) {
     element.addEventListener('click', () => {
@@ -86,3 +82,38 @@ productOptions.forEach(function (element, index) {
 	productOptionInputs[index].checked = true
     })
 })
+
+function selectRateTab(index, btn) {
+    const rateBtns = document.getElementsByClassName("rateBtn")
+    const rates = document.getElementsByClassName("rates")
+    for (var i = 0; i < rateBtns.length; i++) {
+	rateBtns[i].classList.remove('bg-blue-500')
+	rateBtns[i].classList.remove('text-white')
+    }
+    btn.classList.add('bg-blue-500')
+    btn.classList.add('text-white')
+    for (var i = 0; i < rates.length; i++) {
+	rates[i].style.display = 'none'
+    }
+    if(index==0){
+	document.getElementById('allRate').style.display = 'block'
+    }
+    if(index==1){
+	document.getElementById('star5').style.display = 'block'
+    }
+    if(index==2){
+	document.getElementById('star4').style.display = 'block'
+    }
+    if(index==3){
+	document.getElementById('star3').style.display = 'block'
+    }
+    if(index==4){
+	document.getElementById('star2').style.display = 'block'
+    }
+    if(index==5){
+	document.getElementById('star1').style.display = 'block'
+    }
+    if(index==6){
+	document.getElementById('allRateContent').style.display = 'block'
+    }
+}
