@@ -2,6 +2,39 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/prepareOrder.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/model/CartProduct.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/filter/LoginFilter.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/login.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/model/Address.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/services/CartProductDAO.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/static/js/admin.js</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/detail.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/servlet/HomeServlet.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/products.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/model/Color.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/services/ProductDAO.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/shop.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/model/Cart.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/serviceInterface/IDAO.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/model/Category.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/shopRegister.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/filter/AccountFilter.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/filter/CheckUser.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/static/js/uploadFirebase.js</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/servlet/EditProduct.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/orders.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/cart.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/services/CartDAO.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/404.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/shopLogin.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/register.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/editProduct.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/filter/AdminFilter.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/web/admin.jsp</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/services/AddressDAO.java</file>
+            <file>file:/D:/SourceCode/PRJ301/Assignment/src/java/vietqtran/filter/ShopFilter.java</file>
+        </group>
     </open-files>
 </project-private>
