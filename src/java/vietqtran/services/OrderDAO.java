@@ -41,6 +41,8 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -65,8 +67,9 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    }
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return -1;
 	}
-	return -1;
     }
 
     @Override
@@ -97,8 +100,9 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public List<Order> getAllByQuery(String query) throws SQLException {
@@ -128,8 +132,9 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -158,8 +163,9 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -172,6 +178,8 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -183,6 +191,8 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -221,8 +231,9 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public List<Order> getAllByShop(long shopId) {
@@ -253,8 +264,9 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public void setSuccessDate(long id) {
@@ -264,6 +276,8 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 

@@ -41,6 +41,8 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -67,8 +69,9 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    }
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return -1;
 	}
-	return -1;
     }
 
     @Override
@@ -101,8 +104,9 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public List<Product> getAll(String query) throws SQLException {
@@ -134,8 +138,9 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -166,8 +171,9 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public Product getShopProduct(long shopId, long id) throws SQLException {
@@ -198,8 +204,9 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -222,6 +229,8 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -233,6 +242,8 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -265,8 +276,9 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public List<Product> getShopProducts(long shopId) {
@@ -299,8 +311,9 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public void closeConnection() throws SQLException {

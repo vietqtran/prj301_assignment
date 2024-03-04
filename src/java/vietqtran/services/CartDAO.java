@@ -34,6 +34,8 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -53,8 +55,9 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -71,8 +74,9 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public Cart getByUserId(long id) throws SQLException {
@@ -88,8 +92,9 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -105,6 +110,8 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -136,8 +143,9 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public Map<Shop, List<CartProduct>> getCartList(long userId) throws SQLException {

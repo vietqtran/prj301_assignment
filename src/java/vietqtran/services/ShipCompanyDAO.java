@@ -43,8 +43,9 @@ public class ShipCompanyDAO extends DBContext implements IDAO<ShipCompany> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -63,8 +64,9 @@ public class ShipCompanyDAO extends DBContext implements IDAO<ShipCompany> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -80,6 +82,8 @@ public class ShipCompanyDAO extends DBContext implements IDAO<ShipCompany> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 

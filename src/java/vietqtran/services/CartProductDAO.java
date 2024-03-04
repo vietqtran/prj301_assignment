@@ -14,8 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import vietqtran.db.DBContext;
 import vietqtran.global.Global;
 import vietqtran.model.CartProduct;
@@ -39,6 +37,8 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -57,8 +57,9 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	    }
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return -1;
 	}
-	return -1;
     }
 
     @Override
@@ -81,8 +82,9 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public List<CartProduct> getAllByUserId(long userId) throws SQLException {
@@ -110,8 +112,9 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public List<CartProduct> getTop5ByUserId(long userId) throws SQLException {
@@ -139,8 +142,9 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -161,8 +165,9 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -175,6 +180,8 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -186,6 +193,8 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
