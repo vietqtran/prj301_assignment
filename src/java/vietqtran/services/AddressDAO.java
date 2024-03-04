@@ -34,6 +34,7 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
 	}
     }
 
