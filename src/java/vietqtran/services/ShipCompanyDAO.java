@@ -82,9 +82,7 @@ public class ShipCompanyDAO extends DBContext implements IDAO<ShipCompany> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public void closeConnection() throws SQLException {

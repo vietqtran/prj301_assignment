@@ -31,9 +31,7 @@ public class RateDAO extends DBContext implements IDAO<Rate> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     @Override
@@ -122,9 +120,7 @@ public class RateDAO extends DBContext implements IDAO<Rate> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public void closeConnection() throws SQLException {

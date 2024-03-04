@@ -28,9 +28,7 @@ public class ColorDAO extends DBContext implements IDAO<Color> {
 	    ps.setString(2, t.getCode());
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     @Override
@@ -83,9 +81,7 @@ public class ColorDAO extends DBContext implements IDAO<Color> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     @Override
@@ -96,9 +92,7 @@ public class ColorDAO extends DBContext implements IDAO<Color> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public void closeConnection() throws SQLException {

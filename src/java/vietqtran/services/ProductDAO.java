@@ -41,9 +41,7 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public long addWithGetIndex(Product t) throws SQLException {
@@ -229,9 +227,7 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     @Override
@@ -242,9 +238,7 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public List<Product> getSearchProducts(String query) {

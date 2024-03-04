@@ -37,9 +37,7 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public long addToGetId(CartProduct t) throws SQLException {
@@ -180,9 +178,7 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     @Override
@@ -193,9 +189,7 @@ public class CartProductDAO extends DBContext implements IDAO<CartProduct> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public Map<Long, List<CartProduct>> getCartProductToOrder(long[] ids) throws SQLException {

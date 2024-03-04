@@ -41,9 +41,7 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public long addToGetIndex(Order t) throws SQLException {
@@ -178,9 +176,7 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     @Override
@@ -191,9 +187,7 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public void closeConnection() throws SQLException {
@@ -276,9 +270,7 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public double getMonthRevenue(int month, long shopId) {

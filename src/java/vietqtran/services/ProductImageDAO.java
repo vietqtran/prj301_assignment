@@ -30,9 +30,7 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     @Override
@@ -152,9 +150,7 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     @Override
@@ -165,9 +161,7 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public void deleteByProductId(long id) throws SQLException {
@@ -177,9 +171,7 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} finally {
-	    return;
-	}
+	} 
     }
 
     public void closeConnection() throws SQLException {
