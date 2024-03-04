@@ -30,6 +30,8 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -50,8 +52,9 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public List<ProductImage> getAllSubImage(long productId) throws SQLException {
@@ -71,8 +74,9 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public List<ProductImage> getAllProductImage(long productId) throws SQLException {
@@ -92,8 +96,9 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -112,8 +117,9 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public ProductImage getMainImage(long productId) throws SQLException {
@@ -131,8 +137,9 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -145,6 +152,8 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -156,6 +165,8 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -166,6 +177,8 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
