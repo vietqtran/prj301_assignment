@@ -35,7 +35,7 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 	} catch (SQLException err) {
 	    System.out.println(err);
 	} finally {
-	    System.out.println("Finally!");
+	    return;
 	}
     }
 
@@ -61,8 +61,9 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     public List<Address> getAllByUserId(long userId) throws SQLException {
@@ -87,8 +88,9 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -111,8 +113,9 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -129,6 +132,8 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -140,6 +145,8 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 

@@ -29,6 +29,8 @@ public class CategoryDAO extends DBContext implements IDAO<Category> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -48,8 +50,9 @@ public class CategoryDAO extends DBContext implements IDAO<Category> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -65,8 +68,9 @@ public class CategoryDAO extends DBContext implements IDAO<Category> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
+	} finally {
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -79,6 +83,8 @@ public class CategoryDAO extends DBContext implements IDAO<Category> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
@@ -90,6 +96,8 @@ public class CategoryDAO extends DBContext implements IDAO<Category> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
+	} finally {
+	    return;
 	}
     }
 
