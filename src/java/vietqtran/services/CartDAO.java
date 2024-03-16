@@ -34,7 +34,7 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     @Override
@@ -50,11 +50,10 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 		);
 		result.add(cart);
 	    }
-	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
 	} finally {
-	    return null;
+	    return result;
 	}
     }
 
@@ -108,7 +107,7 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     public void closeConnection() throws SQLException {
@@ -136,11 +135,10 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 		list.add(rs.getString("id"));
 		result.put(rs.getString("shopId"), list);
 	    }
-	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
 	} finally {
-	    return null;
+	    return result;
 	}
     }
 

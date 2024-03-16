@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import vietqtran.db.DBContext;
 import vietqtran.global.Global;
 import vietqtran.model.Order;
@@ -41,7 +39,7 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     public long addToGetIndex(Order t) throws SQLException {
@@ -95,11 +93,10 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 		);
 		result.add(order);
 	    }
-	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
 	} finally {
-	    return null;
+	    return result;
 	}
     }
 
@@ -176,7 +173,7 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     @Override
@@ -187,7 +184,7 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     public void closeConnection() throws SQLException {
@@ -270,7 +267,7 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     public double getMonthRevenue(int month, long shopId) {

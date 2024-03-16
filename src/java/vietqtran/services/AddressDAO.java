@@ -34,7 +34,7 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     @Override
@@ -56,11 +56,10 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 		);
 		result.add(address);
 	    }
-	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
 	} finally {
-	    return null;
+	    return result;
 	}
     }
 
@@ -83,11 +82,10 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 		);
 		result.add(address);
 	    }
-	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
 	} finally {
-	    return null;
+	    return result;
 	}
     }
 
@@ -130,7 +128,7 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     @Override
@@ -141,7 +139,7 @@ public class AddressDAO extends DBContext implements IDAO<Address> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     public void closeConnection() throws SQLException {
