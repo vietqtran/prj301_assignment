@@ -191,6 +191,7 @@ public class LoginFilter implements Filter {
 		ps.close();
 		response.getOutputStream().close();
 	    } catch (Exception ex) {
+return
 	    }
 	} else {
 	    try {
@@ -199,6 +200,7 @@ public class LoginFilter implements Filter {
 		ps.close();
 		response.getOutputStream().close();
 	    } catch (Exception ex) {
+return
 	    }
 	}
     }

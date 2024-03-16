@@ -180,6 +180,7 @@ public class AccountFilter implements Filter {
 		ps.close();
 		response.getOutputStream().close();
 	    } catch (Exception ex) {
+return
 	    }
 	} else {
 	    try {
@@ -188,6 +189,7 @@ public class AccountFilter implements Filter {
 		ps.close();
 		response.getOutputStream().close();
 	    } catch (Exception ex) {
+return
 	    }
 	}
     }

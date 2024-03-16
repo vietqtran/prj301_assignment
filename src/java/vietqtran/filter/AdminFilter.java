@@ -190,6 +190,7 @@ public class AdminFilter implements Filter {
 		ps.close();
 		response.getOutputStream().close();
 	    } catch (Exception ex) {
+return
 	    }
 	} else {
 	    try {
@@ -198,6 +199,7 @@ public class AdminFilter implements Filter {
 		ps.close();
 		response.getOutputStream().close();
 	    } catch (Exception ex) {
+return
 	    }
 	}
     }
