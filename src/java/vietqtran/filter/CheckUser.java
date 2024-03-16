@@ -195,6 +195,7 @@ public class CheckUser implements Filter {
 		ps.close();
 		response.getOutputStream().close();
 	    } catch (Exception ex) {
+return
 	    }
 	} else {
 	    try {
@@ -203,6 +204,7 @@ public class CheckUser implements Filter {
 		ps.close();
 		response.getOutputStream().close();
 	    } catch (Exception ex) {
+return
 	    }
 	}
     }
