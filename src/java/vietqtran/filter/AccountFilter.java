@@ -27,7 +27,7 @@ import vietqtran.model.User;
 @WebFilter(filterName = "AccountFilter", urlPatterns = {"/account", "/orders", "/cart", "/createOrder", "/addToCart"})
 public class AccountFilter implements Filter {
 
-    private static final boolean debug = true;
+    private static final boolean DEBUG = true;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
@@ -39,7 +39,7 @@ public class AccountFilter implements Filter {
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
 	    throws IOException, ServletException {
-	if (debug) {
+	if (DEBUG) {
 	    log("AccountFilter:DoBeforeProcessing");
 	}
 
@@ -67,7 +67,7 @@ public class AccountFilter implements Filter {
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
 	    throws IOException, ServletException {
-	if (debug) {
+	if (DEBUG) {
 	    log("AccountFilter:DoAfterProcessing");
 	}
 
@@ -103,7 +103,7 @@ public class AccountFilter implements Filter {
 	    FilterChain chain)
 	    throws IOException, ServletException {
 
-	if (debug) {
+	if (DEBUG) {
 	    log("AccountFilter:doFilter()");
 	}
 
@@ -171,7 +171,7 @@ public class AccountFilter implements Filter {
     public void init(FilterConfig filterConfig) {
 	this.filterConfig = filterConfig;
 	if (filterConfig != null) {
-	    if (debug) {
+	    if (DEBUG) {
 		log("AccountFilter:Initializing filter");
 	    }
 	}

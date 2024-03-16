@@ -28,7 +28,7 @@ import vietqtran.model.User;
 @WebFilter(filterName = "CheckUser", urlPatterns = {"/not-found"})
 public class CheckUser implements Filter {
 
-    private static final boolean debug = true;
+    private static final boolean DEBUG = true;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
@@ -40,7 +40,7 @@ public class CheckUser implements Filter {
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
 	    throws IOException, ServletException {
-	if (debug) {
+	if (DEBUG) {
 	    log("CheckUser:DoBeforeProcessing");
 	}
 
@@ -68,7 +68,7 @@ public class CheckUser implements Filter {
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
 	    throws IOException, ServletException {
-	if (debug) {
+	if (DEBUG) {
 	    log("CheckUser:DoAfterProcessing");
 	}
 
@@ -104,7 +104,7 @@ public class CheckUser implements Filter {
 	    FilterChain chain)
 	    throws IOException, ServletException {
 
-	if (debug) {
+	if (DEBUG) {
 	    log("CheckUser:doFilter()");
 	}
 
@@ -180,7 +180,7 @@ public class CheckUser implements Filter {
     public void init(FilterConfig filterConfig) {
 	this.filterConfig = filterConfig;
 	if (filterConfig != null) {
-	    if (debug) {
+	    if (DEBUG) {
 		log("CheckUser:Initializing filter");
 	    }
 	}
