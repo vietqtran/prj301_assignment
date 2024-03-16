@@ -10,6 +10,8 @@ package validate;
  */
 public class Validate {
 
+	private Validate () {}
+
     public static boolean checkPhone(String phone) {
 	if (phone.length() > 10 || phone.length() < 10) {
 	    return false;
