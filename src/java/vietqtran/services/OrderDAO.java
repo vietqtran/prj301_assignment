@@ -127,8 +127,6 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -158,8 +156,6 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -222,8 +218,6 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -255,8 +249,6 @@ public class OrderDAO extends DBContext implements IDAO<Order> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 

@@ -41,7 +41,7 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     public long addWithGetIndex(Product t) throws SQLException {
@@ -102,8 +102,6 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -136,8 +134,6 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -169,8 +165,6 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -202,8 +196,6 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -227,7 +219,7 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     @Override
@@ -238,7 +230,7 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     public List<Product> getSearchProducts(String query) {
@@ -270,8 +262,6 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -305,8 +295,6 @@ public class ProductDAO extends DBContext implements IDAO<Product> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 

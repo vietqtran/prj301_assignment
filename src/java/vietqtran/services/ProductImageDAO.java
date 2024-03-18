@@ -30,7 +30,7 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     @Override
@@ -50,8 +50,6 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -72,8 +70,6 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -94,8 +90,6 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -115,8 +109,6 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -135,8 +127,6 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -150,7 +140,7 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     @Override
@@ -161,7 +151,7 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     public void deleteByProductId(long id) throws SQLException {
@@ -171,7 +161,7 @@ public class ProductImageDAO extends DBContext implements IDAO<ProductImage> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     public void closeConnection() throws SQLException {
