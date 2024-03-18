@@ -71,8 +71,6 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -89,8 +87,6 @@ public class CartDAO extends DBContext implements IDAO<Cart> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 

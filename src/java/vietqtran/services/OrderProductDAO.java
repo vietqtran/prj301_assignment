@@ -35,7 +35,7 @@ public class OrderProductDAO extends DBContext implements IDAO<OrderProduct> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     @Override
@@ -61,8 +61,6 @@ public class OrderProductDAO extends DBContext implements IDAO<OrderProduct> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -89,8 +87,6 @@ public class OrderProductDAO extends DBContext implements IDAO<OrderProduct> {
 	    return result;
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -115,8 +111,6 @@ public class OrderProductDAO extends DBContext implements IDAO<OrderProduct> {
 	    }
 	} catch (SQLException e) {
 	    System.out.println(e);
-	} finally {
-	    return null;
 	}
     }
 
@@ -132,7 +126,7 @@ public class OrderProductDAO extends DBContext implements IDAO<OrderProduct> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     @Override
@@ -143,7 +137,7 @@ public class OrderProductDAO extends DBContext implements IDAO<OrderProduct> {
 	    ps.executeUpdate();
 	} catch (SQLException err) {
 	    System.out.println(err);
-	} 
+	}
     }
 
     public void closeConnection() throws SQLException {

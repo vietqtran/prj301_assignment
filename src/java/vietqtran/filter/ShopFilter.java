@@ -46,7 +46,6 @@ public class ShopFilter implements Filter {
 	// the rest of the filter chain is invoked.
 	// For example, a logging filter might log items on the request object,
 	// such as the parameters.
-
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
@@ -179,7 +178,7 @@ public class ShopFilter implements Filter {
 		ps.close();
 		response.getOutputStream().close();
 	    } catch (Exception ex) {
-return
+		return;
 	    }
 	} else {
 	    try {
@@ -188,7 +187,7 @@ return
 		ps.close();
 		response.getOutputStream().close();
 	    } catch (Exception ex) {
-return
+		return;
 	    }
 	}
     }
